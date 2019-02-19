@@ -4,7 +4,7 @@ library(mice)
 library(Hmisc)
 
 ## Source functions
-invisible(lapply(list.files("./Functions", full.names = TRUE), source))
+invisible(lapply(list.files("./Functions", full.names = TRUE, pattern = ".R$"), source))
 
 ## Read CSV
 
