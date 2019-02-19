@@ -1,0 +1,28 @@
+#' Metrocheck
+#'
+#' Checks by Sjukhuskod if a case is metropolitan or not. Returns a new colum with 1 if metropolian, and 0 if not.
+#' @param df A dataframe. Must contain a column "Sjukhuskod".
+
+Metrocheck <- function(df) {
+
+  df$metropolitan <- ifelse(df$Sjukhuskod == 10011 | # St Görans sjukhus
+                            df$Sjukhuskod == 10013 | # SöS
+                            df$Sjukhuskod == 11002 | # Karolinska sjukhuset
+                            df$Sjukhuskod == 11002 | # Huddinge sjukhus 
+                            df$Sjukhuskod == 11003 | # Nya Karolinska
+                            df$Sjukhuskod == 11010 | # DS 
+                            df$Sjukhuskod == 11011 | # Södertälje sjukhus
+                            df$Sjukhuskod == 11012 | # Norrtälje sjukhus
+                              
+                            df$Sjukhuskod == 51001 | # Sahlgrenska
+                            df$Sjukhuskod == 51012 | # Kungälvs sjukhus
+                            df$Sjukhuskod == 51013 | # NU sjukvården
+                            df$Sjukhuskod == 51014 | # Södra Älvsborgs sjukhus
+                            df$Sjukhuskod == 52012 | # Allingsås lasarett
+                              
+                            df$Sjukhuskod == 41001 | # Skånes universitetssjukhus
+                            df$Sjukhuskod == 41011 | # Trelleborgs lasarett
+                            df$Sjukhuskod == 11012   # Helsinborgs lasarett
+  , 1, 0)
+  return(df)
+}
