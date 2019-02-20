@@ -1,4 +1,4 @@
-#' My_Replace
+#' MyReplace
 #'
 #' Replaces values in a given variable
 #' @param variable.data A vector. The variable data. No default.
@@ -6,7 +6,7 @@
 #'     default.
 #' @param replacement.value A vector of length 1. The value to replace
 #'     current.value with. Defaults to NA.
-My_Replace <- function(variable.data, current.value, replacement.value = NA) {
+MyReplace <- function(variable.data, current.value, replacement.value = NA) {
   
   if (is.na(current.value)) {
     variable.data[is.na(variable.data)] <- replacement.value    
