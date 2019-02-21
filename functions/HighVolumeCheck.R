@@ -21,7 +21,7 @@ HighVolumeCheck <- function(df) {
  z <- head(x, y/4)
  l <- as.vector(names(z))
  
- df$High_Volume_Centre <- ifelse(df$Sjukhuskod == l, "Yes", "No")
+ df$High_Volume_Centre <- ifelse(df$Sjukhuskod %in% l, "Yes", "No")
  
   return(df)
 }
