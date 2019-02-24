@@ -23,30 +23,30 @@ selected.data <- raw.data[,c("Sjukhuskod", "ed_gcs_sum", "ed_sbp_value", "ed_rr_
 ### INITAL DATA MANAGEMENT AND CLEANING ###
 
 ## Replace Survival 999 with NA
-selected.data$res_survival <- My_Replace(selected.data$res_survival, 999)
+selected.data$res_survival <- MyReplace(selected.data$res_survival, 999)
 
 ## Replaced Survival NA with 1(=DEAD). 
 # NOTE!!! This will not be done in the final version, 
 # but since the simulated sample containde no cases with death within 
 # 30 days of trauma this was done in order to provide some data to work with.
-selected.data$res_survival <- My_Replace(selected.data$res_survival, NA, 1)
+selected.data$res_survival <- MyReplace(selected.data$res_survival, NA, 1)
 
 ## Replace GCS 999 with NA
-selected.data$ed_gcs_sum <- My_Replace(selected.data$ed_gcs_sum, 999)
+selected.data$ed_gcs_sum <- MyReplace(selected.data$ed_gcs_sum, 999)
 
 ## Replacing GCS 99 with 3
-selected.data$ed_gcs_sum <- My_Replace(selected.data$ed_gcs_sum, 99, 3)
+selected.data$ed_gcs_sum <- MyReplace(selected.data$ed_gcs_sum, 99, 3)
 
 ## Replace Sjukhuskod with Hospital name
-selected.data$Sjukhuskod <- My_Replace(selected.data$Sjukhuskod, 11001, "Karolinska_sjukhuset")
-selected.data$Sjukhuskod <- My_Replace(selected.data$Sjukhuskod, 11002, "Huddinge_sjukhus")
-selected.data$Sjukhuskod <- My_Replace(selected.data$Sjukhuskod, 12001, "Akademiska_sjukhuset")
-selected.data$Sjukhuskod <- My_Replace(selected.data$Sjukhuskod, 22010, "Ryhov_länssjukhus")
-selected.data$Sjukhuskod <- My_Replace(selected.data$Sjukhuskod, 41001, "Universitetssjukhuset_Lund")
-selected.data$Sjukhuskod <- My_Replace(selected.data$Sjukhuskod, 41012, "Helsingborgs_lasarett")
-selected.data$Sjukhuskod <- My_Replace(selected.data$Sjukhuskod, 42010, "Hallands_sjukhus")
-selected.data$Sjukhuskod <- My_Replace(selected.data$Sjukhuskod, 51001, "Sahlgrenska_universitetssjukhuset")
-selected.data$Sjukhuskod <- My_Replace(selected.data$Sjukhuskod, 51013, "NU_sjukvården")
+selected.data$Sjukhuskod <- MyReplace(selected.data$Sjukhuskod, 11001, "Karolinska_sjukhuset")
+selected.data$Sjukhuskod <- MyReplace(selected.data$Sjukhuskod, 11002, "Huddinge_sjukhus")
+selected.data$Sjukhuskod <- MyReplace(selected.data$Sjukhuskod, 12001, "Akademiska_sjukhuset")
+selected.data$Sjukhuskod <- MyReplace(selected.data$Sjukhuskod, 22010, "Ryhov_länssjukhus")
+selected.data$Sjukhuskod <- MyReplace(selected.data$Sjukhuskod, 41001, "Universitetssjukhuset_Lund")
+selected.data$Sjukhuskod <- MyReplace(selected.data$Sjukhuskod, 41012, "Helsingborgs_lasarett")
+selected.data$Sjukhuskod <- MyReplace(selected.data$Sjukhuskod, 42010, "Hallands_sjukhus")
+selected.data$Sjukhuskod <- MyReplace(selected.data$Sjukhuskod, 51001, "Sahlgrenska_universitetssjukhuset")
+selected.data$Sjukhuskod <- MyReplace(selected.data$Sjukhuskod, 51013, "NU_sjukvården")
 
 ## Replace column name Sjukhuskod with Sjukhus
 names(selected.data)[names(selected.data) == 'Sjukhuskod'] <- 'Sjukhus'
