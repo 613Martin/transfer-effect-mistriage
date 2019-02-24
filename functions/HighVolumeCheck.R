@@ -8,20 +8,20 @@
 #' @param df A dataframe. Must contain a column "Sjukhuskod". No default.
 #' 
 HighVolumeCheck <- function(df) {
-  ## Error handling
-  if (!is.data.frame(df))
-    stop ("Input has to be a data.frame")
-  if (!("Sjukhuskod" %in% colnames(df)))
-    stop ("df has to include the column Sjukhuskod")
-  
-  ## Assign High_Volume variable
- x <- table(df$Sjukhuskod)
- x <- sort(x, decreasing = TRUE)
- y <- length(x)
- z <- head(x, y/4)
- l <- as.vector(names(z))
- 
- df$High_Volume_Centre <- ifelse(df$Sjukhuskod %in% l, "Yes", "No")
- 
-  return(df)
+    ## Error handling
+    if (!is.data.frame(df))
+        stop ("Input has to be a data.frame")
+    if (!("Sjukhuskod" %in% colnames(df)))
+        stop ("df has to include the column Sjukhuskod")
+    
+    ## Assign High_Volume variable
+    x <- table(df$Sjukhuskod)
+    x <- sort(x, decreasing = TRUE)
+    y <- length(x)
+    z <- head(x, y/4)
+    l <- as.vector(names(z))
+    
+    df$High_Volume_Centre <- ifelse(df$Sjukhuskod %in% l, "Yes", "No")
+    
+    return(df)
 }
