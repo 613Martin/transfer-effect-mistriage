@@ -18,6 +18,7 @@ ImportStudyData <- function(data.file.name = NULL, data.path = "./data/") {
     ## Combine data_path and data_file_name into file_path
     file.path <- paste0(data.path, data.file.name)
     ## Import study data from a csv file
-    study.data <- fread(file = file.path)
-        return(study.data)
+    study.data <- fread(file = file.path, data.table = FALSE, stringsAsFactors = FALSE)
+    ## Return study data
+    return(study.data)
 }
