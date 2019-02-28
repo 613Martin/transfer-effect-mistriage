@@ -12,7 +12,7 @@ Metrocheck <- function(df) {
     ## Assign metropolitan variable
     df$metropolitan <- ifelse(df$Sjukhuskod == 10011 |  # St Görans sjukhus
                               df$Sjukhuskod == 10013 |  # SöS
-                              df$Sjukhuskod == 11002 |  # Karolinska sjukhuset
+                              df$Sjukhuskod == 11001 |  # Karolinska sjukhuset
                               df$Sjukhuskod == 11002 |  # Huddinge sjukhus 
                               df$Sjukhuskod == 11003 |  # Nya Karolinska
                               df$Sjukhuskod == 11010 |  # DS 
