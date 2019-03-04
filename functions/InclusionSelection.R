@@ -1,6 +1,6 @@
 #' InclusionSelection
 #'
-#' Selectes only cases with age > 15, or cases where age is registerd as NA.
+#' Selects only cases with age > 15, or cases where age is registerd as NA.
 #' @param df Dataframe. The study sample. Must contain pt_age_yrs No default.
 InclusionSelection <- function(df) {
   
