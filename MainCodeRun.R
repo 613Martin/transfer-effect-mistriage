@@ -24,8 +24,8 @@ MainCodeRun <- function() {
     ## Mark entries as High Volume or Low Volume
     selected.data.vol.mark <- HighVolumeCheck(selected.data)
     ## Create High Volume Sample and Low Volume Sample
-    High.Volume.Sample <- selected.data.vol.mark[ which(selected.data.vol.mark$High_Volume_Centre == "Yes"), ]
-    Low.Volume.Sample <- selected.data.vol.mark[ which(selected.data.vol.mark$High_Volume_Centre == "No"), ]
+    High.Volume.Sample <- selected.data.vol.mark[selected.data.vol.mark$High_Volume_Centre == "Yes", ]
+    Low.Volume.Sample <- selected.data.vol.mark[selected.data.vol.mark$High_Volume_Centre == "No", ]
     rm(selected.data.vol.mark)
     ## Mark entries as Metropolitan or Non-Metropolitan
     selected.data.metro.mark <- Metrocheck(selected.data)
