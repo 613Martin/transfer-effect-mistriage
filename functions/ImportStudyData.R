@@ -5,8 +5,8 @@
 #' @param data.file.name Character vector of length 1. The name of the study
 #'     data file. Defaults to NULL.
 #' @param data.path Character vector of length 1. The path to the data
-#'     directory. Defaults to "./data/"
-ImportStudyData <- function(data.file.name = NULL, data.path = "./data/") {
+#'     directory. Defaults to "../data/"
+ImportStudyData <- function(data.file.name = NULL, data.path = "../data/") {
 
     ## Error handling
     if (is.null(data.file.name)) 
