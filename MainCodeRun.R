@@ -49,7 +49,16 @@ MainCodeRun <- function() {
     Single.Centre.Samples <- lapply(centre.ids, SelectSingleCentre, df = selected.data.ind.mark)
     Single.Centre.Samples <- Single.Centre.Samples[-which(sapply(Single.Centre.Samples, is.null))]
     rm(selected.data.ind.mark) 
-    ## Combine samples 
+
+    ## Add samples to list
+    data.sets <- list(high.volume.vs.low.volume = list(high.volume = High.Volume.Sample,
+                                                       low.volume = Low.Volume.Sample),
+                      metropolitan.vs.non.metropolitan = list(metropolitan = Metropolitan.Sample,
+                                                              non.metropolitat = Non.Metropolitan.Sample),
+                      multi.centre.vs.single.centres = list(multi.centre = Multi.Centre.Sample,
+                                                           single.centres = Single.Centre.Samples))
+
+    ## Now you want to do the same operations on each sample in the list 
     
     ## DEVELOPMENT AND VALIDATION
     ## Create High Volume Sample Development and Validation
