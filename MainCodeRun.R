@@ -4,6 +4,8 @@
 MainCodeRun <- function() {
   
     ## Load required packages and source functions
+    ## FuncPack() first needs to be sourced to run
+    source("./functions/FuncPack.R")
     FuncPack()
     ## Set random seed
     set.seed(-41892)
