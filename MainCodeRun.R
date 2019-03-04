@@ -37,7 +37,8 @@ MainCodeRun <- function() {
     Multi.Centre.Sample <- selected.data.ind.mark[ which(selected.data.ind.mark$Valid_Individual_Centre == "Yes"), ]
     ## Create Individual Centre Sample 1-n, where n is the total number of valid individual centres 
     IndividualSampleCreator(Multi.Centre.Sample)
-   
+    rm(selected.data.ind.mark) 
+  
     ## DEVELOPMENT AND VALIDATION
     ## Create High Volume Sample Development and Validation
    
