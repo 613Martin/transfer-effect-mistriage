@@ -48,7 +48,7 @@ MainCodeRun <- function() {
     centre.ids <- setNames(centre.ids, nm = paste0("centre_", centre.ids)) # Name IDs
     Single.Centre.Samples <- lapply(centre.ids, SelectSingleCentre, df = selected.data.ind.mark)
     Single.Centre.Samples <- Single.Centre.Samples[-which(sapply(Single.Centre.Samples, is.null))]
-
+    rm(selected.data.ind.mark) 
     ## Combine samples 
     
     ## DEVELOPMENT AND VALIDATION
