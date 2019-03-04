@@ -24,7 +24,7 @@ RCSplineConvert <- function(df) {
     assign("sbp.knot.locations", sbp.knot.locations, .GlobalEnv)
     ## Insert SBP spline function as new columns into inputted data frme
     sbp.splines <- as.data.frame(sbp.splines)
-    colnames(sbp.splines) <- paste0("ed_sbp_value_spline_", 1:(nk - 2))
+    colnames(sbp.splines) <- paste0("ed_sbp_value_spline_", 1:ncol(sbp.splines))
     df <- cbind(df, sbp.splines)
   
     ## Converting RR to Restricted Cubic Splines
@@ -34,7 +34,7 @@ RCSplineConvert <- function(df) {
     assign("rr.knot.locations", rr.knot.locations, .GlobalEnv)
     ## Insert RR spline function as new columns into inputted data frme
     rr.splines <- as.data.frame(rr.splines)
-    colnames(rr.splines) <- paste0("ed_rr_value_spline_", 1:(nk - 2))
+    colnames(rr.splines) <- paste0("ed_rr_value_spline_", 1:ncol(rr.splines))
     df <- cbind(df, rr.splines)
   
     return(df)

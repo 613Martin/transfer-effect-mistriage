@@ -17,7 +17,9 @@ MainCodeRun <- function() {
     selected.data <- InclusionSelection(selected.data)
     ## Data Cleaning
     selected.data <- DataCleaning(selected.data)
-    ## Convert SBP and RR to restricted cubic splines
+    ## Convert SBP and RR to restricted cubic splines. This is something you
+    ## want to do later, once you have created all your samples and split them
+    ## into development and validation
     selected.data <- RCSplineConvert(selected.data)
   
     ## DATA SETS AND SAMPLES
