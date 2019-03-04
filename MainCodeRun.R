@@ -36,9 +36,7 @@ MainCodeRun <- function() {
     ## Create Multi Centre Sample (= A combination of all valid individual centres)
     Multi.Centre.Sample <- selected.data.ind.mark[ which(selected.data.ind.mark$Valid_Individual_Centre == "Yes"), ]
     ## Create Individual Centre Sample 1-n, where n is the total number of valid individual centres 
-    #? I´m trying to create a function that outputs a data.frame named Individual.Centre.Sample.1, Individual.Centre.Sample.2... and so on.
-    #? My inital thought was extracting each unique "Sjukhuskod" present in Multi.Centre.Sample as its own data.frame, and having R name 
-    #? the data.frames accordingly. However, I can´get it to work.
+    IndividualSampleCreator(Multi.Centre.Sample)
    
     ## DEVELOPMENT AND VALIDATION
     ## Create High Volume Sample Development and Validation
