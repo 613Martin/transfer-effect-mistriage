@@ -15,12 +15,12 @@ NACounterVariable <- function(df) {
     if (!is.data.frame(df))
         stop ("Input has to be a data.frame")
     ## Count number of NA per column
-    number_of_na <- colSums(is.na(df))
-    number_of_na <- as.data.frame(number_of_na)
+    number.of.na <- colSums(is.na(df))
+    number.of.na <- as.data.frame(number.of.na)
     ## Percent
-    number_of_na$percentage <- number_of_na$number_of_na / nrow(df)
-    number_of_na$percentage <- number_of_na$percentage * 100
-    number_of_na$percentage <- round(number_of_na$percentage, 2)
+    number.of.na$percentage <- number.of.na$number.of.na / nrow(df)
+    number.of.na$percentage <- number.of.na$percentage * 100
+    number.of.na$percentage <- round(number.of.na$percentage, 2)
     ## Return new data data.frame with NA data
-    return(number_of_na)
+    return(number.of.na)
 }
