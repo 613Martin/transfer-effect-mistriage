@@ -11,29 +11,26 @@
 #' and 0 being the original data.
 #' This list REPLACES then the original sample if the above example to run i used!
 #' 
-#' @param list List. A data set, containing two or more samples. No default.
-MICEImplement <- function(list) {
+#' @param df.list A list of dataframes. No default.
+MICEImplement <- function(df.list) {
   
     ## Error handling
-    if (!is.list(list))
+    if (!is.list(df.list))
         stop ("Input has to be a list")
   
     ## Calculate NA% in data set
-    y <- sapply(list, function(x) sum(is.na(x)) )
-    total_number_of_na <- sum(y) 
-    total_data_points <- sapply(list, function(x) ncol(x) * nrow(x) )
-    total_data_points <- sum(total_data_points)
-    percent_NA <- total_number_of_na / total_data_points
-    percent_NA <- percent_NA * 100
-    percent_NA <- round(percent_NA, 2)
+    percents.NA <- lapply(df.list, function(df) NACounterDataSet(df)$percent.NA)
+    
     ## Set number of imputations
-    number_of_imputations <- as.integer(percent_NA)
-  
+    ## number.of.imputations <- as.integer(max(unlist(percents.NA)))
+    number.of.imputations <- 5
+    
     ## Run mice
-    list <- lapply(list, function(x) { 
-        temporary.data <- mice(x, m = number_of_imputations, maxit = 5, meth = 'pmm') 
-        x <- complete(temporary.data, action = "long", include = TRUE, mild = TRUE)
-        })
+    df.list <- lapply(df.list, function(df) { 
+        temporary.data <- mice(df, m = number.of.imputations, maxit = 5) 
+        df <- complete(temporary.data, action = "long", include = TRUE, mild = TRUE)
+        return(df)
+    })
 
-    return(list)
+    return(df.list)
 }
