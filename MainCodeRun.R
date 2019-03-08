@@ -17,10 +17,6 @@ MainCodeRun <- function() {
     selected.data <- InclusionSelection(selected.data)
     ## Data Cleaning
     selected.data <- DataCleaning(selected.data)
-    ## Convert SBP and RR to restricted cubic splines. This is something you
-    ## want to do later, once you have created all your samples and split them
-    ## into development and validation
-    selected.data <- RCSplineConvert(selected.data)
   
     ## DATA SETS AND SAMPLES
     ## Mark entries as High Volume or Low Volume
@@ -47,7 +43,7 @@ MainCodeRun <- function() {
 
     ## Create Single Centre Samples (valid individual centres)
     centre.ids <- unique(selected.data.ind.mark$Sjukhuskod) # Identify unique IDs
-    centre.ids <- setNames(centre.ids, nm = paste0("centre_", centre.ids)) # Name IDs
+    centre.ids <- setNames(centre.ids, nm = paste0("single.centre.", centre.ids)) # Name IDs
     Single.Centre.Samples <- lapply(centre.ids, SelectSingleCentre, df = selected.data.ind.mark)
     Single.Centre.Samples <- Single.Centre.Samples[-which(sapply(Single.Centre.Samples, is.null))]
     rm(selected.data.ind.mark) 
@@ -56,10 +52,18 @@ MainCodeRun <- function() {
     data.sets <- list(high.volume.vs.low.volume = list(high.volume = High.Volume.Sample,
                                                        low.volume = Low.Volume.Sample),
                       metropolitan.vs.non.metropolitan = list(metropolitan = Metropolitan.Sample,
-                                                              non.metropolitat = Non.Metropolitan.Sample),
-                      multi.centre.vs.single.centres = list(multi.centre = Multi.Centre.Sample,
-                                                           single.centres = Single.Centre.Samples))
+                                                              non.metropolitan = Non.Metropolitan.Sample),
+                      multi.centre.vs.single.centre = c(list(multi.centre = Multi.Centre.Sample),
+                                                        Single.Centre.Samples))
 
+    ## Create restricted cubic splines
+    data.sets <- lapply(data.sets, function(sample) lapply(sample, RCSplineConvert))
+    
+    ## Impute missing data
+    data.sets <- lapply(data.sets, MICEImplement)
+
+    ## Create sample characteristics tables
+        
     ## Now you want to do the same operations on each sample in the list 
     
     ## DEVELOPMENT AND VALIDATION
