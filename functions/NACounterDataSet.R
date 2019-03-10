@@ -14,6 +14,11 @@ NACounterDataSet <- function(df) {
     ## Combine to output
     output <- as.data.frame(total.number.of.na)
     output$percent.NA <- round(total.number.of.na/nrow(df) * 100)
+    ## Set ouput file name
+    df.name <- deparse(substitute(df))
+    file.name <- print(paste("NACountDataSet of ", df.name, ".txt"))
+    ## Export NA data as a txt file
+    write.table(output, file = file.name, sep="\t")
     ## Return new data.frame with NA data from data set
     return(output)
 }
