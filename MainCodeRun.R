@@ -64,7 +64,7 @@ MainCodeRun <- function() {
 
     ## Create sample characteristics tables
     Table.Variables <- c("pt_age_yrs", "pt_Gender", "ed_gcs_sum", "ed_sbp_value", "ed_rr_value", "res_survival", "ISS", "NISS")
-    Table.One.Test <- CreateSampleCharacteristicsTable(study.sample = data.sets$high.volume.vs.low.volume$high.volume, variables = Table.Variables)
+    Table.One.Test <- CreateSampleCharacteristicsTable(study.sample = data.sets$high.volume.vs.low.volume$high.volume, variables = Table.Variables, save.to.disk = TRUE, save.to.results = FALSE)
                         
     ## Now you want to do the same operations on each sample in the list 
     
