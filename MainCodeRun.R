@@ -36,11 +36,6 @@ MainCodeRun <- function() {
     ## Create Multi Centre Sample (All data)
     Multi.Centre.Sample <- selected.data.ind.mark
 
-    ## Create Individual Centre Sample 1-n, where n is the total number of valid individual centres 
-    #? I´m trying to create a function that outputs a data.frame named Individual.Centre.Sample.1, Individual.Centre.Sample.2... and so on.
-    #? My inital thought was extracting each unique "Sjukhuskod" present in Multi.Centre.Sample as its own data.frame, and having R name 
-    #? the data.frames accordingly. However, I can´get it to work.
-
     ## Create Single Centre Samples (valid individual centres)
     centre.ids <- unique(selected.data.ind.mark$Sjukhuskod) # Identify unique IDs
     centre.ids <- setNames(centre.ids, nm = paste0("single.centre.", centre.ids)) # Name IDs
@@ -64,7 +59,8 @@ MainCodeRun <- function() {
 
     ## Create sample characteristics tables
     Table.Variables <- c("pt_age_yrs", "pt_Gender", "ed_gcs_sum", "ed_sbp_value", "ed_rr_value", "res_survival", "ISS", "NISS")
-    Table.One.Test <- CreateSampleCharacteristicsTable(study.sample = data.sets$high.volume.vs.low.volume$high.volume, variables = Table.Variables, save.to.disk = TRUE, save.to.results = FALSE)
+    lapply(data.sets, function(sample) lapply(sample, function(x) { 
+      CreateSampleCharacteristicsTable(study.sample = x, variables = Table.Variables, save.to.disk = TRUE, save.to.results = FALSE) }))
                         
     ## Now you want to do the same operations on each sample in the list 
     
