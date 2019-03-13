@@ -58,17 +58,29 @@ MainCodeRun <- function() {
     data.sets <- lapply(data.sets, MICEImplement)
 
     ## Create sample characteristics tables
-     # Not returning proper names for each data set. Seems this is a known problem when using lapply
-     # with the "deparse and substitute" trick.
+
+    ## Suggest that you divide the nested lapplys into new functions to give
+    ## this section a cleaner look
+                            
+    Table.Variables <- c("pt_age_yrs", "pt_Gender", "ed_gcs_sum", "ed_sbp_value", "ed_rr_value", "res_survival", "ISS", "NISS", "group")
                         
-    Table.Variables <- c("pt_age_yrs", "pt_Gender", "ed_gcs_sum", "ed_sbp_value", "ed_rr_value", "res_survival", "ISS", "NISS")
-                        
-    lapply(data.sets, function(sample) lapply(sample, function(df) { 
-      
-    df.name <- deparse(substitute(df))
-    file.name <- print(paste("Characteristics_table_of_", df.name))  
-    CreateSampleCharacteristicsTable(study.sample = df, variables = Table.Variables, save.to.disk = TRUE, save.to.results = FALSE, table.name = file.name) 
-    }))
+    lapply(names(data.sets), function(data.set.name) {
+        data.set <- data.sets[[data.set.name]]
+        data.set <- lapply(names(data.set), function(sample.name) {
+            sample <- data.set[[sample.name]]
+            sample$group <- sample.name
+            return(sample)
+        })
+        combined.data.set <- do.call(rbind, data.set)
+        table.name <- print(paste0("Characteristics_table_of_", data.set.name))
+        CreateSampleCharacteristicsTable(study.sample = combined.data.set,
+                                         variables = Table.Variables,
+                                         save.to.disk = TRUE,
+                                         save.to.results = FALSE,
+                                         table.name = table.name,
+                                         include.overall = FALSE,
+                                         group = "group") 
+    })
                         
     ## Now you want to do the same operations on each sample in the list 
     
