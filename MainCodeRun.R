@@ -58,29 +58,7 @@ MainCodeRun <- function() {
     data.sets <- lapply(data.sets, MICEImplement)
 
     ## Create sample characteristics tables
-
-    ## Suggest that you divide the nested lapplys into new functions to give
-    ## this section a cleaner look
-                            
-    Table.Variables <- c("pt_age_yrs", "pt_Gender", "ed_gcs_sum", "ed_sbp_value", "ed_rr_value", "res_survival", "ISS", "NISS", "group")
-                        
-    lapply(names(data.sets), function(data.set.name) {
-        data.set <- data.sets[[data.set.name]]
-        data.set <- lapply(names(data.set), function(sample.name) {
-            sample <- data.set[[sample.name]]
-            sample$group <- sample.name
-            return(sample)
-        })
-        combined.data.set <- do.call(rbind, data.set)
-        table.name <- print(paste0("Characteristics_table_of_", data.set.name))
-        CreateSampleCharacteristicsTable(study.sample = combined.data.set,
-                                         variables = Table.Variables,
-                                         save.to.disk = TRUE,
-                                         save.to.results = FALSE,
-                                         table.name = table.name,
-                                         include.overall = FALSE,
-                                         group = "group") 
-    })
+    TableOneCreator(data.sets)
                         
     ## Now you want to do the same operations on each sample in the list 
     
