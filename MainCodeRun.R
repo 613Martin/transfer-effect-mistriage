@@ -3,6 +3,7 @@
 ## This file was created using RStudio 1.1.463
 MainCodeRun <- function() {
   
+    ## INITIALIZING
     ## Load required packages and source functions
     ## FuncPack() first needs to be sourced to run
     source("./functions/FuncPack.R")
@@ -35,7 +36,6 @@ MainCodeRun <- function() {
     selected.data.ind.mark <- IndividualCentreCheck(selected.data)
     ## Create Multi Centre Sample (All data)
     Multi.Centre.Sample <- selected.data.ind.mark
-
     ## Create Single Centre Samples (valid individual centres)
     centre.ids <- unique(selected.data.ind.mark$Sjukhuskod) # Identify unique IDs
     centre.ids <- setNames(centre.ids, nm = paste0("single.centre.", centre.ids)) # Name IDs
@@ -43,6 +43,7 @@ MainCodeRun <- function() {
     Single.Centre.Samples <- Single.Centre.Samples[-which(sapply(Single.Centre.Samples, is.null))]
     rm(selected.data.ind.mark) 
 
+    ## CREATE DATA SETS LIST  
     ## Add samples to list
     data.sets <- list(high.volume.vs.low.volume = list(high.volume = High.Volume.Sample,
                                                        low.volume = Low.Volume.Sample),
@@ -50,32 +51,20 @@ MainCodeRun <- function() {
                                                               non.metropolitan = Non.Metropolitan.Sample),
                       multi.centre.vs.single.centre = c(list(multi.centre = Multi.Centre.Sample),
                                                         Single.Centre.Samples))
-
+    
+    ## RESTRICTED CUBIC SPLINES AND MISSING DATA
     ## Create restricted cubic splines
     data.sets <- lapply(data.sets, function(sample) lapply(sample, RCSplineConvert))
-    
     ## Impute missing data
     data.sets <- lapply(data.sets, MICEImplement)
-
+                        
+    ## TABLE ONE CREATION                  
     ## Create sample characteristics tables
     TableOneCreator(data.sets)
-                        
-    ## Now you want to do the same operations on each sample in the list 
-    
+
     ## DEVELOPMENT AND VALIDATION
-    ## Create High Volume Sample Development and Validation
-   
-    ## Create Low Volume Sample Development and Validation
-   
-    ## Create Metropolitan Sample Development and Validation
-   
-    ## Create Non-Metropolitan Development and Validation
-   
-    ## Create Multi Centre Sample Development and Validation
-   
-    ## Create Individual Sample Development and Validation
-   
-    ## MISSING DATA MANAGEMENT
+    ## Create Development and validation sample, for each sample
+    data.sets <- lapply(data.sets, function(sample) lapply(sample, DevValCreator))
    
     ## CLINICAL PREDICTION MODEL
     ## Model development
