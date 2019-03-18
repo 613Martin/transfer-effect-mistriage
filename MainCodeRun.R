@@ -55,6 +55,8 @@ MainCodeRun <- function() {
     ## RESTRICTED CUBIC SPLINES AND MISSING DATA
     ## Create restricted cubic splines
     data.sets <- lapply(data.sets, function(sample) lapply(sample, RCSplineConvert))
+    ## Extract missing data information
+    #... Trying to get the NA-functions to run correctly over the list.                    
     ## Impute missing data
     data.sets <- lapply(data.sets, MICEImplement)
                         
