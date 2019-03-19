@@ -6,6 +6,7 @@
 #' GCS 999 is raplaced with NA.
 #' GCS 99 is replaced with 3.
 #' Patient sex converted to factor w/ 2 levels
+#' Patient 30-day survival converted to factor w/ 3 levels
 #' @param df Dataframe. The study sample. No default.
 DataCleaning <- function(df) {
   
