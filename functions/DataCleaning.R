@@ -17,6 +17,8 @@ DataCleaning <- function(df) {
     df$ed_gcs_sum <- MyReplace(df$ed_gcs_sum, 999)
     df$ed_gcs_sum <- MyReplace(df$ed_gcs_sum, 99, 3)
     ## Convert patient sex to factor
-    df$pt_Gender <- factor(df$pt_Gender, levels = c(1, 2), labels = c("Male", "Female"))  
+    df$pt_Gender <- factor(df$pt_Gender, levels = c(1, 2), labels = c("Male", "Female"))
+    ## Convert patient 30-day survival to factor
+    df$res_survival <- factor(df$res_survival, levels = c(1, 2, NA), labels = c("Dead", "Alive", "NA"))
     return(df)
 }
