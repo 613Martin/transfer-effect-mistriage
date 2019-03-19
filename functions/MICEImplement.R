@@ -22,8 +22,8 @@ MICEImplement <- function(df.list) {
     percents.NA <- lapply(df.list, function(df) NACounterDataSet(df)$percent.NA)
     
     ## Set number of imputations
-    ## number.of.imputations <- as.integer(max(unlist(percents.NA)))
-    number.of.imputations <- 5
+    number.of.imputations <- as.integer(max(unlist(percents.NA)))
+    ## number.of.imputations <- 5
     
     ## Run mice
     df.list <- lapply(df.list, function(df) { 
