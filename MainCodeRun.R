@@ -77,7 +77,8 @@ MainCodeRun <- function() {
     ## DEVELOPMENT AND VALIDATION
     ## Create Development and validation sample, for each sample
     data.sets <- lapply(data.sets, function(sample) lapply(sample, DevValCreator))
-   
+    Results$data.sets.after.imputations.dev.val <- data.sets
+    
     ## CLINICAL PREDICTION MODEL
     ## Model development
    
