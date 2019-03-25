@@ -20,6 +20,6 @@ DataCleaning <- function(df) {
     ## Convert patient sex to factor
     df$pt_Gender <- factor(df$pt_Gender, levels = c(1, 2), labels = c("Male", "Female"))
     ## Convert patient 30-day survival to factor
-    df$res_survival <- factor(df$res_survival, levels = c(1, 2, NA), labels = c("Dead", "Alive", "NA"))
+    df$res_survival <- factor(df$res_survival, levels = c(1, 2), labels = c("Dead", "Alive"))
     return(df)
 }
