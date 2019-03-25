@@ -10,6 +10,8 @@ MainCodeRun <- function() {
     FuncPack()
     ## Set random seed
     set.seed(-41892)
+    ## Create Results enviroment
+    Results <- new.env()  
     ## Import data
     raw.data <- ImportStudyData("simulated-swetrau-data.csv")
     ## Create study sample from selected variables
@@ -55,25 +57,21 @@ MainCodeRun <- function() {
     ## RESTRICTED CUBIC SPLINES AND MISSING DATA
     ## Create restricted cubic splines
     data.sets <- lapply(data.sets, function(sample) lapply(sample, RCSplineConvert))
-
     ## Extract missing data information from each sample
     NA.info.sample <- lapply(data.sets2, function(sample) lapply(sample, NACounterDataSet))
-    sink("NA.info.sample.txt")
-    print(NA.info.sample)
-    sink()
-    rm(NA.info.sample)
     ## Extraxt missing data information from each variable in each sample
-    NA.info.variable <- lapply(data.sets2, function(sample) lapply(sample, NACounterVariable))
-    sink("NA.info.variable.txt")
-    print(NA.info.variable)
-    sink()
-    rm(NA.info.variable)                    
-                                         
+    NA.info.variable <- lapply(data.sets2, function(sample) lapply(sample, NACounterVariable))                 
+    ## Save information to Results enviroment
+    Results$data.sets.before.imputations <- data.sets
+    Results$NA.info.sample <- NA.info.sample
+    Results$NA.info.variable <- NA.info.variable
+    rm(NA.info.sample, NA.info.variable)                                              
     ## Impute missing data
     data.sets <- lapply(data.sets, MICEImplement)
-                        
+    Results$data.sets.after.imputations <- data.sets                    
+    
     ## TABLE ONE CREATION                  
-    ## Create sample characteristics tables
+    ## Create sample characteristics tables, and save to disk
     TableOneCreator(data.sets)
 
     ## DEVELOPMENT AND VALIDATION
