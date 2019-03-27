@@ -6,7 +6,8 @@
 #' GCS 999 is raplaced with NA.
 #' GCS 99 is replaced with 3.
 #' Patient sex converted to factor w/ 2 levels
-#' Patient 30-day survival converted to factor w/ 3 levels
+#' Patient 30-day survival converted to factor w/ 2 levels
+#' New colum is created: ISS_over_15, dichotomized and converted to factor
 #' @param df Dataframe. The study sample. No default.
 DataCleaning <- function(df) {
   
@@ -21,5 +22,9 @@ DataCleaning <- function(df) {
     df$pt_Gender <- factor(df$pt_Gender, levels = c(1, 2), labels = c("Male", "Female"))
     ## Convert patient 30-day survival to factor
     df$res_survival <- factor(df$res_survival, levels = c(1, 2), labels = c("Dead", "Alive"))
+    ## Create column ISS>15, dichotomize and convert to factor
+    df$ISS_over_15 <- df$ISS
+    df$ISS_over_15 <- ifelse(df$ISS_over_15 > 15, 1, 2)
+    df$ISS_over_15 <- factor(df$ISS_over_15, levels = c(1, 2), labels = c("Yes", "No"))
     return(df)
 }
