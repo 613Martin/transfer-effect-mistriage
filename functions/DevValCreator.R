@@ -12,7 +12,7 @@ DevValCreator <- function(df) {
     if (!is.data.frame(df))
         stop ("Input has to be a data.frame")
     ## Selecting events only
-    events.only <- df[which(df$res_survival == 1),]
+    events.only <- df[which(df$res_survival == "Dead"),]
     ## Sorting by date
     sorted.events.only <- events.only[order(as.Date(events.only$DateTime_Of_Trauma), decreasing = FALSE),]
     ## Saving cut-off date
