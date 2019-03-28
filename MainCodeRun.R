@@ -58,9 +58,9 @@ MainCodeRun <- function() {
     ## Create restricted cubic splines
     data.sets <- lapply(data.sets, function(sample) lapply(sample, RCSplineConvert))
     ## Extract missing data information from each sample
-    NA.info.sample <- lapply(data.sets2, function(sample) lapply(sample, NACounterDataSet))
+    NA.info.sample <- lapply(data.sets, function(sample) lapply(sample, NACounterDataSet))
     ## Extraxt missing data information from each variable in each sample
-    NA.info.variable <- lapply(data.sets2, function(sample) lapply(sample, NACounterVariable))                 
+    NA.info.variable <- lapply(data.sets, function(sample) lapply(sample, NACounterVariable))                 
     ## Save information to Results enviroment
     Results$data.sets.before.imputations <- data.sets
     Results$NA.info.sample <- NA.info.sample
@@ -87,35 +87,47 @@ MainCodeRun <- function() {
     data.sets$high.volume.vs.low.volume$high.volume$Development$ed_sbp_value_spline_1 <- NULL
     data.sets$high.volume.vs.low.volume$high.volume$Development$ed_sbp_value_spline_2 <- NULL
     data.sets$high.volume.vs.low.volume$high.volume$Development$ed_rr_value_spline_1 <- NULL
+
+    ## To set all splines to NULL you can also do
+    df <- data.sets$high.volume.vs.low.volume$high.volume$Development
+    df[, grep("^[a-z_]*_spline_[0-9]*$", colnames(df))] <- NULL
+    
     
     ## Recreate RCS
-    data.sets$high.volume.vs.low.volume$high.volume$Development <- RCSplineConvert(data.sets$high.volume.vs.low.volume$high.volume$Development)
+    df <- RCSplineConvert(df)
 
-    ## Create model and save as log.reg.model
-    log.reg.model <- glm(res_survival ~ ed_gcs_sum + 
-                                        ed_sbp_value + 
-                                        ed_rr_value + 
-                                        ed_sbp_value_spline_1 +
-                                        ed_sbp_value_spline_2 +
-                                        ed_rr_value_spline_1,
-                         data = data.sets$high.volume.vs.low.volume$high.volume$Development, 
-                         family = "binomial"
-    )
-    
-    ## Bootstrapping
-     logit.test <- function(d,indices) {  
-      d <- data.sets$high.volume.vs.low.volume$high.volume$Development[indices,]  
-      fit <- log.reg.model  
-      return(coef(fit))  
+    ## Create model function
+    log.reg.model <- function(model.data) {
+        glm(res_survival ~ ed_gcs_sum + 
+                ed_sbp_value + 
+                ed_rr_value + 
+                ed_sbp_value_spline_1 +
+                ed_sbp_value_spline_2 +
+                ed_rr_value_spline_1,
+            data = model.data, 
+            family = "binomial")
     }
-    boot.fit <- boot(  
-      data = data.sets$high.volume.vs.low.volume$high.volume$Development, 
-      statistic = logit.test, 
+    
+    ## Create development model
+    development.model <- coef(log.reg.model(df))
+    
+    ## Estimate linear shrinkage factor
+    get.prediction.slope <- function(original.data, indices) {  
+        model.data <- original.data[indices,]  
+        model.fit <- log.reg.model(model.data)
+        prediction <- predict(model.fit, newdata = original.data)
+        calibration.model <- glm(original.data$res_survival ~ prediction, family = "binomial")
+        slope <- coef(calibration.model)["prediction"]
+        return(slope)  
+    }
+    linear.shrinkage.factor <- mean(boot(  
+      data = df, 
+      statistic = get.prediction.slope, 
       R = 1000
-      ) 
+    )$t)
     
     ## Apply bootstrap results to shrink model coefficients
-    #?
+    shrunk.development.model <- development.model * linear.shrinkage.factor
 
     ## Predict 30-day mortality in development sample
     Predicted.odds <- plogis(predict(log.reg.model))
