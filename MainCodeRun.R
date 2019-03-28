@@ -81,23 +81,50 @@ MainCodeRun <- function() {
     
     ## CLINICAL PREDICTION MODEL
     ## Model development
-       ## Test run                 
-       ## Remove RCS data form High Vol Dev
-       data.sets$high.volume.vs.low.volume$high.volume$Development$ed_sbp_value_spline_1 <- NULL
-       data.sets$high.volume.vs.low.volume$high.volume$Development$ed_sbp_value_spline_2 <- NULL
-       data.sets$high.volume.vs.low.volume$high.volume$Development$ed_rr_value_spline_1 <- NULL
-       ## Recreate RCS in High Vol Dev
-       data.sets$high.volume.vs.low.volume$high.volume$Development <- RCSplineConvert(data.sets$high.volume.vs.low.volume$high.volume$Development)
-       ## Create model in High Vol Dev and save as logreg.model
-       log.reg.model <- glm(res_survival ~ ed_gcs_sum + 
-                                           ed_sbp_value + 
-                                           ed_rr_value + 
-                                           ed_sbp_value_spline_1 +
-                                           ed_sbp_value_spline_2 +
-                                           ed_rr_value_spline_1,
-                            data = data.sets$high.volume.vs.low.volume$high.volume$Development, 
-                            family = "binomial"
-                            )
+                        
+    ## Testing the procedure using the High volume development and validation sample                
+    ## Remove RCS data
+    data.sets$high.volume.vs.low.volume$high.volume$Development$ed_sbp_value_spline_1 <- NULL
+    data.sets$high.volume.vs.low.volume$high.volume$Development$ed_sbp_value_spline_2 <- NULL
+    data.sets$high.volume.vs.low.volume$high.volume$Development$ed_rr_value_spline_1 <- NULL
+    
+    ## Recreate RCS
+    data.sets$high.volume.vs.low.volume$high.volume$Development <- RCSplineConvert(data.sets$high.volume.vs.low.volume$high.volume$Development)
+
+    ## Create model and save as log.reg.model
+    log.reg.model <- glm(res_survival ~ ed_gcs_sum + 
+                                        ed_sbp_value + 
+                                        ed_rr_value + 
+                                        ed_sbp_value_spline_1 +
+                                        ed_sbp_value_spline_2 +
+                                        ed_rr_value_spline_1,
+                         data = data.sets$high.volume.vs.low.volume$high.volume$Development, 
+                         family = "binomial"
+    )
+    
+    ## Bootstrapping
+     logit.test <- function(d,indices) {  
+      d <- data.sets$high.volume.vs.low.volume$high.volume$Development[indices,]  
+      fit <- log.reg.model  
+      return(coef(fit))  
+    }
+    boot.fit <- boot(  
+      data = data.sets$high.volume.vs.low.volume$high.volume$Development, 
+      statistic = logit.test, 
+      R = 1000
+      ) 
+    
+    ## Apply bootstrap results to shrink model coefficients
+    #?
+
+    ## Predict 30-day mortality in development sample
+    Predicted.odds <- plogis(predict(log.reg.model))
+    
+    ## Grisdsearch for optimal prediction probability cutoff
+    #?
+    
+    ## Identify patients as major or minor trauma in development sample
+    #?
                         
     ## Model Validation
    
