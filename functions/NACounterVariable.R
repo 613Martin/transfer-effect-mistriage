@@ -21,11 +21,12 @@ NACounterVariable <- function(df) {
     number.of.na$percentage <- number.of.na$number.of.na / nrow(df)
     number.of.na$percentage <- number.of.na$percentage * 100
     number.of.na$percentage <- round(number.of.na$percentage, 2)
+    
     ## Set ouput file name
-    df.name <- deparse(substitute(df))
-    file.name <- print(paste("NACountVariable of ", df.name, ".txt"))
+    # df.name <- deparse(substitute(df))
+    # file.name <- print(paste("NACountVariable of ", df.name, ".txt"))
     ## Export NA data as a txt file
-    write.table(number.of.na, file = file.name, sep="\t")  
+    # write.table(number.of.na, file = file.name, sep="\t")  
     ## Return new data data.frame with NA data
     return(number.of.na)
 }
