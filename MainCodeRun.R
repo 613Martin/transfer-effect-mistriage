@@ -82,16 +82,9 @@ MainCodeRun <- function() {
     ## CLINICAL PREDICTION MODEL
     ## Model development
                         
-    ## Testing the procedure using the High volume development and validation sample                
-    ## Remove RCS data
-    data.sets$high.volume.vs.low.volume$high.volume$Development$ed_sbp_value_spline_1 <- NULL
-    data.sets$high.volume.vs.low.volume$high.volume$Development$ed_sbp_value_spline_2 <- NULL
-    data.sets$high.volume.vs.low.volume$high.volume$Development$ed_rr_value_spline_1 <- NULL
-
     ## To set all splines to NULL you can also do
     df <- data.sets$high.volume.vs.low.volume$high.volume$Development
     df[, grep("^[a-z_]*_spline_[0-9]*$", colnames(df))] <- NULL
-    
     
     ## Recreate RCS
     df <- RCSplineConvert(df)
