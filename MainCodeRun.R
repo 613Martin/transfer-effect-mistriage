@@ -123,7 +123,23 @@ MainCodeRun <- function() {
     shrunk.development.model <- development.model * linear.shrinkage.factor
 
     ## Predict 30-day mortality in development sample
-    Predicted.odds <- plogis(predict(log.reg.model))
+    # Create dummy model (as predict function only accepts glm. and not "pure" coefficients)
+    dummy.model <- glm(res_survival ~ ed_gcs_sum + 
+                   ed_sbp_value + 
+                   ed_rr_value + 
+                   ed_sbp_value_spline_1 +
+                   ed_sbp_value_spline_2 +
+                   ed_rr_value_spline_1,
+                   data = df, 
+                   family = "binomial")
+    #Apply shrunk coefficients to dummy.model
+    dummy.model$coefficients <- shrunk.development.model
+  
+    #Caldulate product and sum of coefficiants in all entries
+    sum.coef <- predict(dummy.model, newdata=df)
+  
+    # Calculates probability of event in each entry
+    prob <- exp(sum.coef)/(1+exp(sum.coef))
     
     ## Grisdsearch for optimal prediction probability cutoff
     #?
