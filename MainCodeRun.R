@@ -142,7 +142,8 @@ MainCodeRun <- function() {
     prob <- exp(sum.coef)/(1+exp(sum.coef))
     
     ## Grisdsearch for optimal prediction probability cutoff
-    #?
+    grid <- data.frame(cbind(prob, df$ISS_over_15))
+    selected.cutoff <- FindCutOff(grid)
     
     ## Identify patients as major or minor trauma in development sample
     #?
