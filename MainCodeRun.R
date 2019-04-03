@@ -141,9 +141,13 @@ MainCodeRun <- function() {
     # Calculates probability of event in each entry
     prob <- exp(sum.coef)/(1+exp(sum.coef))
     
-    ## Grisdsearch for optimal prediction probability cutoff
+    ## Create grid from probabilities and ISS dichotomized
     grid <- data.frame(cbind(prob, df$ISS_over_15))
-    selected.cutoff <- FindCutOff(grid)
+    names(grid) <- c("probs", "ISS_over_15")
+    ## Create list of probabilities
+    data.sets$high.volume.vs.low.volume$high.volume$probs <- as.list(unique(prob))
+    ## Search for, and select the optimal cutoff
+    optimal.cutoff <- FindCutOff(prob.list = data.sets$high.volume.vs.low.volume$high.volume$probs, grid = grid)
     
     ## Identify patients as major or minor trauma in development sample
     #?
