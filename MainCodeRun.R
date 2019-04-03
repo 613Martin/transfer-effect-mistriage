@@ -148,14 +148,20 @@ MainCodeRun <- function() {
     data.sets$high.volume.vs.low.volume$high.volume$probs <- as.list(unique(prob))
     ## Search for, and select the optimal cutoff
     optimal.cutoff <- FindCutOff(prob.list = data.sets$high.volume.vs.low.volume$high.volume$probs, grid = grid)
-    
-    ## Identify patients as major or minor trauma in development sample
-    #?
-                        
-    ## Model Validation
-   
-    ## Model comparison
-   
+                                    
+    ## Model Validation, mistriage rate in high volume validation
+    mistriage.rate.high.vol.val <-  CalculateMistriage(data = data.sets$high.volume.vs.low.volume$high.volume$Validation, model = shrunk.development.model, cutoff = Optimal.cutoff)
+
+    ## Model comparison, obtain mistriage rate in low volume validation
+    ## Remove and recreate RCS
+    data.sets$high.volume.vs.low.volume$low.volume$Validation [, grep("^[a-z_]*_spline_[0-9]*$", colnames(data.sets$high.volume.vs.low.volume$low.volume$Validation))] <- NULL
+    data.sets$high.volume.vs.low.volume$low.volume$Validation <- RCSplineConvert(data.sets$high.volume.vs.low.volume$low.volume$Validation)
+    ## Obtain mistriage rate
+    mistriage.rate.low.vol.val <-  CalculateMistriage(data = data.sets$high.volume.vs.low.volume$low.volume$Validation, model = shrunk.development.model, cutoff = Optimal.cutoff)
+  
     ## COMPILE RESULTS
-   
+    model.comparison.results <- list()
+    model.comparison.results$high.vol.model.in$high.vol <- mistriage.rate.high.vol.val
+    model.comparison.results$high.vol.model.in$low.vol <- mistriage.rate.low.vol.val
+      
 }
