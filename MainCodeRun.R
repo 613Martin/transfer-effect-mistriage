@@ -80,70 +80,25 @@ MainCodeRun <- function() {
     Results$data.sets.after.imputations.dev.val <- data.sets
     
     ## CLINICAL PREDICTION MODEL
-    ## Model development
+    ## MODEL DEVELOPMENT                 
+    ## Remove all restricted cubic splines 
+    data.sets <- lapply(data.sets, function(sample) lapply(sample, function(devval) lapply(devval, RCRemover)))
+
+    ## Recreate restricted cubic splines using appropriate knot locations for each sample
+    # Does not currently use corrent knot locations. Each validation sample RCS-procedure should import apprppriate knot locations
+    # from corresponding development sample. Will fix later.
+    data.sets <- lapply(data.sets, function(sample) lapply(sample, function(devval) lapply(devval, RCSplineConvert)))
+  
+    ## Create model and apply shrinkage factor for each development sample, save as Development model coefficients
+    data.sets <- lapply(data.sets, function(sample) lapply(sample, DevelopmentModelCreator))
+  
+    ## Predict 30-day mortality in development sample and create development grid + prediction grid
+    data.sets <- lapply(data.sets2, function(sample) lapply(sample, PredictGridCreator))
+  
+    ## Find optimal cutoff
+    # TBC
                         
-    ## To set all splines to NULL you can also do
-    df <- data.sets$high.volume.vs.low.volume$high.volume$Development
-    df[, grep("^[a-z_]*_spline_[0-9]*$", colnames(df))] <- NULL
-    
-    ## Recreate RCS
-    df <- RCSplineConvert(df)
-
-    ## Create model function
-    log.reg.model <- function(model.data) {
-        glm(res_survival ~ ed_gcs_sum + 
-                ed_sbp_value + 
-                ed_rr_value + 
-                ed_sbp_value_spline_1 +
-                ed_sbp_value_spline_2 +
-                ed_rr_value_spline_1,
-            data = model.data, 
-            family = "binomial")
-    }
-    
-    ## Create development model
-    development.model <- coef(log.reg.model(df))
-    
-    ## Estimate linear shrinkage factor
-    get.prediction.slope <- function(original.data, indices) {  
-        model.data <- original.data[indices,]  
-        model.fit <- log.reg.model(model.data)
-        prediction <- predict(model.fit, newdata = original.data)
-        calibration.model <- glm(original.data$res_survival ~ prediction, family = "binomial")
-        slope <- coef(calibration.model)["prediction"]
-        return(slope)  
-    }
-    linear.shrinkage.factor <- mean(boot(  
-      data = df, 
-      statistic = get.prediction.slope, 
-      R = 1000
-    )$t)
-    
-    ## Apply bootstrap results to shrink model coefficients
-    shrunk.development.model <- development.model * linear.shrinkage.factor
-
-    ## Predict 30-day mortality in development sample
-    # Create dummy model (as predict function only accepts glm. and not "pure" coefficients)
-    dummy.model <- glm(res_survival ~ ed_gcs_sum + 
-                   ed_sbp_value + 
-                   ed_rr_value + 
-                   ed_sbp_value_spline_1 +
-                   ed_sbp_value_spline_2 +
-                   ed_rr_value_spline_1,
-                   data = df, 
-                   family = "binomial")
-    #Apply shrunk coefficients to dummy.model
-    dummy.model$coefficients <- shrunk.development.model
-  
-    #Caldulate product and sum of coefficiants in all entries
-    sum.coef <- predict(dummy.model, newdata=df)
-  
-    # Calculates probability of event in each entry
-    prob <- exp(sum.coef)/(1+exp(sum.coef))
-    
-    ## Create grid from probabilities and ISS dichotomized
-    grid <- data.frame(cbind(prob, df$ISS_over_15))
-    names(grid) <- c("probs", "ISS_over_15")
+                        
     ## Create list of probabilities
     data.sets$high.volume.vs.low.volume$high.volume$probs <- as.list(unique(prob))
     ## Search for, and select the optimal cutoff
