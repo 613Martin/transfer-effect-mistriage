@@ -99,17 +99,15 @@ MainCodeRun <- function() {
     data.sets <- lapply(data.sets, function(sample) lapply(sample, FindOptimalCutOff))
   
                         
-    ## MODEL VALIDATION                      
-    ## Model Validation, mistriage rate in high volume validation
-    mistriage.rate.high.vol.val <-  CalculateMistriage(data = data.sets$high.volume.vs.low.volume$high.volume$Validation, model = shrunk.development.model, cutoff = Optimal.cutoff)
-
-    ## Model comparison, obtain mistriage rate in low volume validation
-    ## Remove and recreate RCS
-    data.sets$high.volume.vs.low.volume$low.volume$Validation [, grep("^[a-z_]*_spline_[0-9]*$", colnames(data.sets$high.volume.vs.low.volume$low.volume$Validation))] <- NULL
-    data.sets$high.volume.vs.low.volume$low.volume$Validation <- RCSplineConvert(data.sets$high.volume.vs.low.volume$low.volume$Validation)
-    ## Obtain mistriage rate
-    mistriage.rate.low.vol.val <-  CalculateMistriage(data = data.sets$high.volume.vs.low.volume$low.volume$Validation, model = shrunk.development.model, cutoff = Optimal.cutoff)
+    ## MODEL VALIDATION
+    ## Obtain mistriage rate in the sample which the model was created, i.e. local model performance.
+    data.sets <- lapply(data.sets, function(sample) lapply(sample, ValidationMistriageRate))
   
+  
+    ## MODEL COMPARISON, 
+    ## obtain mistriage rate in "buddy sample" in each data set using transferred model and cutoff
+  
+
     ## COMPILE RESULTS
     model.comparison.results <- list()
     model.comparison.results$high.vol.model.in$high.vol <- mistriage.rate.high.vol.val
