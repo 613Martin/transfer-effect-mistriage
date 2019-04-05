@@ -102,15 +102,31 @@ MainCodeRun <- function() {
     ## MODEL VALIDATION
     ## Obtain mistriage rate in the sample which the model was created, i.e. local model performance.
     data.sets <- lapply(data.sets, function(sample) lapply(sample, ValidationMistriageRate))
-  
+    Results$data.sets.with.local.model.performance <- data.sets
   
     ## MODEL COMPARISON, 
-    ## obtain mistriage rate in "buddy sample" in each data set using transferred model and cutoff
+    ## Obtain mistriage rate in "buddy sample" in each data set using transferred model and cutoff
+    transfer.mistriage.rate <- lapply(data.sets, ComparisonMistriageRate)
+  
+    ## Apply correct names to transfer mistriage list
+    names(transfer.mistriage.rate[[1]]) <- c("High Vol to Low Vol", "Low Vol to High Vol")
+    names(transfer.mistriage.rate[[2]]) <- c("Metropolitan to Non-metropolitan", "Non-metropolitan to Metropolitan")
+    names(transfer.mistriage.rate[[3]]) <- c("Multi centre to Single centre", "Single centre to Multi centre")
   
 
     ## COMPILE RESULTS
-    model.comparison.results <- list()
-    model.comparison.results$high.vol.model.in$high.vol <- mistriage.rate.high.vol.val
-    model.comparison.results$high.vol.model.in$low.vol <- mistriage.rate.low.vol.val
-      
+    ## Create list with local mistriage results as well as transfer mistriage reuslts, for ease of viewing
+    final.results.list <- list("High volume and Low volume" = list("High vol local" = data.sets[[1]][[1]][[7]], 
+                                                                   "Low vol local" = data.sets[[1]][[2]][[7]],
+                                                                   "High vol to Low vol" = transfer.mistriage.rate[[1]][[1]],
+                                                                   "Low vol to High vol" = transfer.mistriage.rate[[1]][[2]]),
+                               "Metropolitan and Non-metropolitan" = list("Metropolitan local" = data.sets[[2]][[1]][[7]],
+                                                                          "Non-metropolitan local" = data.sets[[2]][[2]][[7]],
+                                                                          "Metropolitan to Non-metropolitan" = transfer.mistriage.rate[[2]][[1]],
+                                                                          "Non-metropolitan to Metropolitan" = transfer.mistriage.rate[[2]][[2]]),
+                               "Multi centre and Single centre" = list("Multi centre local" = data.sets[[3]][[1]][[7]],
+                                                                       "Single centre local" = data.sets[[3]][[2]][[7]],
+                                                                       "Multi centre to Single centre" = transfer.mistriage.rate[[3]][[1]],
+                                                                       "Single centre to Multi centre" = transfer.mistriage.rate[[3]][[2]]))
+    Results$final.mistriage.list <- final.results.list
 }
