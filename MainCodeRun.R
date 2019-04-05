@@ -95,15 +95,11 @@ MainCodeRun <- function() {
     ## Predict 30-day mortality in development sample and create development grid + prediction grid
     data.sets <- lapply(data.sets2, function(sample) lapply(sample, PredictGridCreator))
   
-    ## Find optimal cutoff
-    # TBC
+    ## Find optimal cutoff for each model.
+    data.sets <- lapply(data.sets, function(sample) lapply(sample, FindOptimalCutOff))
+  
                         
-                        
-    ## Create list of probabilities
-    data.sets$high.volume.vs.low.volume$high.volume$probs <- as.list(unique(prob))
-    ## Search for, and select the optimal cutoff
-    optimal.cutoff <- FindCutOff(prob.list = data.sets$high.volume.vs.low.volume$high.volume$probs, grid = grid)
-                                    
+    ## MODEL VALIDATION                      
     ## Model Validation, mistriage rate in high volume validation
     mistriage.rate.high.vol.val <-  CalculateMistriage(data = data.sets$high.volume.vs.low.volume$high.volume$Validation, model = shrunk.development.model, cutoff = Optimal.cutoff)
 
