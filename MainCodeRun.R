@@ -88,10 +88,8 @@ MainCodeRun <- function() {
     ## Remove all restricted cubic splines 
     data.sets <- lapply(data.sets, function(sample) lapply(sample, function(devval) lapply(devval, RCRemover)))
 
-    ## Recreate restricted cubic splines using appropriate knot locations for each sample
-    # Does not currently use corrent knot locations. Each validation sample RCS-procedure should import apprppriate knot locations
-    # from corresponding development sample. Will fix later.
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, function(devval) lapply(devval, RCSplineConvert)))
+    ## Recreate restricted cubic splines using knot locations from development sample in validation sample
+    data.sets <- lapply(data.sets, function(sample) lapply(sample, RCSplineConvertDevVal))
   
     ## Create model and apply shrinkage factor for each development sample, save as Development model coefficients
     data.sets <- lapply(data.sets, function(sample) lapply(sample, DevelopmentModelCreator))
