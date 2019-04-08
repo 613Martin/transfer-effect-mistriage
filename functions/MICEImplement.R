@@ -12,7 +12,9 @@
 #' This list REPLACES then the original sample if the above example to run i used!
 #' 
 #' @param df.list A list of dataframes. No default.
-MICEImplement <- function(df.list) {
+#' @param test Logical. If TRUE only 3 imputed datasets are created. Defaults to
+#'     FALSE.
+MICEImplement <- function(df.list, test = FALSE) {
   
     ## Error handling
     if (!is.list(df.list))
@@ -23,6 +25,8 @@ MICEImplement <- function(df.list) {
     
     ## Set number of imputations
     number.of.imputations <- as.integer(max(unlist(percents.NA)))
+    if (test)
+        number.of.imputations <- 3
     ## number.of.imputations <- 5
     
     ## Run mice
