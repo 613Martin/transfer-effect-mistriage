@@ -13,7 +13,6 @@
 FindOptimalCutOff <- function(df) {
 
   ## Create list of probabilities
-  data.sets$high.volume.vs.low.volume$high.volume$probs <- as.list(unique(prob))
   list.of.probs <- as.list(unique(df[[4]]$probs))
   ## Search for, and select the optimal cutoff
   optimal.cutoff <- FindCutOff(prob.list = list.of.probs, grid = df[[4]])
