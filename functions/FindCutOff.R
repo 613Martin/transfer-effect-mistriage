@@ -32,7 +32,7 @@ FindCutOff <- function(prob.list, grid) {
     tested.data.minor <- grid[grid$probs < x,]
     ## Calculate overtriage in tested data
     num.of.overtriage <- sum(tested.data.major$ISS_over_15 == 2)
-    overtriage.rate <- num.of.overtriage / nrow(df)
+    overtriage.rate <- num.of.overtriage / nrow(grid)
     ## Return to reults data frame
     return(overtriage.rate)     
     }
