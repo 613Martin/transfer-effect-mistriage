@@ -68,12 +68,16 @@ MainCodeRun <- function() {
     rm(NA.info.sample, NA.info.variable)                                              
     ## Impute missing data
     data.sets <- lapply(data.sets, MICEImplement)
-    Results$data.sets.after.imputations <- data.sets                    
-    
-    ## TABLE ONE CREATION                  
+    Results$data.sets.after.imputations <- data.sets                                    
     ## Create sample characteristics tables, and save to disk
     TableOneCreator(data.sets)
-
+    ## Removal of original data (.imp = 0) from data.sets 
+    data.sets <- lapply(data.sets, function(sample) lapply(sample, function(x) {
+      no.imp.zero <- x[!(x$.imp == "0"),]
+      return(no.imp.zero)
+      }))
+                               
+    
     ## DEVELOPMENT AND VALIDATION
     ## Create Development and validation sample, for each sample
     data.sets <- lapply(data.sets, function(sample) lapply(sample, DevValCreator))
