@@ -21,7 +21,8 @@ DataCleaning <- function(df) {
     ## Convert patient sex to factor
     df$pt_Gender <- factor(df$pt_Gender, levels = c(1, 2), labels = c("Male", "Female"))
     ## Convert patient 30-day survival to factor
-    df$res_survival <- factor(df$res_survival, levels = c(1, 2), labels = c("Dead", "Alive"))
+    df$res_survival <- MyReplace(df$res_survival, 2, 0)
+    df$res_survival <- factor(df$res_survival, levels = c(0, 1), labels = c("Alive", "Dead"))
     ## Create column ISS>15, dichotomize and convert to factor
     df$ISS_over_15 <- df$ISS
     df$ISS_over_15 <- ifelse(df$ISS_over_15 > 15, 1, 2)
