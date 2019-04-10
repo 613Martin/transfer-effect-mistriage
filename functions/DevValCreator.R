@@ -3,7 +3,7 @@
 #' Inputs a data.frame (e.g. "high.volume")
 #' Splits the data frame based on the date of trauma to development 
 #' sample (early) and validation sample (late).
-#' Development sample will contain 70 events(res_survival = 1).
+#' Development sample will contain 70 events(res_survival == "Dead").
 #' Validation sample will contain the rest of the events.
 #' @param df Dataframe. A study sample.
 DevValCreator <- function(df) {
