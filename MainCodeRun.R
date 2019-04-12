@@ -78,41 +78,36 @@ MainCodeRun <- function() {
       }))
                                
     ## SPLIT DATA SETS BASED ON IMPUTATION
-    ## Original way
-    #all.data.sets <- AllDataSetsCreator(data.sets = data.sets, imputations = number.of.imputations)
-    ## Using the split function
     split.data.sets <- lapply(data.sets, function(sample) lapply(sample, function(x) {
-    x <- split(x, x$.imp)
-    }))
-                        
+      x <- split(x, x$.imp)
+      }))
+  
     ## DEVELOPMENT AND VALIDATION
-    ## Create Development and validation sample, for each sample
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, DevValCreator))
+    ## Create Development and validation sample, for each imputation
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, DevValCreator)))) 
     Results$data.sets.after.imputations.dev.val <- data.sets
-    
+  
     ## CLINICAL PREDICTION MODEL
-    ## MODEL DEVELOPMENT                 
-    ## Remove all restricted cubic splines 
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, function(devval) lapply(devval, RCRemover)))
-
+    ## MODEL DEVELOPMENT
+    ## Remove all restricted cubic splines
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, function(devval) lapply(devval, RCRemover)))))
     ## Recreate restricted cubic splines using knot locations from development sample in validation sample
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, RCSplineConvertDevVal))
-  
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, RCSplineConvertDevVal)))) 
     ## Create model and apply shrinkage factor for each development sample, save as Development model coefficients
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, DevelopmentModelCreator))
-  
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, DevelopmentModelCreator)))) 
     ## Predict 30-day mortality in development sample and create development grid + prediction grid
-    data.sets <- lapply(data.sets2, function(sample) lapply(sample, PredictGridCreator))
-  
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, PredictGridCreator)))) 
     ## Find optimal cutoff for each model.
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, FindOptimalCutOff))
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, FindOptimalCutOff)))) 
   
-                        
     ## MODEL VALIDATION
     ## Obtain mistriage rate in the sample which the model was created, i.e. local model performance.
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, ValidationMistriageRate))
+    split.data.sets.test <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, ValidationMistriageRate)))) 
     Results$data.sets.with.local.model.performance <- data.sets
   
+    
+                        
+    ## (No new code from here)                    
     ## MODEL COMPARISON, 
     ## Obtain mistriage rate in "buddy sample" in each data set using transferred model and cutoff
     transfer.mistriage.rate <- lapply(data.sets, ComparisonMistriageRate)
@@ -122,7 +117,6 @@ MainCodeRun <- function() {
     names(transfer.mistriage.rate[[2]]) <- c("Metropolitan to Non-metropolitan", "Non-metropolitan to Metropolitan")
     names(transfer.mistriage.rate[[3]]) <- c("Multi centre to Single centre", "Single centre to Multi centre")
   
-
     ## COMPILE RESULTS
     ## Create list with local mistriage results as well as transfer mistriage reuslts, for ease of viewing
     final.results.list <- list("High volume and Low volume" = list("High vol local" = data.sets[[1]][[1]][[7]], 
