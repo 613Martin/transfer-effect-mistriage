@@ -78,7 +78,12 @@ MainCodeRun <- function() {
       }))
                                
     ## SPLIT DATA SETS BASED ON IMPUTATION
-    all.data.sets <- AllDataSetsCreator(data.sets = data.sets, imputations = number.of.imputations)
+    ## Original way
+    #all.data.sets <- AllDataSetsCreator(data.sets = data.sets, imputations = number.of.imputations)
+    ## Using the split function
+    split.data.sets <- lapply(data.sets, function(sample) lapply(sample, function(x) {
+    x <- split(x, x$.imp)
+    }))
                         
     ## DEVELOPMENT AND VALIDATION
     ## Create Development and validation sample, for each sample
