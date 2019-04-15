@@ -102,7 +102,7 @@ MainCodeRun <- function() {
   
     ## MODEL VALIDATION
     ## Obtain mistriage rate in the sample which the model was created, i.e. local model performance.
-    split.data.sets.test <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, ValidationMistriageRate)))) 
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, ValidationMistriageRate)))) 
     Results$data.sets.with.local.model.performance <- data.sets
 
     ## MODEL COMPARISON, 
