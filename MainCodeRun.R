@@ -104,20 +104,18 @@ MainCodeRun <- function() {
     ## Obtain mistriage rate in the sample which the model was created, i.e. local model performance.
     split.data.sets.test <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, ValidationMistriageRate)))) 
     Results$data.sets.with.local.model.performance <- data.sets
-  
-    
-                        
-    ## (No new code from here)                    
+
     ## MODEL COMPARISON, 
     ## Obtain mistriage rate in "buddy sample" in each data set using transferred model and cutoff
-    transfer.mistriage.rate <- lapply(data.sets, ComparisonMistriageRate)
-  
+    comparison.split.data.sets <- lapply(split.data.sets, ComparisonMistriageRate)
     ## Apply correct names to transfer mistriage list
-    names(transfer.mistriage.rate[[1]]) <- c("High Vol to Low Vol", "Low Vol to High Vol")
-    names(transfer.mistriage.rate[[2]]) <- c("Metropolitan to Non-metropolitan", "Non-metropolitan to Metropolitan")
-    names(transfer.mistriage.rate[[3]]) <- c("Multi centre to Single centre", "Single centre to Multi centre")
+    names(comparison.split.data.sets[[1]]) <- c("High Vol to Low Vol", "Low Vol to High Vol")
+    names(comparison.split.data.sets[[2]]) <- c("Metropolitan to Non-metropolitan", "Non-metropolitan to Metropolitan")
+    names(comparison.split.data.sets[[3]]) <- c("Multi centre to Single centre", "Single centre to Multi centre")
   
-    ## COMPILE RESULTS
+                                                                            
+                                                                           
+    ## COMPILE RESULTS (Working on...) 
     ## Create list with local mistriage results as well as transfer mistriage reuslts, for ease of viewing
     final.results.list <- list("High volume and Low volume" = list("High vol local" = data.sets[[1]][[1]][[7]], 
                                                                    "Low vol local" = data.sets[[1]][[2]][[7]],
