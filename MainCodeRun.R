@@ -115,19 +115,8 @@ MainCodeRun <- function() {
   
                                                                             
                                                                            
-    ## COMPILE RESULTS (Working on...) 
-    ## Create list with local mistriage results as well as transfer mistriage reuslts, for ease of viewing
-    final.results.list <- list("High volume and Low volume" = list("High vol local" = data.sets[[1]][[1]][[7]], 
-                                                                   "Low vol local" = data.sets[[1]][[2]][[7]],
-                                                                   "High vol to Low vol" = transfer.mistriage.rate[[1]][[1]],
-                                                                   "Low vol to High vol" = transfer.mistriage.rate[[1]][[2]]),
-                               "Metropolitan and Non-metropolitan" = list("Metropolitan local" = data.sets[[2]][[1]][[7]],
-                                                                          "Non-metropolitan local" = data.sets[[2]][[2]][[7]],
-                                                                          "Metropolitan to Non-metropolitan" = transfer.mistriage.rate[[2]][[1]],
-                                                                          "Non-metropolitan to Metropolitan" = transfer.mistriage.rate[[2]][[2]]),
-                               "Multi centre and Single centre" = list("Multi centre local" = data.sets[[3]][[1]][[7]],
-                                                                       "Single centre local" = data.sets[[3]][[2]][[7]],
-                                                                       "Multi centre to Single centre" = transfer.mistriage.rate[[3]][[1]],
-                                                                       "Single centre to Multi centre" = transfer.mistriage.rate[[3]][[2]]))
-    Results$final.mistriage.list <- final.results.list
+    ## COMPILE RESULTS
+    ## Create list of data frames with local mistriage, transfer mistriage and differance
+    results.data.frames <- ResultsCompiler(list.of.data.sets = split.data.sets, comparison.data = comparison.split.data.sets)
+    Results$results.data.frames <- results.data.frames
 }
