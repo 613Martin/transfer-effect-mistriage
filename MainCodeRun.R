@@ -112,11 +112,13 @@ MainCodeRun <- function() {
     names(comparison.split.data.sets[[1]]) <- c("High Vol to Low Vol", "Low Vol to High Vol")
     names(comparison.split.data.sets[[2]]) <- c("Metropolitan to Non-metropolitan", "Non-metropolitan to Metropolitan")
     names(comparison.split.data.sets[[3]]) <- c("Multi centre to Single centre", "Single centre to Multi centre")
-  
-                                                                            
-                                                                           
+                                                                     
     ## COMPILE RESULTS
     ## Create list of data frames with local mistriage, transfer mistriage and differance
     results.data.frames <- ResultsCompiler(list.of.data.sets = split.data.sets, comparison.data = comparison.split.data.sets)
+    ## Calculate medians and IQR for each sample
+    stats.calculated <- CalculateStats(list.of.results = results.data.frames)
+    ## Send to results
     Results$results.data.frames <- results.data.frames
+    Results$stats.calculated <- stats.calculated
 }
