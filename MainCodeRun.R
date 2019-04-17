@@ -100,20 +100,22 @@ MainCodeRun <- function() {
     ## Find optimal cutoff for each model.
     split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, FindOptimalCutOff)))) 
   
-    ## MODEL VALIDATION
-    ## Obtain mistriage rate in the sample which the model was created, i.e. local model performance.
-    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, ValidationMistriageRate)))) 
-    Results$data.sets.with.local.model.performance <- data.sets
-
-    ## MODEL COMPARISON, 
-    ## Obtain mistriage rate in "buddy sample" in each data set using transferred model and cutoff
-    comparison.split.data.sets <- lapply(split.data.sets, ComparisonMistriageRate)
-    ## Apply correct names to transfer mistriage list
-    names(comparison.split.data.sets[[1]]) <- c("High Vol to Low Vol", "Low Vol to High Vol")
-    names(comparison.split.data.sets[[2]]) <- c("Metropolitan to Non-metropolitan", "Non-metropolitan to Metropolitan")
-    names(comparison.split.data.sets[[3]]) <- c("Multi centre to Single centre", "Single centre to Multi centre")
+   ## MODEL VALIDATION
+   ## Obtain mistriage rate in the sample which the model was created, i.e. local model performance.
+   split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, ValidationMistriageRate)))) 
+   Results$data.sets.with.local.model.performance <- data.sets
+  
+   ## MODEL COMPARISON
+   ## Obtain mistriage rate in "buddy sample" in each data set using transferred model and cutoff
+   comparison.split.data.sets <- lapply(split.data.sets, ComparisonMistriageRate)
+   ## Apply correct names to transfer mistriage list
+   names(comparison.split.data.sets[[1]]) <- c("High Vol to Low Vol", "Low Vol to High Vol")
+   names(comparison.split.data.sets[[2]]) <- c("Metropolitan to Non-metropolitan", "Non-metropolitan to Metropolitan")
+   names(comparison.split.data.sets[[3]]) <- c("Multi centre to Single centre", "Single centre to Multi centre")
+   ## Combine data sets and clean variables
+   combined.split.data.sets <- CombineClean(split.data.sets = split.data.sets, comparison.split.data.sets = comparison.split.data.sets)
                                                                      
-    ## COMPILE RESULTS
+    ## COMPILE RESULTS (Still working on this function)
     ## Create list of data frames with local mistriage, transfer mistriage and differance
     results.data.frames <- ResultsCompiler(list.of.data.sets = split.data.sets, comparison.data = comparison.split.data.sets)
     ## Calculate medians and IQR for each sample
