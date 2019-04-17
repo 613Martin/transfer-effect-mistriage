@@ -33,23 +33,32 @@ ResultsCompiler <- function(list.of.data.sets, comparison.data){
   combined.transfer <- lapply(transfer.mistriage, function(sample) lapply(sample, function(df) {
     df1 <- df[[1]]
     for (x in 2:length(df)) {
-      df1 <- merge(df1, df[[x]], all = TRUE)
+      df1 <- merge(df1, df[[x]], all = TRUE, sort = FALSE)
     }
     return(df1)
   }))
   ## Combine local mistriage and transfer mistriage into one dataframe per sample
   for (i in 1:length(combined.by.imp)) {
-    for (u in 1:2) {
+    for (u in 1:length(combined.by.imp[[i]])) {
       combined.by.imp[[i]][[u]] <- cbind(combined.by.imp[[i]][[u]], combined.transfer[[i]][[u]])
     }
   }
-  ## Calculate difference
+  
+  ## Calculate difference, local performance vs transferred performance of local model
   results.with.diff <- lapply(combined.by.imp, function(sample) lapply(sample, function(x) {
-    x$diff <- x[[3]] - x[[2]]
+    x$transfer.performance.minus.local.performance <- x[[3]] - x[[2]]
     return(x)
     }))
+  ## Calculate difference, local performance vs transferred model, transferred model performance minus local model performance
+  all.results.with.diff <- lapply(results.with.diff, function(x) {
+    x[[1]]$transferred.performance.minus.buddy.local.performance <- x[[1]][[3]] - x[[2]][[2]]
+    x[[2]]$transferred.performance.minus.buddy.local.performance <- x[[2]][[3]] - x[[1]][[2]]
+    return(x)
+  })
+  
   ## Create output
-  output <- results.with.diff
+  output <- all.results.with.diff
   ## Return output
   return(output)
 }
+
