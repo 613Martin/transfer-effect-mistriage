@@ -8,20 +8,28 @@
 #' df[[2]] = Bottom subsample i.e. Low vol, Non-metropolitan, or Single centre
 #' @param df Dataframe.
 ComparisonMistriageRate <- function(df) {
-
-  ## Error handling
-  #
   
   ## Top to Bottom
   TtB <- lapply(df[[1]], function(x) {
-   imp <- mean(x[[2]][[1]])
-   CalculateMistriage(data = df[[2]][[imp]][[2]], model = x[[3]], cutoff = x[[6]])
+    imp <- mean(x[[2]][[1]])
+    CalculateUndertriageOvertriage (data = df[[2]][[imp]][[2]], model = x[[3]], cutoff = x[[6]])
   })
   ## Bottom to Top
   BtT <- lapply(df[[2]], function(x) {
     imp <- mean(x[[2]][[1]])
-    CalculateMistriage(data = df[[1]][[imp]][[2]], model = x[[3]], cutoff = x[[6]])
+    CalculateUndertriageOvertriage (data = df[[1]][[imp]][[2]], model = x[[3]], cutoff = x[[6]])
   })
+  ## Obtain and label correct values
+  TtB <- lapply(TtB, function(x) {
+    list("Transfer mistriage" = x[[1]]+x[[2]], 
+         "Transfer undertriage" = x[[1]],
+         "Transfer overtriage" = x[[2]])
+  })
+  BtT <- lapply(BtT, function(x) {
+    list("Transfer mistriage" = x[[1]]+x[[2]], 
+         "Transfer undertriage" = x[[1]],
+         "Transfer overtriage" = x[[2]])
+  })  
   ## Create output
   output <- list("Top to Bottom" = TtB, "Bottom to Top" = BtT)
   ## Return output
