@@ -1,12 +1,12 @@
-#' CalculateMistriage
+#' CalculateUndertriageOvertriage
 #' 
 #' Inputs a data frame on which to calculate the mistriage rate
 #' Also needs input of model(coefficient) to use and cutoff.
-#' Outputs the mistriage rate of the data.
+#' Outputs a vector with undertriage and overtriage
 #' @param data. A data frame, the data to be tested.
 #' @param model. Shrunk model coefficients.
 #' @param cutoff. The cutoff to use for testing
-CalculateMistriage  <- function(data, model, cutoff) {
+CalculateUndertriageOvertriage  <- function(data, model, cutoff) {
   ## Error handling
   if (!is.data.frame(data))
     stop ("Data input has to be a data.frame")
@@ -44,7 +44,7 @@ CalculateMistriage  <- function(data, model, cutoff) {
   num.of.overtriage <- sum(tested.data.major$ISS_over_15 == 2)
   overtriage.rate <- num.of.overtriage / nrow(grid)
   ## Obtain mistriage
-  mistriage.rate <- undertriage.rate + overtriage.rate
+  #mistriage.rate <- undertriage.rate + overtriage.rate
   ## Return mistriage rate
-  return(mistriage.rate)
+  return(c(undertriage.rate, overtriage.rate))
 }
