@@ -42,6 +42,6 @@ FindCutOff <- function(prob.list, grid) {
  valid.cutoffs <- probs.triage.value[probs.triage.value$undertriage <= 0.05,]
  best.cutoff <- valid.cutoffs[valid.cutoffs$overtriage == min(valid.cutoffs$overtriage),]
  ## Return optimal cutoff    
- return(best.cutoff$probs)
+ return(mean(best.cutoff$probs))
 
 }
