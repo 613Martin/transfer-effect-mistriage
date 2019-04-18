@@ -111,12 +111,12 @@ MainCodeRun <- function() {
    ## Combine data sets and clean variables
    combined.split.data.sets <- CombineClean(split.data.sets = split.data.sets, comparison.split.data.sets = comparison.split.data.sets)
                                                                      
-   ## COMPILE RESULTS (Still working on this function)
-   ## Create list of data frames with local mistriage, transfer mistriage and differance
-   results.data.frames <- ResultsCompiler(list.of.data.sets = split.data.sets, comparison.data = comparison.split.data.sets)
-   ## Calculate medians and IQR for each sample
-   stats.calculated <- CalculateStats(list.of.results = results.data.frames)
-   ## Send to results
-   Results$results.data.frames <- results.data.frames
-   Results$stats.calculated <- stats.calculated
+  ## COMPILE RESULTS
+  ## Create list of data frames with local mistriage, transfer mistriage and differance
+  results.data.frames <- ResultsCompiler(combined.split.data.sets = combined.split.data.sets)
+  ## Calculate medians and IQR for each sample
+  stats.calculated <- CalculateStats(results.data.frames)
+  ## Send to results
+  Results$results.data.frames <- results.data.frames
+  Results$stats.calculated <- stats.calculated
 }
