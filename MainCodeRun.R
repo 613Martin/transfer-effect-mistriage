@@ -68,65 +68,55 @@ MainCodeRun <- function() {
     rm(NA.info.sample, NA.info.variable)                                              
     ## Impute missing data
     data.sets <- lapply(data.sets, MICEImplement)
-    Results$data.sets.after.imputations <- data.sets                    
-    
-    ## TABLE ONE CREATION                  
+    Results$data.sets.after.imputations <- data.sets                                    
     ## Create sample characteristics tables, and save to disk
     TableOneCreator(data.sets)
-
+    ## Removal of original data (.imp = 0) from data.sets 
+    data.sets <- lapply(data.sets, function(sample) lapply(sample, function(x) {
+      no.imp.zero <- x[!(x$.imp == "0"),]
+      return(no.imp.zero)
+      }))
+                               
+    ## SPLIT DATA SETS BASED ON IMPUTATION
+    split.data.sets <- lapply(data.sets, function(sample) lapply(sample, function(x) {
+      x <- split(x, x$.imp)
+      }))
+  
     ## DEVELOPMENT AND VALIDATION
-    ## Create Development and validation sample, for each sample
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, DevValCreator))
+    ## Create Development and validation sample, for each imputation
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, DevValCreator)))) 
     Results$data.sets.after.imputations.dev.val <- data.sets
-    
+  
     ## CLINICAL PREDICTION MODEL
-    ## MODEL DEVELOPMENT                 
-    ## Remove all restricted cubic splines 
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, function(devval) lapply(devval, RCRemover)))
-
-    ## Recreate restricted cubic splines using appropriate knot locations for each sample
-    # Does not currently use corrent knot locations. Each validation sample RCS-procedure should import apprppriate knot locations
-    # from corresponding development sample. Will fix later.
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, function(devval) lapply(devval, RCSplineConvert)))
-  
+    ## MODEL DEVELOPMENT
+    ## Remove all restricted cubic splines
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, function(devval) lapply(devval, RCRemover)))))
+    ## Recreate restricted cubic splines using knot locations from development sample in validation sample
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, RCSplineConvertDevVal)))) 
     ## Create model and apply shrinkage factor for each development sample, save as Development model coefficients
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, DevelopmentModelCreator))
-  
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, DevelopmentModelCreator)))) 
     ## Predict 30-day mortality in development sample and create development grid + prediction grid
-    data.sets <- lapply(data.sets2, function(sample) lapply(sample, PredictGridCreator))
-  
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, PredictGridCreator)))) 
     ## Find optimal cutoff for each model.
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, FindOptimalCutOff))
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, FindOptimalCutOff)))) 
   
-                        
-    ## MODEL VALIDATION
-    ## Obtain mistriage rate in the sample which the model was created, i.e. local model performance.
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, ValidationMistriageRate))
-    Results$data.sets.with.local.model.performance <- data.sets
+   ## MODEL VALIDATION
+   ## Obtain mistriage rate in the sample which the model was created, i.e. local model performance.
+   split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, ValidationMistriageRate)))) 
+   Results$data.sets.with.local.model.performance <- data.sets
   
-    ## MODEL COMPARISON, 
-    ## Obtain mistriage rate in "buddy sample" in each data set using transferred model and cutoff
-    transfer.mistriage.rate <- lapply(data.sets, ComparisonMistriageRate)
-  
-    ## Apply correct names to transfer mistriage list
-    names(transfer.mistriage.rate[[1]]) <- c("High Vol to Low Vol", "Low Vol to High Vol")
-    names(transfer.mistriage.rate[[2]]) <- c("Metropolitan to Non-metropolitan", "Non-metropolitan to Metropolitan")
-    names(transfer.mistriage.rate[[3]]) <- c("Multi centre to Single centre", "Single centre to Multi centre")
-  
-
-    ## COMPILE RESULTS
-    ## Create list with local mistriage results as well as transfer mistriage reuslts, for ease of viewing
-    final.results.list <- list("High volume and Low volume" = list("High vol local" = data.sets[[1]][[1]][[7]], 
-                                                                   "Low vol local" = data.sets[[1]][[2]][[7]],
-                                                                   "High vol to Low vol" = transfer.mistriage.rate[[1]][[1]],
-                                                                   "Low vol to High vol" = transfer.mistriage.rate[[1]][[2]]),
-                               "Metropolitan and Non-metropolitan" = list("Metropolitan local" = data.sets[[2]][[1]][[7]],
-                                                                          "Non-metropolitan local" = data.sets[[2]][[2]][[7]],
-                                                                          "Metropolitan to Non-metropolitan" = transfer.mistriage.rate[[2]][[1]],
-                                                                          "Non-metropolitan to Metropolitan" = transfer.mistriage.rate[[2]][[2]]),
-                               "Multi centre and Single centre" = list("Multi centre local" = data.sets[[3]][[1]][[7]],
-                                                                       "Single centre local" = data.sets[[3]][[2]][[7]],
-                                                                       "Multi centre to Single centre" = transfer.mistriage.rate[[3]][[1]],
-                                                                       "Single centre to Multi centre" = transfer.mistriage.rate[[3]][[2]]))
-    Results$final.mistriage.list <- final.results.list
+   ## MODEL COMPARISON
+   ## Obtain mistriage rate in "buddy sample" in each data set using transferred model and cutoff
+   comparison.split.data.sets <- lapply(split.data.sets, ComparisonMistriageRate)
+   ## Combine data sets and clean variables
+   combined.split.data.sets <- CombineClean(split.data.sets = split.data.sets, comparison.split.data.sets = comparison.split.data.sets)
+                                                                     
+  ## COMPILE RESULTS
+  ## Create list of data frames with local mistriage, transfer mistriage and differance
+  results.data.frames <- ResultsCompiler(combined.split.data.sets = combined.split.data.sets)
+  ## Calculate medians and IQR for each sample
+  stats.calculated <- CalculateStats(results.data.frames)
+  ## Send to results
+  Results$results.data.frames <- results.data.frames
+  Results$stats.calculated <- stats.calculated
 }

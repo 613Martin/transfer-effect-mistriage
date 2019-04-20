@@ -32,16 +32,16 @@ FindCutOff <- function(prob.list, grid) {
     tested.data.minor <- grid[grid$probs < x,]
     ## Calculate overtriage in tested data
     num.of.overtriage <- sum(tested.data.major$ISS_over_15 == 2)
-    overtriage.rate <- num.of.overtriage / nrow(df)
+    overtriage.rate <- num.of.overtriage / nrow(grid)
     ## Return to reults data frame
     return(overtriage.rate)     
     }
     ))
   
  ## Find best cutoff
- valid.cutoffs <- probs.triage.value[probs.triage.value$undertriage <= 0.5,]
- best.cutoff <- valid.cutoffs[min(valid.cutoffs$overtriage),]
+ valid.cutoffs <- probs.triage.value[probs.triage.value$undertriage <= 0.05,]
+ best.cutoff <- valid.cutoffs[valid.cutoffs$overtriage == min(valid.cutoffs$overtriage),]
  ## Return optimal cutoff    
- return(best.cutoff$probs)
+ return(mean(best.cutoff$probs))
 
 }

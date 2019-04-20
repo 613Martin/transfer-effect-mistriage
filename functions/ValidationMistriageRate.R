@@ -14,7 +14,11 @@
 ValidationMistriageRate <- function(df) {
   
   ## Find mistriage in each sample
-mistriage.rate <- CalculateMistriage(data = df[[2]], model = df[[3]], cutoff = df[[6]])
+  undertriage.overtriage <- CalculateUndertriageOvertriage(data = df[[2]], model = df[[3]], cutoff = df[[6]])
+  undertriage <- undertriage.overtriage[[1]]
+  overtriage <- undertriage.overtriage[[2]]
+  mistriage.rate <- undertriage + overtriage
+  
   ## Create output
   output <- list("Development" = df[[1]], 
                  "Validation" = df[[2]],  
@@ -22,8 +26,10 @@ mistriage.rate <- CalculateMistriage(data = df[[2]], model = df[[3]], cutoff = d
                  "Development grid" = df[[4]], 
                  "Validation grid" = df[[5]], 
                  "Optimal CutOff" = df[[6]], 
-                 "Validation mistriage" = mistriage.rate )
-
+                 "Validation mistriage" = mistriage.rate,
+                 "Validation undertriage" = undertriage,
+                 "Validation overtriage" = overtriage)
+  
   ## Return output
   return(output)
 }
