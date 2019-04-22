@@ -4,58 +4,58 @@
 #' Outputs a collapsed data set with this data.
 #' @param results.data.frames List of data.frames containing results.
 CalculateStats <- function(results.data.frames) {
-  
-  ## Setup function for median and IQR
-  MedianIQR <- function(num.vector) {
-    medi <- median(num.vector)
-    medi <- round(medi, digits = 2)
-    qu <- quantile(num.vector)
-    iqr <- paste(round(qu[2], digits = 2) , round(qu[4], digits = 2), sep = "-")
-    mediqr <- paste(medi,"[",iqr,"]")
-    return(mediqr)
-  }
-  ## Calculate median and IQR
-  stats <- lapply(results.data.frames, function(sample) lapply(sample, function(x) {
-    ## Setup sample name place holder and calculate per row
-    Sample.name <- as.character("xy")
-    Total.imputations <- max(x[[1]])
-    Validation.mistriage.median.IQR <- MedianIQR(x[[2]])
-    Validation.undertriage.median.IQR <- MedianIQR(x[[3]])
-    Validation.overtriage.median.IQR <- MedianIQR(x[[4]])
-    Transfer.mistriage.median.IQR <- MedianIQR(x[[5]])
-    Transfer.undertriage.median.IQR <- MedianIQR(x[[6]])
-    Transfer.overtriage.median.IQR <- MedianIQR(x[[7]])
-    Transferred.mistriage.minus.buddy.local.mistriage.median.IQR <-  MedianIQR(x[[8]])
-    Transferred.undertriage.minus.buddy.local.undertriage.median.IQR <-  MedianIQR(x[[9]])
-    Transferred.overtriage.minus.buddy.local.overtriage.median.IQR <-  MedianIQR(x[[10]])
-    ## Create data frame output
-    x <- data.frame(Sample.name,
-                    Total.imputations,
-                    Validation.mistriage.median.IQR,
-                    Validation.undertriage.median.IQR,
-                    Validation.overtriage.median.IQR,
-                    Transfer.mistriage.median.IQR,
-                    Transfer.undertriage.median.IQR,
-                    Transfer.overtriage.median.IQR,
-                    Transferred.mistriage.minus.buddy.local.mistriage.median.IQR,
-                    Transferred.undertriage.minus.buddy.local.undertriage.median.IQR,
-                    Transferred.overtriage.minus.buddy.local.overtriage.median.IQR)
-    return(x)
-  }))
-  ## Input correct names into previous place holder
-  stats[[1]][[1]][[1]] <- "High volume"
-  stats[[1]][[2]][[1]] <- "Low volume"
-  stats[[2]][[1]][[1]] <- "Metropolitan"
-  stats[[2]][[2]][[1]] <- "Non-metropolitan"
-  stats[[3]][[1]][[1]] <- "Multi centre"
-  stats[[3]][[2]][[1]] <- "Single centre"
-  ## Collapse all sample data frames into one data frame
-  final.stats <- rbind(stats[[1]][[1]],
-                       stats[[1]][[2]],
-                       stats[[2]][[1]],
-                       stats[[2]][[2]],
-                       stats[[3]][[1]],
-                       stats[[3]][[2]])
-  ## Return output
-  return(final.stats)  
+    
+    ## Setup function for median and IQR
+    MedianIQR <- function(num.vector) {
+        medi <- median(num.vector)
+        qu <- quantile(num.vector)
+        mediqr <- setNames(round(c(medi, qu[2], qu[4]), digits = 2), c("median", "lb", "ub"))
+        return(mediqr)
+    }
+    ## Calculate median and IQR
+    stats <- lapply(results.data.frames, function(sample) lapply(sample, function(x) {
+        ## Setup sample name place holder and calculate per row
+        output <- list(
+            Total.imputations = max(x[[1]]),
+            Validation.mistriage.median = MedianIQR(x[[2]])["median"],
+            Validation.mistriage.lb = MedianIQR(x[[2]])["lb"],
+            Validation.mistriage.ub = MedianIQR(x[[2]])["ub"],
+            Validation.undertriage.median = MedianIQR(x[[3]])["median"],
+            Validation.undertriage.lb = MedianIQR(x[[3]])["lb"],
+            Validation.undertriage.ub = MedianIQR(x[[3]])["ub"],
+            Validation.overtriage.median = MedianIQR(x[[4]])["median"],
+            Validation.overtriage.lb = MedianIQR(x[[4]])["lb"],
+            Validation.overtriage.ub = MedianIQR(x[[4]])["ub"],
+            Transfer.mistriage.median = MedianIQR(x[[5]])["median"],
+            Transfer.mistriage.lb = MedianIQR(x[[5]])["lb"],
+            Transfer.mistriage.ub = MedianIQR(x[[5]])["ub"],                
+            Transfer.undertriage.median = MedianIQR(x[[6]])["median"],
+            Transfer.undertriage.lb = MedianIQR(x[[6]])["lb"],
+            Transfer.undertriage.ub = MedianIQR(x[[6]])["ub"],
+            Transfer.overtriage.median = MedianIQR(x[[7]])["median"],
+            Transfer.overtriage.lb = MedianIQR(x[[7]])["lb"],
+            Transfer.overtriage.ub = MedianIQR(x[[7]])["ub"],       
+            Transferred.mistriage.minus.buddy.local.mistriage.median =  MedianIQR(x[[8]])["median"],
+            Transferred.mistriage.minus.buddy.local.mistriage.lb =  MedianIQR(x[[8]])["lb"],
+            Transferred.mistriage.minus.buddy.local.mistriage.ub =  MedianIQR(x[[8]])["ub"],       
+            Transferred.undertriage.minus.buddy.local.undertriage.median =  MedianIQR(x[[9]])["median"],
+            Transferred.undertriage.minus.buddy.local.undertriage.lb =  MedianIQR(x[[9]])["lb"],
+            Transferred.undertriage.minus.buddy.local.undertriage.ub =  MedianIQR(x[[9]])["ub"],        
+            Transferred.overtriage.minus.buddy.local.overtriage.median =  MedianIQR(x[[10]])["median"],
+            Transferred.overtriage.minus.buddy.local.overtriage.lb =  MedianIQR(x[[10]])["lb"],
+            Transferred.overtriage.minus.buddy.local.overtriage.ub =  MedianIQR(x[[10]])["ub"]
+        )
+        output <- lapply(output, function(item) {
+            attr(item, "names") <- NULL
+            return(item)
+        })
+        return(unlist(output))
+    }))
+    ## Collapse all sample data frames into one data frame
+    final.stats <- data.frame((do.call(rbind, lapply(stats, function(stat) do.call(rbind, stat)))))
+    final.stats <- cbind(rownames(final.stats), final.stats)
+    colnames(final.stats)[1] <- "Sample.name"
+    rownames(final.stats) <- NULL
+    ## Return output
+    return(final.stats)  
 }
