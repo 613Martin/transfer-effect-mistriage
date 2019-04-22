@@ -26,7 +26,7 @@ PredictGridCreator <- function(df.list) {
     ## Calculates probability of event in each entry in validation sample
     prob <- exp(sum.coef)/(1+exp(sum.coef))
     ## Create grid from probabilities and ISS dichotomized (validation sample)
-    grid.development <- data.frame(probs = prob, ISS_over_15 = df.list$Validation$ISS_over_15)
+    grid.validation <- data.frame(probs = prob, ISS_over_15 = df.list$Validation$ISS_over_15)
     ## Create output
     output <- list("Development" = df.list$Development, "Validation" = df.list$Validation,  "Model coefficients" = df.list[["Model coefficients"]], "Development grid" = grid.development, "Validation grid" = grid.validation)
     ## Return output
