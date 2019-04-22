@@ -3,8 +3,8 @@
 #' Uses the results.data.frames to calculate median and IQR for each entry in all samples.
 #' Outputs a collapsed data set with this data.
 #' @param results.data.frames List of data.frames containing results.
-CalculateStats <- function(results.data.frames) {
-    
+CalculateStats <- function(results.data.frames) {   
+
     ## Setup function for median and IQR
     MedianIQR <- function(num.vector) {
         medi <- median(num.vector)
@@ -58,4 +58,5 @@ CalculateStats <- function(results.data.frames) {
     rownames(final.stats) <- NULL
     ## Return output
     return(final.stats)  
+
 }

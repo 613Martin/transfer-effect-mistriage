@@ -3,6 +3,7 @@
 #' Takes the list of values and calculates and prepares results,
 #' @param combined.split.data.sets List with combination of required values.
 ResultsCompiler <- function(combined.split.data.sets){
+
     ## Convert all imutations to data frames
     combined.split.data.sets.data.frames <- lapply(combined.split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, function(x) {
         x <- data.frame(x)
@@ -27,4 +28,5 @@ ResultsCompiler <- function(combined.split.data.sets){
     })
     ## Return output
     return(sample.data.sets.with.comparison)
+
 }

@@ -6,7 +6,7 @@
 #' Uses knot locations from development sample when createing RCS in validation.
 #' @param df.list A list of dataframes. No default.
 RCSplineConvertDevVal <- function(df.list) {
-  
+
   ## Setting number of knots(nk) to 4
   nk <- 4
   ## DEVELOPMENT DATA

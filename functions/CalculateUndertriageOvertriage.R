@@ -7,6 +7,7 @@
 #' @param model. Shrunk model coefficients.
 #' @param cutoff. The cutoff to use for testing
 CalculateUndertriageOvertriage  <- function(data, model, cutoff) {
+
     ## Error handling
     if (!is.data.frame(data))
         stop ("Data input has to be a data.frame")
@@ -45,4 +46,5 @@ CalculateUndertriageOvertriage  <- function(data, model, cutoff) {
     ## Return mistriage rate
     undertriage.overtriage <- setNames(c(undertriage.rate, overtriage.rate), c("undertriage", "overtriage"))
     return(undertriage.overtriage)
+
 }

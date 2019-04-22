@@ -3,6 +3,7 @@
 #' Finds mistriage rate in each sample using the "local" model and cutoff.
 #' Outputs this value and adds it to the original list
 #' Dependant on the function: CalculateMistriage.R
+
 #' @param df.list List of dataframes.
 ValidationMistriageRate <- function(df.list) {
     
@@ -11,7 +12,6 @@ ValidationMistriageRate <- function(df.list) {
     undertriage <- undertriage.overtriage["undertriage"]
     overtriage <- undertriage.overtriage["overtriage"]
     mistriage.rate <- undertriage + overtriage
-    
     ## Create output
     output <- df.list
     output[["Validation mistriage"]] <- mistriage.rate
@@ -19,4 +19,5 @@ ValidationMistriageRate <- function(df.list) {
     output[["Validation overtriage"]] <- overtriage
     ## Return output
     return(output)
+
 }

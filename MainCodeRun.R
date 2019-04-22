@@ -86,6 +86,7 @@ MainCodeRun <- function() {
     ## Create Development and validation sample, for each imputation
     split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, DevValCreator)))) 
     Results$data.sets.after.imputations.dev.val <- data.sets
+
     
     ## CLINICAL PREDICTION MODEL
     ## MODEL DEVELOPMENT
@@ -99,7 +100,7 @@ MainCodeRun <- function() {
     split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, PredictGridCreator)))) 
     ## Find optimal cutoff for each model.
     split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, FindOptimalCutOff)))) 
-    
+
     ## MODEL VALIDATION
     ## Obtain mistriage rate in the sample which the model was created, i.e. local model performance.
     split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, ValidationMistriageRate)))) 
@@ -119,6 +120,5 @@ MainCodeRun <- function() {
     ## Send to results
     Results$results.data.frames <- results.data.frames
     Results$stats.calculated <- stats.calculated
+
 }
-
-

@@ -23,7 +23,7 @@ FindCutOff <- function(prob.list, grid) {
         return(undertriage.rate)     
     }
     ))
-    
+
     ## Calculate overtriage for each probability
     probs.triage.value$overtriage <- unlist(lapply(prob.list, function(x) {
         ## Set tested data (all major traumas according to cutoff)
