@@ -2,7 +2,7 @@
 ## 
 ## This file was created using RStudio 1.1.463
 MainCodeRun <- function() {
-  
+    
     ## INITIALIZING
     ## Load required packages and source functions
     ## FuncPack() first needs to be sourced to run
@@ -20,7 +20,7 @@ MainCodeRun <- function() {
     selected.data <- InclusionSelection(selected.data)
     ## Data Cleaning
     selected.data <- DataCleaning(selected.data)
-  
+    
     ## DATA SETS AND SAMPLES
     ## Mark entries as High Volume or Low Volume
     selected.data.vol.mark <- HighVolumeCheck(selected.data)
@@ -73,20 +73,20 @@ MainCodeRun <- function() {
     TableOneCreator(data.sets)
     ## Removal of original data (.imp = 0) from data.sets 
     data.sets <- lapply(data.sets, function(sample) lapply(sample, function(x) {
-      no.imp.zero <- x[!(x$.imp == "0"),]
-      return(no.imp.zero)
-      }))
-                               
+        no.imp.zero <- x[!(x$.imp == "0"),]
+        return(no.imp.zero)
+    }))
+    
     ## SPLIT DATA SETS BASED ON IMPUTATION
     split.data.sets <- lapply(data.sets, function(sample) lapply(sample, function(x) {
-      x <- split(x, x$.imp)
-      }))
-  
+        x <- split(x, x$.imp)
+    }))
+    
     ## DEVELOPMENT AND VALIDATION
     ## Create Development and validation sample, for each imputation
     split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, DevValCreator)))) 
     Results$data.sets.after.imputations.dev.val <- data.sets
-  
+    
     ## CLINICAL PREDICTION MODEL
     ## MODEL DEVELOPMENT
     ## Remove all restricted cubic splines
@@ -99,24 +99,26 @@ MainCodeRun <- function() {
     split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, PredictGridCreator)))) 
     ## Find optimal cutoff for each model.
     split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, FindOptimalCutOff)))) 
-  
-   ## MODEL VALIDATION
-   ## Obtain mistriage rate in the sample which the model was created, i.e. local model performance.
-   split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, ValidationMistriageRate)))) 
-   Results$data.sets.with.local.model.performance <- data.sets
-  
-   ## MODEL COMPARISON
-   ## Obtain mistriage rate in "buddy sample" in each data set using transferred model and cutoff
-   comparison.split.data.sets <- lapply(split.data.sets, ComparisonMistriageRate)
-   ## Combine data sets and clean variables
-   combined.split.data.sets <- CombineClean(split.data.sets = split.data.sets, comparison.split.data.sets = comparison.split.data.sets)
-                                                                     
-  ## COMPILE RESULTS
-  ## Create list of data frames with local mistriage, transfer mistriage and differance
-  results.data.frames <- ResultsCompiler(combined.split.data.sets = combined.split.data.sets)
-  ## Calculate medians and IQR for each sample
-  stats.calculated <- CalculateStats(results.data.frames)
-  ## Send to results
-  Results$results.data.frames <- results.data.frames
-  Results$stats.calculated <- stats.calculated
+    
+    ## MODEL VALIDATION
+    ## Obtain mistriage rate in the sample which the model was created, i.e. local model performance.
+    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, ValidationMistriageRate)))) 
+    Results$data.sets.with.local.model.performance <- data.sets
+    
+    ## MODEL COMPARISON
+    ## Obtain mistriage rate in "buddy sample" in each data set using transferred model and cutoff
+    comparison.split.data.sets <- lapply(split.data.sets, ComparisonMistriageRate)
+    ## Combine data sets and clean variables
+    combined.split.data.sets <- CombineClean(split.data.sets = split.data.sets, comparison.split.data.sets = comparison.split.data.sets)
+    
+    ## COMPILE RESULTS
+    ## Create list of data frames with local mistriage, transfer mistriage and differance
+    results.data.frames <- ResultsCompiler(combined.split.data.sets = combined.split.data.sets)
+    ## Calculate medians and IQR for each sample
+    stats.calculated <- CalculateStats(results.data.frames)
+    ## Send to results
+    Results$results.data.frames <- results.data.frames
+    Results$stats.calculated <- stats.calculated
 }
+
+
