@@ -20,15 +20,13 @@ PredictGridCreator <- function(df.list) {
     ## Calculates probability of event in each entry in development sample
     prob <- exp(sum.coef)/(1+exp(sum.coef))
     ## Create grid from probabilities and ISS dichotomized (development sample)
-    grid.development <- data.frame(cbind(prob, df.list$Development$ISS_over_15))
-    names(grid.development) <- c("probs", "ISS_over_15")
+    grid.development <- data.frame(probs = prob, ISS_over_15 = df.list$Development$ISS_over_15)
     ## Calculate product and sum of coefficiants in all entries in validation sample
     sum.coef <- predict(dummy.model, newdata=df.list$Validation)
     ## Calculates probability of event in each entry in validation sample
     prob <- exp(sum.coef)/(1+exp(sum.coef))
     ## Create grid from probabilities and ISS dichotomized (validation sample)
-    grid.validation <- data.frame(cbind(prob, df.list$Validation$ISS_over_15))
-    names(grid.validation) <- c("probs", "ISS_over_15")
+    grid.development <- data.frame(probs = prob, ISS_over_15 = df.list$Validation$ISS_over_15)
     ## Create output
     output <- list("Development" = df.list$Development, "Validation" = df.list$Validation,  "Model coefficients" = df.list[["Model coefficients"]], "Development grid" = grid.development, "Validation grid" = grid.validation)
     ## Return output
