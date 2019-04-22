@@ -67,8 +67,7 @@ MainCodeRun <- function() {
     Results$NA.info.variable <- NA.info.variable
     rm(NA.info.sample, NA.info.variable)                                              
     ## Impute missing data
-    data.sets <- lapply(data.sets, MICEImplement)
-    Results$data.sets.after.imputations <- data.sets                                    
+    data.sets <- lapply(data.sets, MICEImplement)                                 
     ## Create sample characteristics tables, and save to disk
     TableOneCreator(data.sets)
     ## Removal of original data (.imp = 0) from data.sets 
@@ -85,7 +84,6 @@ MainCodeRun <- function() {
     ## DEVELOPMENT AND VALIDATION
     ## Create Development and validation sample, for each imputation
     split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, DevValCreator)))) 
-    Results$data.sets.after.imputations.dev.val <- data.sets
 
     
     ## CLINICAL PREDICTION MODEL
@@ -104,7 +102,6 @@ MainCodeRun <- function() {
     ## MODEL VALIDATION
     ## Obtain mistriage rate in the sample which the model was created, i.e. local model performance.
     split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, ValidationMistriageRate)))) 
-    Results$data.sets.with.local.model.performance <- data.sets
     
     ## MODEL COMPARISON
     ## Obtain mistriage rate in "buddy sample" in each data set using transferred model and cutoff
