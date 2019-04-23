@@ -127,16 +127,6 @@ RunStudy <- function(data, boot = FALSE, test = FALSE) {
         Results$results.data.frames <- results.data.frames
         Results$stats.calculated <- stats.calculated
     }
-    
-    ## If run with bootstraps, return combined outcome
-    if (boot == TRUE) {
-        ## Combine stats obtained by row to new data frme
-        stats.calculated.boot <- rbind(stats.calculated.boot, stats.calculated)
-        ## Output boot specific outcome
-        return(stats.calculated.boot)
-    }
-    
     ## Return output
     return(stats.calculated)
-    
 }
