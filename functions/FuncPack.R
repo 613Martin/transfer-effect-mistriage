@@ -8,6 +8,9 @@ FuncPack <- function() {
     library(mice)
     library(Hmisc)
     library(boot)
+    library(bengaltiger)
+    library(doParallel)
+    library(foreach)
   
     ## Source functions
     invisible(lapply(list.files("./Functions", full.names = TRUE, pattern = ".R$"), source))
