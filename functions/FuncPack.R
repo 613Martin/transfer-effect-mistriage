@@ -19,7 +19,7 @@ FuncPack <- function(return.only = FALSE) {
     
     ## Source functions
     files <- list.files("./Functions", full.names = TRUE, pattern = ".R$")
-    functions <- gsub("./Functions/|.R", "", files)
+    functions <- gsub("^./Functions/|.R$", "", files)
     if (!return.only)
         invisible(lapply(files, source))
 
