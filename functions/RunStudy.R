@@ -4,16 +4,16 @@
 #' runs with boostraps, augemented by foreach.  Outputs a data frame with
 #' medians and IQR.  If bootstraps are used, the function will NOT return values
 #' to the Results.env or pring sample characteristics tables.
-#' @param data Data used to run study. No default.
+#' @param selected.data Data used to run study. No default.
 #' @param boot Logical. If TRUE, the study will run with 1000
 #'     bootstraps. Defaults to FALSE.
 #' @param test Logical. If TRUE only multiple imputed datasets are created and 5
 #'     bootstraps are used to estimate the linear shrinkage factor. Passed to
 #'     MICEImplement and DevelopmentModelCreator. Defaults to FALSE.
-RunStudy <- function(data, boot = FALSE, test = FALSE) {
+RunStudy <- function(selected.data, boot = FALSE, test = FALSE) {
     
     ## Error handling
-    if (!is.data.frame(data))
+    if (!is.data.frame(selected.data))
         stop ("Input has to be a data frame")
 
     ## RUN STUDY
@@ -65,9 +65,9 @@ RunStudy <- function(data, boot = FALSE, test = FALSE) {
         ## Extraxt missing data information from each variable in each sample
         NA.info.variable <- lapply(data.sets, function(sample) lapply(sample, NACounterVariable))                 
         ## Save information to Results enviroment
-        Results$data.sets.before.imputations <- data.sets
-        Results$NA.info.sample <- NA.info.sample
-        Results$NA.info.variable <- NA.info.variable
+        assign("data.sets.before.imputations", data.sets, pos = "Results")
+        assign("NA.info.sample", NA.info.sample, pos = "Results")
+        assign("NA.info.variable", NA.info.variable, pos = "Results")
         rm(NA.info.sample, NA.info.variable)
     }
     ## Impute missing data
@@ -124,8 +124,8 @@ RunStudy <- function(data, boot = FALSE, test = FALSE) {
     ## If not a bootstrap run, send results data frames to Results
     if (boot == FALSE) {
         ## Send to results
-        Results$results.data.frames <- results.data.frames
-        Results$stats.calculated <- stats.calculated
+        assign("results.data.frames", results.data.frames, pos = "Results")
+        assign("stats.calculated", stats.calculated, pos = "Results")
     }
     ## Return output
     return(stats.calculated)

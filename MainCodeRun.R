@@ -12,13 +12,14 @@ MainCodeRun <- function(test = FALSE) {
     ## Set random seed
     set.seed(-41892)
     ## Create Results enviroment
-    Results <- new.env()  
+    Results <- new.env(parent = .GlobalEnv)
+    attach(Results)
     ## Import data
     raw.data <- ImportStudyData("simulated-swetrau-data.csv")
     ## Create study sample from selected variables
     selected.data <- VariableSelection(raw.data)
     ## Run study
-    stats.calculated <- RunStudy(data = selected.data , boot = FALSE, test = test)
+    stats.calculated <- RunStudy(selected.data = selected.data , boot = FALSE, test = test)
     ## Create bootstrap samples
     number.of.bootstrap.samples = 1000
     if (test)
@@ -36,6 +37,7 @@ MainCodeRun <- function(test = FALSE) {
     stopCluster(study.cluster)
     ## Save results
     saveRDS(list(original.results = stats.calculated, bootstrap.results = bootstrap.results), "test.results.Rds")
+    saveRDS(Results, "Results.env.Rds")
     message("results saved to disk")
 }
 start.time <- Sys.time()
