@@ -11,40 +11,27 @@
 #'     bootstraps are used to estimate the linear shrinkage factor. Passed to
 #'     MICEImplement and DevelopmentModelCreator. Defaults to FALSE.
 RunStudy <- function(selected.data, boot = FALSE, test = FALSE) {
-    
+
     ## Error handling
     if (!is.data.frame(selected.data))
         stop ("Input has to be a data frame")
+    ## Create results list
+    Results <- list()
 
     ## RUN STUDY
-    ## Select cases with age > 15 or age = NA
-    selected.data <- InclusionSelection(selected.data)
-    ## Data Cleaning
-    selected.data <- DataCleaning(selected.data)
-    
-    ## DATA SETS AND SAMPLES
-    ## Mark entries as High Volume or Low Volume
-    selected.data.vol.mark <- HighVolumeCheck(selected.data)
     ## Create High Volume Sample and Low Volume Sample
-    High.Volume.Sample <- selected.data.vol.mark[selected.data.vol.mark$High_Volume_Centre == "Yes", ]
-    Low.Volume.Sample <- selected.data.vol.mark[selected.data.vol.mark$High_Volume_Centre == "No", ]
-    rm(selected.data.vol.mark)
-    ## Mark entries as Metropolitan or Non-Metropolitan
-    selected.data.metro.mark <- Metrocheck(selected.data)
+    High.Volume.Sample <- selected.data[selected.data$High_Volume_Centre == "Yes", ]
+    Low.Volume.Sample <- selected.data[selected.data$High_Volume_Centre == "No", ]
     ## Create Metropolitan Sample and Non-Metropolitan Sample
-    Metropolitan.Sample <- selected.data.metro.mark[selected.data.metro.mark$metropolitan == "Yes", ]
-    Non.Metropolitan.Sample <- selected.data.metro.mark[selected.data.metro.mark$metropolitan == "No", ]
-    rm(selected.data.metro.mark)
-    ## Mark entries as valid (>170 events) individual centres
-    selected.data.ind.mark <- IndividualCentreCheck(selected.data)
+    Metropolitan.Sample <- selected.data[selected.data$metropolitan == "Yes", ]
+    Non.Metropolitan.Sample <- selected.data[selected.data$metropolitan == "No", ]
     ## Create Multi Centre Sample (All data)
-    Multi.Centre.Sample <- selected.data.ind.mark
+    Multi.Centre.Sample <- selected.data
     ## Create Single Centre Samples (valid individual centres)
-    centre.ids <- unique(selected.data.ind.mark$Sjukhuskod) # Identify unique IDs
+    centre.ids <- unique(selected.data$Sjukhuskod) # Identify unique IDs
     centre.ids <- setNames(centre.ids, nm = paste0("single.centre.", centre.ids)) # Name IDs
-    Single.Centre.Samples <- lapply(centre.ids, SelectSingleCentre, df = selected.data.ind.mark)
+    Single.Centre.Samples <- lapply(centre.ids, SelectSingleCentre, df = selected.data)
     Single.Centre.Samples <- Single.Centre.Samples[-which(sapply(Single.Centre.Samples, is.null))]
-    rm(selected.data.ind.mark) 
     
     ## CREATE DATA SETS LIST  
     ## Add samples to list
@@ -65,9 +52,9 @@ RunStudy <- function(selected.data, boot = FALSE, test = FALSE) {
         ## Extraxt missing data information from each variable in each sample
         NA.info.variable <- lapply(data.sets, function(sample) lapply(sample, NACounterVariable))                 
         ## Save information to Results enviroment
-        assign("data.sets.before.imputations", data.sets, pos = "Results")
-        assign("NA.info.sample", NA.info.sample, pos = "Results")
-        assign("NA.info.variable", NA.info.variable, pos = "Results")
+        Results$data.sets.before.imputations <- data.sets
+        Results$NA.info.sample <- NA.info.sample
+        Results$NA.info.variable <- NA.info.variable
         rm(NA.info.sample, NA.info.variable)
     }
     ## Impute missing data
@@ -121,12 +108,19 @@ RunStudy <- function(selected.data, boot = FALSE, test = FALSE) {
     results.data.frames <- ResultsCompiler(combined.split.data.sets = combined.split.data.sets)
     ## Calculate medians and IQR for each sample
     stats.calculated <- CalculateStats(results.data.frames)
-    ## If not a bootstrap run, send results data frames to Results
+    ## Save results to disk
+    if (!dir.exists("output"))
+        dir.create("output")
     if (boot == FALSE) {
         ## Send to results
-        assign("results.data.frames", results.data.frames, pos = "Results")
-        assign("stats.calculated", stats.calculated, pos = "Results")
+        Results$results.data.frames <- results.data.frames
+        Results$original.stats <- stats.calculated
+        results.specifier <- "original"
+    } else {
+        Results$bootstrap.stats <- stats.calculated
+        results.specifier <- paste0("bootstrap.sample.", mean(selected.data[, ".boot.id"]))
     }
-    ## Return output
-    return(stats.calculated)
+    file.name <- paste0("output/", results.specifier, ".results.Rds") 
+    saveRDS(Results, file.name)
+    return(paste0(file.name, " saved to disk"))
 }
