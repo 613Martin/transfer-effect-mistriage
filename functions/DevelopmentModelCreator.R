@@ -1,8 +1,11 @@
 #' DevelopmentModelCreator
 #' 
-#' Creates model coefficients from development data, and saves in corresponding list entry.
+#' Creates model coefficients from development data, and saves in corresponding
+#' list entry.
 #' @param df.list Dataframe list.
-DevelopmentModelCreator <- function(df.list) {
+#' @param test Logical. If TRUE only 5 bootstrap samples are used to estimate
+#'     the linear shrinkage factor. Defaults to FALSE.
+DevelopmentModelCreator <- function(df.list, test = FALSE) {
 
     ## Extract development data
     development.data <- df.list$Development
@@ -32,10 +35,13 @@ DevelopmentModelCreator <- function(df.list) {
         slope <- coef(calibration.model)["prediction"]
         return(slope)  
     }
+    R <- 1000
+    if (test)
+        R <- 5
     linear.shrinkage.factor <- mean(boot(  
         data = development.data, 
         statistic = get.prediction.slope, 
-        R = 1000
+        R = R
     )$t)
     ## Apply bootstrap results to shrink model coefficients
     shrunk.development.model <- development.model * linear.shrinkage.factor

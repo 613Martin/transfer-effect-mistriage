@@ -9,9 +9,9 @@ CombineClean <- function(split.data.sets, comparison.split.data.sets){
     ## Setup output variable
     split.data.sets.output <- split.data.sets
     ## Combine on correct level
-    for (x in 1:length(split.data.sets.output)) {
-        for (y in 1:length(split.data.sets.output[[x]])) {
-            for (z in 1:length(split.data.sets.output[[x]][[y]])) {
+    for (x in seq_along(split.data.sets.output)) {
+        for (y in seq_along(split.data.sets.output[[x]])) {
+            for (z in seq_along(split.data.sets.output[[x]][[y]])) {
                 split.data.sets.output[[x]][[y]][[z]] <- c(split.data.sets[[x]][[y]][[z]], comparison.split.data.sets[[x]][[y]][[z]], z)
             }
         }
