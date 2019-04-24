@@ -42,9 +42,7 @@ RunStudy <- function(selected.data, boot = FALSE, test = FALSE) {
                       multi.centre.vs.single.centre = c(list(multi.centre = Multi.Centre.Sample),
                                                         Single.Centre.Samples))
     
-    ## RESTRICTED CUBIC SPLINES AND MISSING DATA
-    ## Create restricted cubic splines
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, RCSplineConvert))
+    ## RESTRICTED CUBIC SPLINES AND MISSING DATA 
     ## If not a bootstrap run, obtain NA-data and send to results
     if (boot == FALSE) {
         ## Extract missing data information from each sample
@@ -57,6 +55,9 @@ RunStudy <- function(selected.data, boot = FALSE, test = FALSE) {
         Results$NA.info.variable <- NA.info.variable
         rm(NA.info.sample, NA.info.variable)
     }
+    ## Create restricted cubic splines
+    data.sets <- lapply(data.sets, function(sample) lapply(sample, RCSplineConvert))
+
     ## Impute missing data
     data.sets <- lapply(data.sets, MICEImplement, test = test)
     ## If not a bootstrap run, create table one
