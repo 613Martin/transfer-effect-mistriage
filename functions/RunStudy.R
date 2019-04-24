@@ -142,7 +142,9 @@ RunStudy <- function(data, boot = FALSE) {
     return(stats.calculated.boot)
   }
   
-  ## Return output
-  return(stats.calculated)
-  
+  ## If run without bootstraps, return standard outcome
+  if (boot == FALSE) {
+    ## Return standard output
+    return(stats.calculated)
+  }
 }
