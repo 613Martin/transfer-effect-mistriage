@@ -51,6 +51,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE) {
     stopCluster(study.cluster)
     ## Report all analyses completed
     message("All analyses completed")
+
 }
 start.time <- Sys.time()
 MainCodeRun(test = TRUE)
