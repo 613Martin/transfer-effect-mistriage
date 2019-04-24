@@ -20,5 +20,8 @@ MainCodeRun <- function() {
   
   ## Run study
   stats.calculated <- RunStudy(data = selected.data , boot = FALSE)
+  
+  ## Save Results enviroment to working directory
+  save(Results, file = "Results.RData")
 
 }
