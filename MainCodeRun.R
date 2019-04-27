@@ -10,8 +10,18 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE) {
     source("./functions/FuncPack.R")
     FuncPack()
     ## Delete output directory if clean.start is TRUE
-    if (clean.start)
+    if (clean.start) {
         unlink("output", recursive = TRUE)
+        unlink("bootstrap.samples.Rds")
+    }
+    ## Identify starting point and go from there if clean start is FALSE
+    original.results.done <- file.exists("./output/original.results.Rds")
+    start.from.bootstrap.sample <- 1
+    if (!clean.start) {
+        bootstraps.done <- list.files("./output/", "^bootstrap\\.sample\\.[0-9]*\\.results.Rds$")
+        bootstrap.index <- max(as.numeric(gsub("bootstrap\\.sample\\.|\\.results\\.Rds", "", bootstraps.done)))
+        start.from.bootstrap.sample <- bootstrap.index + 1
+    }
     ## Set random seed
     set.seed(-41892)
     ## Import data
@@ -29,19 +39,26 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE) {
     selected.data <- Metrocheck(selected.data)
     ## Mark entries as valid (>170 events) individual centres
     selected.data <- IndividualCentreCheck(selected.data)
-    
     ## Get original results
-    RunStudy(selected.data = selected.data , boot = FALSE, test = test)
+    if (clean.start | !original.results.done)
+        RunStudy(selected.data = selected.data , boot = FALSE, test = test)
     ## Create bootstrap samples
     number.of.bootstrap.samples = 1000
+    bootstrap.samples <- list()
     if (test)
         number.of.bootstrap.samples = 5
-    bootstrap.samples <- bengaltiger::CreateBootstrapSamples(selected.data,
-                                                             strata = "res_survival",
-                                                             save.to.disk = TRUE,
-                                                             return.samples = TRUE,
-                                                             number.of.bootstrap.samples = number.of.bootstrap.samples)
-        ## Get bootstrap results
+    if (!clean.start) 
+        bootstrap.samples <- readRDS("bootstrap.samples.Rds")
+    if (!clean.start & length(bootstrap.samples) != number.of.bootstrap.samples)
+        stop ("The number of saved bootstrap samples imported because clean.start = FALSE is not the same as the number of bootstrap samples requested.")
+    if (clean.start)
+        bootstrap.samples <- bengaltiger::CreateBootstrapSamples(selected.data,
+                                                                 strata = "res_survival",
+                                                                 save.to.disk = TRUE,
+                                                                 return.samples = TRUE,
+                                                                 number.of.bootstrap.samples = number.of.bootstrap.samples)
+    bootstrap.samples <- bootstrap.samples[start.from.bootstrap.sample:number.of.bootstrap.samples]
+    ## Get bootstrap results
     study.cluster <- makeCluster(detectCores())
     registerDoParallel(study.cluster)
     foreach(bootstrap.sample = bootstrap.samples,
@@ -58,7 +75,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE) {
 
 }
 start.time <- Sys.time()
-MainCodeRun(test = TRUE)
+MainCodeRun(test = TRUE, clean.start = TRUE)
 end.time <- Sys.time()
 message("This run took ", difftime(end.time, start.time, units = "hours"), " hours")
 
