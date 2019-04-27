@@ -12,7 +12,9 @@ FuncPack <- function(return.only = FALSE) {
                   "boot",
                   "bengaltiger",
                   "doParallel",
-                  "foreach")
+                  "foreach",
+                  "knitr",
+                  "rmarkdown")
 
     if (!return.only)
         for(package in packages) library(package, character.only = TRUE)

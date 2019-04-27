@@ -51,6 +51,10 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE) {
     stopCluster(study.cluster)
     ## Report all analyses completed
     message("All analyses completed")
+    ## Compile results
+    CompileResults()
+    ## Render results document
+    rmarkdown::render("Results.Rmd")
 
 }
 start.time <- Sys.time()
