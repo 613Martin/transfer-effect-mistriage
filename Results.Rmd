@@ -5,7 +5,7 @@ output: word_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ## LOADING ENVIROMENT
-results <- readRDS("C:/Users/Martin/transfer-effect-mistriage/code/output/original.results.Rds")
+results <- readRDS("./output/original.results.Rds")
 ## PREPARED CODE SNIPPETS
 ## Total patients and NA
 total.number.of.patients <- nrow(results$data.sets.before.imputations$multi.centre.vs.single.centre$multi.centre)
@@ -24,7 +24,9 @@ best.validation <- results$original.stats[results$original.stats$Validation.mist
 ## Comparison
 best.transfer <- results$original.stats[results$original.stats$Transfer.mistriage.median == min(results$original.stats$Transfer.mistriage.median),]
 worst.transfer <- results$original.stats[results$original.stats$Transferred.mistriage.minus.buddy.local.mistriage.median == min(min(results$original.stats$Transferred.mistriage.minus.buddy.local.mistriage.median)),]
-  
+## Result tables
+result.tables <- readRDS("result.tables.Rds")
+
 ```
 
 
@@ -57,6 +59,9 @@ Significance! P-values.
 Table 3 = Medians and IQR for transfer.  
 Table 4 = Medians and IQR for the difference in performance
 
+```{r, echo = FALSE, results = "asis"} 
+result.tables$high.volume
+```
 
 
 
