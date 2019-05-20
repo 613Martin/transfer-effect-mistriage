@@ -9,8 +9,11 @@ output: word_document
 library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 ## LOADING ENVIROMENT AND TABLES
-results <- readRDS("compiled output/original.results.Rds")
+## Original results and UI tables
+results <- readRDS("output/original.results.Rds")
 result.tables <- readRDS("result.tables.Rds")
+result.tables.data.frame <- readRDS("result.tables.data.frame.Rds")
+## Sample characteristics table
 # table.one <- 
 
 ## PREPARED CODE
@@ -36,12 +39,25 @@ best.validation <- results$original.stats[results$original.stats$Validation.mist
 ## Comparison
 best.transfer <- results$original.stats[results$original.stats$Transfer.mistriage.median == min(results$original.stats$Transfer.mistriage.median),]
 worst.transfer <- results$original.stats[results$original.stats$Transferred.mistriage.minus.buddy.local.mistriage.median == max(results$original.stats$Transferred.mistriage.minus.buddy.local.mistriage.median),]
-## Figure and table setup
-# Figure 1 = Figure 1: High- and low volume centre data set. Initial split based on number of patients. Temporal split made using date of traumatic event.
+
+## Table setup
 # Table 1 = Sample characteristics table
+#
 # Table 2 = result.tables, cropped to only show validation
+table.2 <- lapply(result.tables.data.frame, function(x) x[1:3,])
+table.2 <- lapply(table.2, function(result) {
+           kable(result, format = "markdown")
+           })
 # Table 3 = Cropped to only show transfer
+table.3 <- lapply(result.tables.data.frame, function(x) x[4:6,])
+table.3 <- lapply(table.3, function(result) {
+           kable(result, format = "markdown")
+           })
 # Table 4 = Cropped to only show transfer differance
+table.4 <- lapply(result.tables.data.frame, function(x) x[7:9,])
+table.4 <- lapply(table.4, function(result) {
+           kable(result, format = "markdown")
+           })
 ```
 # Introduction
 Trauma results in millions of deaths annually across the globe, and road traffic injuries are among the top 10 leading causes of death worldwide (1, 2). Each year 9% of the world’s deaths are because of trauma, and predictions indicate that this number is likely to increase (3). 
@@ -118,9 +134,7 @@ This data set was also be split into multiple samples. Each centre with large en
 ### Development and validation sample
 Each data set included at least two samples. The samples were then split into two subsamples using a temporal split based on the date of traumatic event. The earlier subsample was the development sample, and the later subsample the validation sample. The development sample contained 70 events (events being patients who died within 30 days of the trauma) and all non-events (non-events being patient survival 30 days past the trauma) during the same time. The rationale for including 70 events is that we needed at least 10 events per free parameter in the logistic regression to obtain stable coefficient estimates (25). The validation sample instead contained 100 events and at least 100 non-events, which was suggested as the minimum number by Vergouwe in 2005 for external validation samples (26). See figure 1 for example using the high- and low volume centre data set, with high volume centres being those in the top quartile of number of patients registered.
 
-```{r, echo = FALSE, results = "asis"} 
-## Figure 1 = Figure 1: High- and low volume centre data set. Initial split based on number of patients. Temporal split made using date of traumatic event. 
-``` 
+![**Figure 1** High- and low volume centre data set. Initial split based on number of patients. Temporal split made using date of traumatic event.](fig1.jpg)
 
 The minimum sample size of development and validation samples was 140 and 200 respectively. The total number of events and non-events per data set was therefore at least 680. We performed analyses only on data sets for which all samples included at least the minimum number of patients.
 
@@ -166,7 +180,7 @@ We analysed data from `r total.number.of.patients ` trauma patients to investiga
 
 ```{r, echo = FALSE, results = "asis"} 
 ## Table 1 = Sample characteristics table
-##result.tables
+#
 ``` 
 
 ## Development and validation
@@ -176,7 +190,7 @@ Table 2 shows model validation performance. Model validation performance refers 
 
 ```{r, echo = FALSE, results = "asis"} 
 ## Table 2 = Cropped to only show validation
-result.tables
+table.2
 ```
 
 ## Comparison
@@ -184,7 +198,7 @@ Model performance after transfer was determined for each model being transferred
   
 ```{r, echo = FALSE, results = "asis"} 
 ## Table 3 = Cropped to only show transfer
-result.tables
+table.3
 ```  
    
 The main purpose of this study was to examine the transferability of clinical prediction models for trauma. Table 4 shows the transferred model performance when compared to the validation performance in the same sample, transferred model performance varied between samples and data sets. 
@@ -193,7 +207,7 @@ The lowest model performance when compared to the sample validation performance 
 
 ```{r, echo = FALSE, results = "asis"} 
 ## Table 4 = Cropped to only show transfer differance
-result.tables
+table.4
 ``` 
   
   
