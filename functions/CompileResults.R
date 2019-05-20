@@ -80,10 +80,12 @@ CompileResults <- function() {
     })
     names(point.estimate.with.uncertainty) <- sample.names
     ## Create result tables
-    result.tables <- lapply(point.estimate.with.uncertainty, function(result) {
-        kable(result, format = "markdown")
-    })
+    result.tables.data.frame <- point.estimate.with.uncertainty
+    # result.tables <- lapply(point.estimate.with.uncertainty, function(result) {
+    #     kable(result, format = "markdown")
+    # })
     ## Save result tables
-    saveRDS(result.tables, "result.tables.Rds")
+    saveRDS(result.tables.data.frame , "result.tables.data.frame.Rds")
+    # saveRDS(result.tables, "result.tables.Rds")
     message("Result tables saved")
 }
