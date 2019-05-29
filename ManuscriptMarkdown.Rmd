@@ -1,7 +1,7 @@
 ---
 title: "Mistriage"
 author: "Martin Henriksson"
-date: "190429"
+date: "190529"
 output: word_document
 ---
 
