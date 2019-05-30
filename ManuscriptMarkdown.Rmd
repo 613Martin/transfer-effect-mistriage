@@ -1,0 +1,258 @@
+---
+title: "Mistriage"
+author: "Martin Henriksson"
+date: "190429"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+## LOAD FUNCTIONS, ENVIROMENT AND TABLES
+  ## Source functions
+  source("functions/WorkTableCreator.R")
+  ## Original results
+  results <- readRDS("output/original.results.Rds")
+  ## Compiled results with UI
+  result.tables <- readRDS("result.tables.Rds")
+  ## Compiled results with UI as data frame
+  result.tables.data.frame <- readRDS("result.tables.data.frame.Rds")
+  ## Create table for ease of data retrival
+  results.all.data <- WorkTableCreator(result.tables.data.frame)
+  ## Sample characteristics table
+  # table.one <-
+
+## RESULTS
+  ## Characteristics paragraph
+  ## Total patients and NA
+  total.number.of.patients <- nrow(results$data.sets.before.imputations$multi.centre.vs.single.centre$multi.centre)
+  total.number.of.na <- results$NA.info.sample$multi.centre.vs.single.centre$multi.centre$total.number.of.na
+  ## Sample NA
+  na.vector <- unlist(results$NA.info.sample)
+  names(na.vector) <- c("high volume", "high volume", "low volume", "low volume", "metropolitan", "metropolitan", "non metropolitan", "non metropolitan", "multi centre", "multi centre", "single centre", "single centre")
+  highest.percent.missing.number <- max(na.vector[na.vector<100])
+  highest.percent.missing.name <- names((na.vector[na.vector == highest.percent.missing.number]))
+  ## Variable NA
+  number.variable.na <- max(results$NA.info.variable$multi.centre.vs.single.centre$multi.centre$number.of.na)
+  percent.variable.na <- results$NA.info.variable$multi.centre.vs.single.centre$multi.centre$percentage[results$NA.info.variable$multi.centre.vs.single.centre$multi.centre$number.of.na == number.variable.na]
+  name.variable.na <- row.names( results$NA.info.variable$multi.centre.vs.single.centre$multi.centre[results$NA.info.variable$multi.centre.vs.single.centre$multi.centre$number.of.na == number.variable.na,] )
+  gcs.na <- (results$NA.info.variable$multi.centre.vs.single.centre$multi.centre[row.names(results$NA.info.variable$multi.centre.vs.single.centre$multi.centre) == "ed_gcs_sum",])
+  sbp.na <- (results$NA.info.variable$multi.centre.vs.single.centre$multi.centre[row.names(results$NA.info.variable$multi.centre.vs.single.centre$multi.centre) == "ed_sbp_value",])
+## Development and validation
+  ## Imputation data
+  high.low.imp <- results$original.stats$Total.imputations[results$original.stats$Sample.name == "high.volume"]
+  metro.non.imp <- results$original.stats$Total.imputations[results$original.stats$Sample.name == "metropolitan"]
+  multi.single.imp <- results$original.stats$Total.imputations[results$original.stats$Sample.name == "multi.centre"]
+  max.imp <- max(results$original.stats$Total.imputations)
+  ## Validation data
+  sorted.validation.mistriage <- sort(results.all.data[row.names(results.all.data) == "Validation.mistriage",], decreasing = FALSE)
+  lowest.val.mistriage <- sorted.validation.mistriage[1]
+  val.undertriage <- results.all.data["Validation.undertriage", colnames(lowest.val.mistriage)]
+  val.overtriage <- results.all.data["Validation.overtriage", colnames(lowest.val.mistriage)]
+  highest.val.mistriage <- sorted.validation.mistriage[6]
+## Comparison
+  ## Transfer data
+  sorted.transfer.mistriage <- sort(results.all.data[row.names(results.all.data) == "Transfer.mistriage",], decreasing = FALSE)
+  lowest.tran.mistriage <- sorted.transfer.mistriage[1]
+  highest.tran.mistriage <- sorted.transfer.mistriage[6]
+  ## Comparison data
+  sorted.comp.mistriage <- sort(results.all.data[row.names(results.all.data) == "Transferred.mistriage.minus.buddy.local.mistriage",], decreasing = FALSE)
+  highest.comp.mistriage <- sorted.comp.mistriage[6]
+  worst.transfer <- results$original.stats[results$original.stats$Transferred.mistriage.minus.buddy.local.mistriage.median == max(results$original.stats$Transferred.mistriage.minus.buddy.local.mistriage.median),]
+## DISCUSSION
+  ## First paragraph
+  UI.interval <- sub("\\).*", "", sub(".*\\(", "", format(highest.comp.mistriage)))
+  UI.top.bot.list <- strsplit(UI.interval, split = " - ")
+  UI.top.bot <- unlist(UI.top.bot.list)
+## Table setup
+  # Table 1 = Sample characteristics table
+  #
+  # Table 2 = result.tables, cropped to only show validation
+  table.2 <- results.all.data[1:3,]
+  rownames(table.2) <- c("Mistriage", "Undertriage", "Overtriage")
+  # Table 3 = Cropped to only show transfer
+  table.3 <- results.all.data[4:6,]
+  rownames(table.3) <- c("Mistriage", "Undertriage", "Overtriage")
+  # Table 4 = Cropped to only show transfer differance
+  table.4 <- results.all.data[7:9,]
+  rownames(table.4) <- c("Mistriage", "Undertriage", "Overtriage")
+```
+# Introduction
+Trauma results in millions of deaths annually across the globe, and road traffic injuries are among the top 10 leading causes of death worldwide (1, 2). Each year 9% of the world’s deaths are because of trauma, and predictions indicate that this number is likely to increase (3). 
+
+In a typical, high resource setting, the initial management of patients is performed on the scene of the trauma by Emergency Medical Services (EMS). Patient data, vital signs and scene information is transferred to the receiving hospital. This information is evaluated using a system to determine the level of trauma and prepare adequate resources (4), dictating if a full or limited trauma team is activated (5). 
+
+Systems to determine the level of trauma can be based on clinical prediction models. Such models are continuously being developed and studied, examining different parameters and different contexts. Models differ in quality and characteristics, but generally perform well predicting survival (6). Many of these models are developed in a single standardized setting such as a large metropolitan area or a major trauma centre but are then implemented in different settings, such as non-trauma centres.
+
+What is not fully understood is how this transfer affects model performance. Previous research has shown that model performance in terms of calibration can be adversely affected (7). However, the aforementioned research studied model transfers between substantially different settings and did not assess more clinically relevant performance measures, such as misclassification.
+
+In trauma, misclassification is often referred to as mistriage. Triage refers to the classification of severity as minor or major trauma. Mistriage can be subdivided into overtriage; incorrect classification of a patient with minor trauma as major trauma, or undertriage; incorrect classification of a patient with major trauma as minor trauma. Both are detrimental in terms of patient care and distribution of resources. 
+
+Thus, the effect of model transfers between contexts within the setting of a single health care system, as well as the effect of such transfers on mistriage have not been studied and represent substantial knowledge gaps. Therefore, the aim of this study is to assess how transfers of clinical prediction models for early trauma care between different contexts within a single health system affect mistriage rates.
+  
+  
+# Materials and methods
+## Study design
+We conducted a registry-based cohort study. Sweden has a nationally encompassing register for registering trauma called SweTrau. SweTrau data was used to create clinical prediction models, which were transferred between different contexts to study the effects on mistriage.
+
+## Setting
+In Sweden, trauma is the most common cause of death before 44 years of age. It is estimated that up to 10% of all major trauma patients suffer some form of disability. The societal effects of trauma are also substantial; with the loss of work days comparable to those lost from cardiovascular and malignant diseases combined (5).
+
+The trauma care organization in Sweden is usually clearly defined in major metropolitan areas: trauma patients are transported directly to a predesignated hospital with specific trauma competency. In large, more rural parts of the country, trauma patients are instead transported to the nearest hospital for stabilization. Once stabilized, they may then be transported to hospitals with more advanced trauma care capacity (19). Most hospitals in Sweden use some form of system to categorize the level of trauma. These systems are usually based on patient vital signs and injury mechanism, as reported by the EMS, or as registered in the emergency department (16).
+
+Data was obtained from SweTrau between 2011 and 2016. Today 95,5% (52 of 55) of Swedish hospitals record trauma cases in SweTrau. Currently the registry includes 55 000 cases, and the board encourages its use in both academic research and more local quality improvement initiatives (20).
+
+The SweTrau inclusion criteria are: Traumatic event with subsequent activation of hospital trauma protocol, admitted patients with NISS (New Injury Severity Score) > 15 and patients transferred to the hospital within 7 days of traumatic event with NISS > 15. SweTrau excludes patients if the only traumatic event is chronic subdural hematoma or if hospital trauma protocol is activated without traumatic event (21).
+
+## Participants 
+The eligibility criteria were patients registered in SweTrau, age 15 or above. This age was decided as the study aims to study adult trauma and not paediatric trauma which differs in physiology, triage and initial care (22). The Swedish guidelines for trauma activation define children as age <15 (16). Also, several guidelines and protocols listed in ATLS use age ≥15 as cut-off (9). Patient age was obtained from the SweTrau register.
+
+## Variables
+### Model predictors
+The clinical prediction models included the predictors SBP, RR and GCS on arrival to hospital. The rationale for including these three predictors is that they are part of many established clinical prediction models for early trauma care, such as the Revised Trauma Score (23).
+
+### Model outcome
+The outcome used to develop the clinical prediction models was all cause mortality within 30 days of the trauma.
+
+### Participant characteristics
+To describe the patient cohort we reported age, sex, Injury Severity Score (ISS) and New ISS (NISS).
+
+### Study outcome
+ISS > 15 was used as the gold standard to define trauma severity as major trauma, and hence patients with ISS ≤ 15 were considered minor trauma (24). Overtriage was defined as the event when a clinical prediction model classified a patient with ISS ≤ 15 as major trauma, and undertriage as the event when a clinical prediction model classified a patient with ISS > 15 as minor trauma. Overtriage rate was defined as the number of overtriaged patients divided by all patients. Undertriage rate was defined as the number of undertriaged patients divided by all patients. Mistriage rate was defined as the sum of the over- and undertriage rates.
+
+## Data sources and measurements
+Model predictors, outcome, participant characteristics and study outcome as outlined above were all obtained from SweTrau. The method of measurement for the model predictors is not specified (for example, if SBP is measured using an automated cuff or manually) in the registry entries. In Swedish emergency rooms, patient parameters are usually obtained by a registered nurse or assistant nurse and are assumed to be accurate. 
+Whether the patient is dead or alive 30 days after trauma is manually entered into the registry locally, by each respective hospital. Participant characteristics are obtained from the patient file before being registered in SweTrau. NISS and ISS are calculated by hospital personal based on the patient’s injuries.
+
+## Bias
+Data analysis was conducted according to a prearranged analysis plan. The analysis plan and statistical analysis code was finalised using simulated data. These efforts were taken to avoid confirmation bias. The analysis plan was reviewed by an experienced statistician and programmer prior to implementation, to ensure objectivity. Neither outcome nor variable were blinded when conducting data analysis, which made a structured objective approach important.
+
+## Study size
+All patients matching eligibility criteria listed above. Four data sets were used to study the transfer of clinical prediction models, each data set representing a different setting. Data set, and sample size considerations are outlined below.
+
+## Quantitative variables
+SBP and RR was modelled using restricted cubic splines with four knots whenever possible placed at equally spaced percentiles, and GCS as a continuous linear term. When describing the participant characteristics quantitative variables were presented as continuous. ISS was presented as dichotomous using ISS > 15 as the cutoff.
+
+## Statistical methods
+### Data sets
+The complete SweTrau cohort was split into four sets of data. High and low volume centres, metropolitan and non-metropolitan centres, multi and single centre data and individual centres.
+
+### High and low volume centres
+Based on number of patients, two samples were derived from this data set. High volume centres were those with in the top quartile of number of patients received. The rest were low volume centres. 
+
+### Metropolitan and non-metropolitan centres
+This data set was also split into two samples. The metropolitan sample consisted of greater Stockholm, greater Gothenburg and greater Malmö, as defined by statistics Sweden. The other sample was patients from non-metropolitan areas.
+
+### Multi and single centre data
+In this data set multiple samples were created. Each centre with large enough sample size to develop and validate a model were their own sample. The multi-centre sample consisted of the combined data from all centres.
+
+### Individual centres
+This data set was also split into multiple samples. Each centre with large enough sample size to develop and validate a model constituted its own sample. This data set was removed in the final version of the study due to a lack of centres with a large enough sample size.
+
+### Development and validation sample
+Each data set included at least two samples. The samples were then split into two subsamples using a temporal split based on the date of traumatic event. The earlier subsample was the development sample, and the later subsample the validation sample. The development sample contained 70 events (events being patients who died within 30 days of the trauma) and all non-events (non-events being patient survival 30 days past the trauma) during the same time. The rationale for including 70 events is that we needed at least 10 events per free parameter in the logistic regression to obtain stable coefficient estimates (25). The validation sample instead contained 100 events and at least 100 non-events, which was suggested as the minimum number by Vergouwe in 2005 for external validation samples (26). See figure 1 for example using the high- and low volume centre data set, with high volume centres being those in the top quartile of number of patients registered.
+  
+![](fig1.jpg)  
+**Figure 1: High- and low volume centre data set.** Initial split based on number of patients. Temporal split made using date of traumatic event. 
+
+The minimum sample size of development and validation samples was 140 and 200 respectively. We performed analyses only on data sets for which all samples included at least the minimum number of patients.
+
+### Sequence of analysis
+The programming language R was used for all analyses (27), all progress was uploaded to a GitHub repository (28). Analyses were performed in the sequence of model development, model validation and finally model comparison. These steps were repeated in each data set. Below we used the transfer of a model from a high-volume sample to a low volume sample as an example to describe the complete procedure. 
+
+### Model development
+In the model development step a clinical prediction model was developed in the high-volume centre development sample. The model was developed using logistic regression as implemented in the R function glm. The dependent variable was all cause mortality within 30 days of trauma and independent variables SBP, RR, and GCS modelled as previously described. To avoid overfitting the model we used a bootstrap procedure to estimate a linear shrinkage factor that we then applied to the model coefficients (29). The shrunk model was then used to estimate the probability of all cause 30-day mortality in the development sample. A gridsearch was performed across estimated probabilities in the development sample to identify the cut-off that optimised overtriage keeping undertriage at less than 5% (11). This cut-off was then used to classify patients as major or minor trauma. 
+
+### Model validation
+In the model validation step, the model performance was assessed in the high-volume centre validation sample and in the low volume centre validation data. First the model was used to estimate the probability of all cause 30-day mortality in each sample. Then the probability cutoff identified in the development sample was applied to the validation samples, patients were classified as major or minor trauma, and model performance was estimated.
+
+### Model comparison
+Finally, in the model comparison step, the difference in model performance between the high and low volume centre validation samples was calculated. Empirical bootstrap was used to estimate 95% confidence intervals (CI) around performance and differences in performance estimates. Both bootstrap procedures used 1000 bootstrap samples drawn with replacement of the same size as the original samples. The three steps of model development, model validation, and model comparison were repeated in all four sets of data.
+
+### Performance measures
+Model performance was assessed in terms of over-, under-, and mistriage rates as defined above.
+
+### Missing data
+We used multiple imputation using chained equations, as implemented in the R package mice, to handle missing data (30). The number of imputations created for each data set was equal to the highest percentage of missing data in that data set. Quantitative variables were imputed using predictive mean matching and qualitative variables were imputed using logistic regression. SBP and RR was transformed as restricted cubic splines before imputation and imputed as just another variable. All analyses outlined above were then conducted separately in each imputed dataset. We present the combined results as the median point estimate across imputations along with an empirical bootstrap of the 25th and 75th percentiles across imputations, i.e. the lower bound of the presented interval is the lower bound of a 95% CI of the 25th percentile and the upper bound is the upper bound of a 95% CI of the 75th percentile. This combined CI was referred to as an Uncertainty Interval (UI) and was used to express the added uncertainty associated with the imputation procedure to handle missing data, as such it is more conservative than a standard 95% CI.
+
+## Ethical considerations
+This study is approved by the regional ethics review board in Stockholm, Sweden. Ethical review numbers are 2015/426-31 and 2016/461-32. All patients included recived letters detainling SweTrau inclusion, and the possibility of their data being used for scientific purposes. It was assumed that the patients who consented to research want to contribute to this improvement of care, and as thus by performing this study the authors hope to honour their wishes.
+  
+  
+# Results
+We analysed data from `r total.number.of.patients ` trauma patients to investigate the effects of transfer on clinical prediction models (Table 1). The total number of missing observations across all variables was `r total.number.of.na ` in the entire study cohort. The sample with the highest percentage of missing observations was the `r highest.percent.missing.name ` sample with `r highest.percent.missing.number `% incomplete observations. The variable with the highest number of missing values was `r name.variable.na `, with `r number.variable.na ` missing values, which constituted `r round(percent.variable.na) `% of the total values for this variable. The percentages of missing values for the other model predictors, GCS and SBP was `r round(gcs.na$percentage)`% and `r round(sbp.na$percentage)`% respectively.
+  
+**Table 1. Sample characteristics of multiple imputed data.** Data is presented as medians with interquartile range (IQR) or counts with % as applicable.
+```{r, echo = FALSE, results = "asis"} 
+## Table 1 = Sample characteristics table
+##result.tables
+``` 
+
+## Development and validation
+During model development, the number of imputations used for each data set was `r high.low.imp`, `r metro.non.imp` and `r multi.single.imp` for the high and low volume data set, the metropolitan and non-metropolitan data set and the multi and single centre data set respectively.
+  
+Table 2 shows model validation performance. The model with the lowest validation mistriage rate was the `r colnames(lowest.val.mistriage)` model with a median mistriage rate with 95% UI of `r lowest.val.mistriage`. Performance in terms of undertriage and overtriage rate for the same model was `r val.undertriage`, and `r val.overtriage` respectively. Worst validation performance i.e. highest mistriage rate was found in the `r colnames(highest.val.mistriage)` sample, with a model median mistriage rate of `r highest.val.mistriage`.
+  
+**Table 2. Model validation performance, i.e. performance when applied to the sample in which the model was created.** Data is presented as point estimates with 95% Uncertainty Intervals (95% UI).
+```{r, echo = FALSE, results = "asis"} 
+## Table 2
+kable(table.2[,1:2], format = "markdown")
+kable(table.2[,3:4], format = "markdown")
+kable(table.2[,5:6], format = "markdown")
+```
+
+## Comparison
+Model performance after transfer was determined for each model being transferred to the other sample in the data set, in all data sets (Table 3). When transferred, the model with the lowest mistriage rate was the `r colnames(lowest.tran.mistriage)` model with a median mistriage rate of `r lowest.tran.mistriage`. The model with the highest mistriage rate after transfer was the `r colnames(highest.tran.mistriage)` with a median mistriage rate of `r highest.tran.mistriage`
+  
+**Table 3. Model transfer performance, i.e. performance when transferred to the other sample in the same data set. ** Data is presented as point estimates with 95% Uncertainty Intervals (95% UI).  
+```{r, echo = FALSE, results = "asis"} 
+kable(table.3[,1:2], format = "markdown")
+kable(table.3[,3:4], format = "markdown")
+kable(table.3[,5:6], format = "markdown")
+```  
+   
+Table 4 shows the transferred model performance when compared to the validation performance in the sample reciving the transferred model, e.g. high volume transfer performance minus low volume validation performance.
+
+The highest mistriage rate when compared to the reciveing sample validation model performance was found in the `r colnames(highest.comp.mistriage)` model, with a median mistriage rate difference of `r highest.comp.mistriage`, meaning this model performed worse when transferred to the other sample in the same data set. In clinical terms, this model transfer means that among 100 trauma patients, `r abs(worst.transfer$Transferred.mistriage.minus.buddy.local.mistriage.median) * 100` more patients would be wrongly classified as major or minor trauma.
+  
+**Table 4. Comparison mistriage, i.e. sample validation performance subtracted from transferred performance.** Data is presented as point estimates with 95% Uncertainty Intervals (95% UI).  
+```{r, echo = FALSE, results = "asis"} 
+kable(table.4[,1:2], format = "markdown")
+kable(table.4[,3:4], format = "markdown")
+kable(table.4[,5:6], format = "markdown")
+``` 
+  
+  
+# Discussion
+This study aimed to assess how transfers of clinical prediction models for early trauma care between different contexts within a single health system affect mistriage rates. The most notable effects on model performance following model transfer were seen after transferring the `r colnames(highest.comp.mistriage)` model. The mistriage rate increased by `r substr(format(highest.comp.mistriage), 1, 5)` when using the `r colnames(highest.comp.mistriage)` model in the other sample in the same data set. Mainly contributing to this increase in mistriage was the marked increase in overtriage when performing this model transfer. For this transfer the 95% UI ranged from `r UI.top.bot[1]` to `r UI.top.bot[2]`, indicating that our findings are compatible with a `r UI.top.bot[1]` decrease to a `r UI.top.bot[2]` increase in mistriage. The negative 95% UI of `r UI.top.bot[1]` would signifiy an improvement in model performance. The higher 95% UI of `r UI.top.bot[2]` would mean a marked increase in model mistriage, compared to the point estimate of `r substr(format(highest.comp.mistriage), 1, 5)`.
+
+The transfer of clinical prediction models in trauma care has not previously been extensively studied. In 2016, Gerdin et al. found model transfer to adversely affect model performance in terms of calibration, but that this could be improved by updating the model (18). This study did not examine model performance in terms of calibration, neither was the effects of updating the model explored.  
+
+External validation as the evaluation of a clinical prediction model in a setting in which it was not originally developed has been studied more extensively. Studies using simulated clinical prediction models based on different predictors showed a decline in model performance when being externally validated (33, 34). A study from 2018 examining the external validity of prediction models for coronary artery disease (CAD) (35), showed models significantly underestimating the probability of CAD. This study did not find the same dramatic decrease in model performance after transfer. However, the combined results of this study, the studies on model transfer and the studies on external validation warrants further caution when transferring models between different settings.
+
+## Strengths and limitations
+This study design realistically reflects potential transfers: e.g. clinical prediction models for trauma are usually developed in large metropolitan centres and then transferred as clinical recommendations to minor non-metropolitan centres in which traumatic injuries are not as common. 
+
+Originally all single centres with a valid number of events were to constitute one data set, but when performing the analysis only one centre provided a sufficient number of events. Leading to the loss of the fourth data set: Individual centres, and the comparison between these. Possibly, the results this data set might have provided results that could reflect realistic situations as major trauma centres regularly exchange data to improve patient care.
+
+In Sweden major trauma is relatively uncommon, this might lead to inconsistencies across centres when performing SweTrau registration. E.g. using NISS instead of ISS, registering SBP by category and not by absolute value or not following up on patient survival. This might lead to exaggerated performance differences between the settings.
+
+The models in this study used GCS, RR and SBP as predictors for 30-day mortality. Potentially, the use of additional predictors such as age, mechanism of injury, or newer predictors as shock index might increase model performance. Furthermore, we used 30-day mortality as an outcome, recognizing that late mortality, time in hospital, functional impairment, and morbidity are also important outcome factors in the context of trauma care.
+
+The predetermined analysis plan was to be followed in a step-by-step fashion, to avoiding confirmation bias. Programming challenges and late-time code inclusions required a flexible approach to this analysis plan, sometimes with revisions of previous steps. This is not optimal, and efforts were made to not deviate in any major way. Using GitHub, all code was made public for inspection and to ensure reproducibility (28).
+
+## Clinical applications
+The results of this study show that mistriage can potentially increase following model transfer, in this case more prominently when transferring from a metropolitan setting to a non-metropolitan setting. This supports the view that model transfers should be done with caution, as performance might decline.
+
+Recognizing these risks and updating models accordingly will lead to increased accuracy during trauma patient triage. Potentially saving lives by minimizing undertriage, and likely save resources by minimizing overtriage. With registries such as SweTrau, analysis of model transfer could be performed continuously to optimize models currently in use and advise which model transfers might be detrimental (or potentially beneficial).
+
+## Future studies
+Studies on model transfer can be performed in different settings, e.g. assessing the transferability between different but similar countries, such as Sweden and Norway. Also, increasing the number of patients would increase the power of the results, one way of doing this would be to replicate this study with the latest data in the SweTrau, as many hospitals have joined recently leading to an increased number of patients registered. 
+
+Model transfer could potentially be studied using different methods. Quite often, as mentioned, clinical models are transferred from a major metropolitan centre to a smaller rural centre. Staff opinions considering how applicable this new model is could be obtained using an interview or questionnaire approach Clinical trials using different models could also be performed, however, appropriate ethical considerations are paramount before performing this type of study.
+
+## Conclusion (Needs update with code snippets) 
+Model transfer from the metropolitan sample to the non-metropolitan sample led to an increased mistriage rate of ... (95% UI ...). Mainly due to a marked increase in overtriage. Across all samples, 95% UI for model transfer comparison included .... Model transfer can potentially lead to increased patient mortality and a misappropriation of resources, due to increased undertriage and overtriage respectively. Recognizing the limitations of this study, the authors believe further studies are warranted due to the potential economic costs and patient consequences of poor model transfers. 
+
+  
+# References
