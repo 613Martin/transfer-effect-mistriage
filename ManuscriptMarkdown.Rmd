@@ -1,8 +1,10 @@
 ---
-title: "Mistriage"
+title: "Transferability of clinical prediction models for early trauma care"
 author: "Martin Henriksson"
-date: "190429"
-output: word_document
+date: "190602"
+output: html_document
+bibliography: library.bib
+csl: bmcemerg.csl
 ---
 
 ```{r setup, include=FALSE}
@@ -78,9 +80,9 @@ knitr::opts_chunk$set(echo = TRUE)
   rownames(table.4) <- c("Mistriage", "Undertriage", "Overtriage")
 ```
 # Introduction
-Trauma results in millions of deaths annually across the globe, and road traffic injuries are among the top 10 leading causes of death worldwide (1, 2). Each year 9% of the world’s deaths are because of trauma, and predictions indicate that this number is likely to increase (3). 
+Trauma results in millions of deaths annually across the globe, and road traffic injuries are among the top 10 leading causes of death worldwide [@RN1; @RN21]. Each year 9% of the world’s deaths are because of trauma, and predictions indicate that this number is likely to increase [@RN42].
 
-In a typical, high resource setting, the initial management of patients is performed on the scene of the trauma by Emergency Medical Services (EMS). Patient data, vital signs and scene information is transferred to the receiving hospital. This information is evaluated using a system to determine the level of trauma and prepare adequate resources (4), dictating if a full or limited trauma team is activated (5). 
+In a typical, high resource setting, the initial management of patients is performed on the scene of the trauma by Emergency Medical Services (EMS). Patient data, vital signs and scene information is transferred to the receiving hospital. This information is evaluated using a system to determine the level of trauma and prepare adequate resources [@RN43], dictating if a full or limited trauma team is activated [@RN44]. 
 
 Systems to determine the level of trauma can be based on clinical prediction models. Such models are continuously being developed and studied, examining different parameters and different contexts. Models differ in quality and characteristics, but generally perform well predicting survival (6). Many of these models are developed in a single standardized setting such as a large metropolitan area or a major trauma centre but are then implemented in different settings, such as non-trauma centres.
 
@@ -252,7 +254,7 @@ Studies on model transfer can be performed in different settings, e.g. assessing
 Model transfer could potentially be studied using different methods. Quite often, as mentioned, clinical models are transferred from a major metropolitan centre to a smaller rural centre. Staff opinions considering how applicable this new model is could be obtained using an interview or questionnaire approach Clinical trials using different models could also be performed, however, appropriate ethical considerations are paramount before performing this type of study.
 
 ## Conclusion
-Transfer of the `r colnames(highest.comp.mistriage)` model lead to an increased mistriage rate of `r highest.comp.mistriage`. This observed effect was associated with considerable uncertainty, meaning mistriage might slightly decrease, but would more likely increase, potentially substantially. In many other samples, model transfer led to large levels of uncertainty, and in all samples 95% UI included 0. In conclusion, model transfer is associated with varying degrees of uncertainty but can potentially lead to increased mistriage, resulting in increased patient mortality and a misappropriation of resources, due to increased undertriage and overtriage, respectively. Recognizing the limitations of this study, the authors believe further studies are warranted due to the potential economic costs and patient consequences of poor model transfers. 
-  
+Transfer of the `r colnames(highest.comp.mistriage)` model lead to an increased mistriage rate of `r highest.comp.mistriage`. This observed effect was associated with considerable uncertainty, meaning mistriage might slightly decrease, but would more likely increase, potentially substantially. In many other samples, model transfer led to large levels of uncertainty, and in all samples 95% UI included 0. In conclusion, model transfer is associated with varying degrees of uncertainty but can potentially lead to increased mistriage, resulting in increased patient mortality and a misappropriation of resources, due to increased undertriage and overtriage, respectively. Recognizing the limitations of this study, the authors believe further studies are warranted due to the potential economic costs and patient consequences of poor model transfers.
+
   
 # References
