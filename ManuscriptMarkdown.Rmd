@@ -251,8 +251,8 @@ Studies on model transfer can be performed in different settings, e.g. assessing
 
 Model transfer could potentially be studied using different methods. Quite often, as mentioned, clinical models are transferred from a major metropolitan centre to a smaller rural centre. Staff opinions considering how applicable this new model is could be obtained using an interview or questionnaire approach Clinical trials using different models could also be performed, however, appropriate ethical considerations are paramount before performing this type of study.
 
-## Conclusion (Needs update with code snippets) 
-Model transfer from the metropolitan sample to the non-metropolitan sample led to an increased mistriage rate of ... (95% UI ...). Mainly due to a marked increase in overtriage. Across all samples, 95% UI for model transfer comparison included .... Model transfer can potentially lead to increased patient mortality and a misappropriation of resources, due to increased undertriage and overtriage respectively. Recognizing the limitations of this study, the authors believe further studies are warranted due to the potential economic costs and patient consequences of poor model transfers. 
-
+## Conclusion
+Transfer of the `r colnames(highest.comp.mistriage)` model lead to an increased mistriage rate of `r highest.comp.mistriage`. This observed effect was associated with considerable uncertainty, meaning mistriage might slightly decrease, but would more likely increase, potentially substantially. In many other samples, model transfer led to large levels of uncertainty, and in all samples 95% UI included 0. In conclusion, model transfer is associated with varying degrees of uncertainty but can potentially lead to increased mistriage, resulting in increased patient mortality and a misappropriation of resources, due to increased undertriage and overtriage, respectively. Recognizing the limitations of this study, the authors believe further studies are warranted due to the potential economic costs and patient consequences of poor model transfers. 
+  
   
 # References
