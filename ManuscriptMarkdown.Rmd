@@ -27,9 +27,11 @@ knitr::opts_chunk$set(echo = TRUE)
   result.tables.data.frame <- readRDS("result.tables.data.frame.Rds")
   ## Create table for ease of data retrival
   results.all.data <- WorkTableCreator(result.tables.data.frame)
-  ## Sample characteristics table
-  # table.one <-
-
+  ## Sample characteristics table  (Retrived locally!)
+  library(readxl)
+  table_one_high_low <- read_excel("table one/table one high low.xlsx")
+  table_one_metro_non_metro <- read_excel("table one/table one metro non metro.xlsx")
+  table_one_multi_single <- read_excel("table one/table one multi single.xlsx")
 ## RESULTS
   ## Characteristics paragraph
   ## Total patients and NA
@@ -205,9 +207,13 @@ We analysed data from `r total.number.of.patients ` trauma patients to investiga
   
 **Table 1. Sample characteristics of multiple imputed data.** Data is presented as medians with interquartile range (IQR) or counts with % as applicable.
 ```{r, echo = FALSE, results = "asis"} 
-## Table 1 = Sample characteristics table
-##result.tables
+## Table 1
+options(knitr.kable.NA = '')
+kable(table_one_high_low, format = "markdown")
+kable(table_one_metro_non_metro, format = "markdown")
+kable(table_one_multi_single, format = "markdown")
 ``` 
+Abbreviations: GCS glasgow coma scale, SBP systolic blood pressure, RR respiratory rate, ISS injury severity score, NISS new injury severity score
 
 ## Development and validation
 During model development, the number of imputations used for each data set was `r high.low.imp`, `r metro.non.imp` and `r multi.single.imp` for the high and low volume data set, the metropolitan and non-metropolitan data set and the multi and single centre data set respectively.
