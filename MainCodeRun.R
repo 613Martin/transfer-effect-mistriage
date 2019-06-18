@@ -25,7 +25,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE) {
     ## Set random seed
     set.seed(-41892)
     ## Import data
-    raw.data <- ImportStudyData("simulated-swetrau-data.csv")
+    raw.data <- ImportStudyData("swetrau-20110101-20160425.csv")
     ## Create study sample from selected variables
     selected.data <- VariableSelection(raw.data)
     ## Select cases with age > 15 or age = NA
@@ -75,7 +75,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE) {
 
 }
 start.time <- Sys.time()
-MainCodeRun(test = TRUE, clean.start = TRUE)
+MainCodeRun(test = FALSE, clean.start = FALSE)
 end.time <- Sys.time()
 message("This run took ", difftime(end.time, start.time, units = "hours"), " hours")
 
