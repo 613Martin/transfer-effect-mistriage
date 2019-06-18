@@ -107,7 +107,7 @@ abstract: |
   
   **Results:** `r total.number.of.patients ` patients were included. Model
   validation median mistriage rate with 95% UI ranged from `r
-  lowest.val.mistriage` to `r highest.val.mistriage`. and transferred model
+  lowest.val.mistriage` to `r highest.val.mistriage`, and transferred model
   mistriage rate ranged from `r lowest.tran.mistriage` to `r
   highest.tran.mistriage` across all samples. Worst performance after transfer
   compared to receiving sample validation performance was found in the `r
@@ -169,8 +169,7 @@ We conducted a registry-based cohort study. Sweden has a nationally encompassing
 register for registering trauma called SweTrau. SweTrau data was used to create
 clinical prediction models, which were transferred between different contexts to
 study the effects on mistriage. The study and analysis plans were made
-publically available before the research was undertaken (Add reference to github
-repo here).
+publically available before the research was undertaken [@RN59].
 
 ## Setting
 In Sweden, trauma is the most common cause of death before 44 years of age. It
@@ -192,7 +191,7 @@ registered in the emergency department [@RN90].
 Data was obtained from SweTrau between 2011 and 2016. Today 95,5% (52 of 55) of
 Swedish hospitals record trauma cases in SweTrau. Currently the registry
 includes 55 000 cases, and the board encourages its use in both academic
-research and more local quality improvement initiatives [@RN28].
+research and local quality improvement initiatives [@RN28].
 
 The SweTrau inclusion criteria are: Traumatic event with subsequent activation
 of hospital trauma protocol, admitted patients with NISS (New Injury Severity
@@ -331,8 +330,8 @@ In the model development step a clinical prediction model was developed in the
 high-volume centre development sample. The model was developed using logistic
 regression as implemented in the R function glm. The dependent variable was all
 cause mortality within 30 days of trauma and independent variables SBP, RR, and
-GCS modelled as previously described. To avoid overfitting the model we used a
-bootstrap procedure to estimate a linear shrinkage factor that we then applied
+GCS modelled as previously described. To avoid overfitting the model a
+bootstrap procedure was used to estimate a linear shrinkage factor that was then applied
 to the model coefficients [@RN61]. The shrunk model was then used to estimate
 the probability of all cause 30-day mortality in the development sample. A
 gridsearch was performed across estimated probabilities in the development
