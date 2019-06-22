@@ -62,8 +62,8 @@ RunStudy <- function(selected.data, boot = FALSE, test = FALSE) {
     data.sets <- lapply(data.sets, MICEImplement, test = test)
     ## If not a bootstrap run, create table one
     if (boot == FALSE) {
-        ## Create sample characteristics tables, and save to disk
-        TableOneCreator(data.sets)
+        ## Create sample characteristics tables, and save to Results
+        Results$table.one.list <- TableOneCreator(data.sets)
     }
     ## Removal of original data (.imp = 0) from data.sets 
     data.sets <- lapply(data.sets, function(sample) lapply(sample, function(x) {
