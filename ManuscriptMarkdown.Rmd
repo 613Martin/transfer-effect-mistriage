@@ -106,13 +106,12 @@ abstract: |
   imputed data sets.
   
   **Results:** `r total.number.of.patients ` patients were included. Model
-  validation median mistriage rate with 95% UI ranged from `r
-  lowest.val.mistriage` to `r highest.val.mistriage`, and transferred model
-  mistriage rate ranged from `r lowest.tran.mistriage` to `r
-  highest.tran.mistriage` across all samples. Worst performance after transfer
-  compared to receiving sample validation performance was found in the `r
-  colnames(highest.comp.mistriage)` sample with a median mistriage difference of
-  `r highest.comp.mistriage`.
+  validation median mistriage rate with 95% UI ranged from `r lowest.val.mistriage` 
+  to `r highest.val.mistriage`, and transferred model
+  mistriage rate ranged from `r lowest.tran.mistriage` to `r highest.tran.mistriage` 
+  across all samples. Worst performance after transfer
+  compared to receiving sample validation performance was found in the `r colnames(highest.comp.mistriage)` 
+  sample with a median mistriage difference of `r highest.comp.mistriage`.
   
   **Conclusions:** Model transfer from the `r colnames(highest.comp.mistriage)`
   to the other sample in the data set lead to an increased mistriage
@@ -389,20 +388,24 @@ thus by performing this study the authors hope to honour their wishes.
 # Results
 We analysed data from `r total.number.of.patients ` trauma patients to
 investigate the effects of transfer on clinical prediction models (Table 1). The
-total number of missing observations across all variables was `r
-total.number.of.na ` in the entire study cohort. The sample with the highest
+total number of missing observations across all variables was `r total.number.of.na ` 
+in the entire study cohort. The sample with the highest
 percentage of missing observations was the `r highest.percent.missing.name `
 sample with `r highest.percent.missing.number `% incomplete observations. The
 variable with the highest number of missing values was `r name.variable.na `,
-with `r number.variable.na ` missing values, which constituted `r
-round(percent.variable.na) `% of the total values for this variable. The
-percentages of missing values for the other model predictors, GCS and SBP was `r
-round(gcs.na$percentage)`% and `r round(sbp.na$percentage)`% respectively.
+with `r number.variable.na ` missing values, which constituted `r round(percent.variable.na) `
+% of the total values for this variable. The percentages 
+of missing values for the other model predictors, GCS and SBP was `r round(gcs.na$percentage)`
+% and `r round(sbp.na$percentage)`% respectively.
   
 **Table 1. Sample characteristics of multiple imputed data.** Data is presented as medians with interquartile range (IQR) or counts with % as applicable.
 ```{r, echo = FALSE, results = "asis"} 
 ## Table 1
 options(knitr.kable.NA = '')
+# kable(results$table.one.list$Characteristics_table_of_high.volume.vs.low.volume , format = "markdown")
+# kable(results$table.one.list$Characteristics_table_of_metropolitan.vs.non.metropolitan , format = "markdown")
+# kable(results$table.one.list$Characteristics_table_of_multi.centre.vs.single.centre , format = "markdown")
+
 kable(table_one_high_low, format = "markdown")
 kable(table_one_metro_non_metro, format = "markdown")
 kable(table_one_multi_single, format = "markdown")
@@ -434,11 +437,10 @@ kable(table.2[,5:6], format = "markdown")
 ## Comparison
 Model performance after transfer was determined for each model being transferred
 to the other sample in the data set, in all data sets (Table 3). When
-transferred, the model with the lowest mistriage rate was the `r
-colnames(lowest.tran.mistriage)` model with a median mistriage rate of `r
-lowest.tran.mistriage`. The model with the highest mistriage rate after transfer
-was the `r colnames(highest.tran.mistriage)` with a median mistriage rate of `r
-highest.tran.mistriage`.
+transferred, the model with the lowest mistriage rate was the `r colnames(lowest.tran.mistriage)` 
+model with a median mistriage rate of `r lowest.tran.mistriage`. The model with 
+the highest mistriage rate after transfer was the `r colnames(highest.tran.mistriage)` 
+with a median mistriage rate of `r highest.tran.mistriage`.
   
 **Table 3. Model transfer performance, i.e. performance when transferred to the other sample in the same data set. ** Data is presented as point estimates with 95% Uncertainty Intervals (95% UI).  
 ```{r, echo = FALSE, results = "asis"} 
@@ -456,9 +458,8 @@ model performance was found in the `r colnames(highest.comp.mistriage)` model,
 with a median mistriage rate difference of `r highest.comp.mistriage`, meaning
 this model performed worse when transferred to the other sample in the same data
 set. In clinical terms, this model transfer means that among 100 trauma
-patients, `r
-abs(worst.transfer$Transferred.mistriage.minus.buddy.local.mistriage.median) *
-100` more patients would be wrongly classified as major or minor trauma.
+patients, `r abs(worst.transfer$Transferred.mistriage.minus.buddy.local.mistriage.median) * 100` 
+more patients would be wrongly classified as major or minor trauma.
   
 **Table 4. Comparison mistriage, i.e. sample validation performance subtracted from transferred performance.** Data is presented as point estimates with 95% Uncertainty Intervals (95% UI).  
 ```{r, echo = FALSE, results = "asis"} 
@@ -473,17 +474,16 @@ This study aimed to assess how transfers of clinical prediction models for early
 trauma care between different contexts within a single health system affect
 mistriage rates. The most notable effects on model performance following model
 transfer were seen after transferring the `r colnames(highest.comp.mistriage)`
-model. The mistriage rate increased by `r substr(format(highest.comp.mistriage),
-1, 5)` when using the `r colnames(highest.comp.mistriage)` model in the other
+model. The mistriage rate increased by `r substr(format(highest.comp.mistriage), 1, 5)` 
+when using the `r colnames(highest.comp.mistriage)` model in the other
 sample in the same data set. Mainly contributing to this increase in mistriage
 was the marked increase in overtriage when performing this model transfer. For
 this transfer the 95% UI ranged from `r UI.top.bot[1]` to `r UI.top.bot[2]`,
 indicating that our findings are compatible with a `r UI.top.bot[1]` decrease to
-a `r UI.top.bot[2]` increase in mistriage. The negative 95% UI of `r
-UI.top.bot[1]` would signifiy an improvement in model performance. The higher
+a `r UI.top.bot[2]` increase in mistriage. The negative 95% UI of `r UI.top.bot[1]` 
+would signifiy an improvement in model performance. The higher
 95% UI of `r UI.top.bot[2]` would mean a marked increase in model mistriage,
-compared to the point estimate of `r substr(format(highest.comp.mistriage), 1,
-5)`.
+compared to the point estimate of `r substr(format(highest.comp.mistriage), 1, 5)`.
 
 The transfer of clinical prediction models in trauma care has not previously
 been extensively studied. In 2016, Gerdin et al. found model transfer to
