@@ -5,7 +5,7 @@
 TableOneCreator <- function(data.sets) {
   
        Table.Variables <- c("pt_age_yrs", "pt_Gender", "ed_gcs_sum", "ed_sbp_value", "ed_rr_value", "res_survival", "ISS", "NISS", "ISS_over_15", "group")
-       lapply(names(data.sets), function(data.set.name) {
+       table.list <- lapply(names(data.sets), function(data.set.name) {
            data.set <- data.sets[[data.set.name]]
            data.set <- lapply(names(data.set), function(sample.name) {
                sample <- data.set[[sample.name]]
@@ -16,10 +16,11 @@ TableOneCreator <- function(data.sets) {
            table.name <- print(paste0("Characteristics_table_of_", data.set.name))
            CreateSampleCharacteristicsTable(study.sample = combined.data.set,
                                             variables = Table.Variables,
-                                            save.to.disk = TRUE,
+                                            save.to.disk = FALSE,
                                             save.to.results = FALSE,
                                             table.name = table.name,
                                             include.overall = FALSE,
                                             group = "group") 
   })
+return(table.list)
 }
