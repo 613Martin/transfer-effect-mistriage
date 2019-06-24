@@ -5,9 +5,11 @@ author:
 - Johanna Berg
 - Dell Saulnier
 - Martin Gerdin Wärnberg
-date: "June 18, 2019"
+date: "June 24, 2019"
 documentclass: "article"
-output: word_document
+output:
+  word_document:
+    reference_docx: transferstyle.docx
 header-includes:
    - \usepackage{hyperref}
 bibliography: library.bib
@@ -124,22 +126,22 @@ abstract: |
 
 # Introduction
 Trauma results in millions of deaths annually across the globe, and road traffic
-injuries are among the top 10 leading causes of death worldwide [@RN1;
-@RN21]. Each year 9% of the world’s deaths are because of trauma, and
+injuries are among the top 10 leading causes of death [@RN1; @RN21]. 
+Each year 9% of the world’s deaths are because of trauma, and
 predictions indicate that this number is likely to increase [@RN42].
 
-In a typical, high resource setting, the initial management of patients is
-performed on the scene of the trauma by Emergency Medical Services
-(EMS). Patient data, vital signs and scene information is transferred to the
-receiving hospital. This information is evaluated using a system to determine
-the level of trauma and prepare adequate resources [@RN43], dictating if a full
+In a typical, high resource setting, the initial trauma management is
+performed on the scene by Emergency Medical Services
+(EMS). Patient data and vital signs are transferred to the receiving hospital. 
+This information is then evaluated using a system to determine
+the level of trauma, prepare adequate resources [@RN43] and dictate if a full
 or limited trauma team is activated [@RN44].
 
 Systems to determine the level of trauma can be based on clinical prediction
-models.  Models differ in quality and characteristics, but generally perform
+models. Models differ in quality and characteristics, but generally perform
 well predicting survival [@RN45]. Many of these models are developed in a single
-standardized setting such as a large metropolitan area or a major trauma centre
-but are then implemented in different settings, such as non-trauma centres.
+standardized setting such as a major trauma centre but are then implemented in 
+different settings, such as non-trauma centres.
 
 What is not fully understood is how this transfer affects model
 performance. Previous research has shown that model performance in terms of
@@ -165,16 +167,16 @@ affect mistriage rates.
   
 # Materials and methods
 ## Study design
-We conducted a registry-based cohort study. Sweden has a nationally encompassing
-register for registering trauma called SweTrau. SweTrau data was used to create
+A registry-based cohort study was conducted. Sweden has a nationally encompassing
+trauma register called SweTrau. SweTrau data was used to create
 clinical prediction models, which were transferred between different contexts to
 study the effects on mistriage. The study and analysis plans were made
 publically available before the research was undertaken [@RN59].
 
 ## Setting
-In Sweden, trauma is the most common cause of death before 44 years of age. It
-is estimated that up to 10% of all major trauma patients suffer some form of
-disability. The societal effects of trauma are also substantial; with the loss
+In Sweden, trauma is the most common cause of death before 44 years of age. Up 
+to 10% of all major trauma patients suffer some form of disability. 
+The societal effects of trauma are also substantial, with the loss
 of work days comparable to those lost from cardiovascular and malignant diseases
 combined [@RN23].
 
@@ -188,37 +190,28 @@ form of system to categorize the level of trauma. These systems are usually
 based on patient vital signs and injury mechanism, as reported by the EMS, or as
 registered in the emergency department [@RN90].
 
-Data was obtained from SweTrau between 2011 and 2016. Today 95,5% (52 of 55) of
-Swedish hospitals record trauma cases in SweTrau. Currently the registry
-includes 55 000 cases, and the board encourages its use in both academic
-research and local quality improvement initiatives [@RN28].
-
-The SweTrau inclusion criteria are: Traumatic event with subsequent activation
-of hospital trauma protocol, admitted patients with NISS (New Injury Severity
-Score) > 15 and patients transferred to the hospital within 7 days of traumatic
-event with NISS > 15. SweTrau excludes patients if the only traumatic event is
-chronic subdural hematoma or if hospital trauma protocol is activated without
-traumatic event [@RN29].
+Today 95,5% (52 of 55) of Swedish hospitals record trauma cases in SweTrau. 
+Currently the registry includes 55 000 cases, and the board encourages its 
+use in both academic research and local quality improvement initiatives [@RN28].
 
 ## Participants 
-The eligibility criteria were patients registered in SweTrau, age 15 or
-above. This age was decided as the study aims to study adult trauma and not
+The eligibility criteria were patients registered in SweTrau between 2011 and 2016, 
+age 15 or above. This age was decided as the study aims to study adult trauma and not
 paediatric trauma which differs in physiology, triage and initial care
-[@RN46]. The Swedish guidelines for trauma activation define children as age <15
-[@RN90]. Also, several guidelines and protocols listed in ATLS use age ≥15 as
-cut-off [@RN43]. Patient age was obtained from the SweTrau register.
+[@RN46]. Also, the Swedish guidelines for trauma activation define children as age <15
+[@RN90]. Patient age was obtained from the SweTrau register.
 
 ## Variables
 ### Model predictors
-The clinical prediction models included the predictors systolic blood pressure
-(SBP), respiratory rate (RR) and Glasgow coma scale (GCS) on arrival to
-hospital. The rationale for including these three predictors is that they are
+The clinical prediction models used the predictors systolic blood pressure
+(SBP), respiratory rate (RR) and Glasgow coma scale (GCS), all on arrival to
+hospital. The rationale for these three predictors is that they are
 part of many established clinical prediction models for early trauma care, such
 as the Revised Trauma Score [@RN35].
 
 ### Model outcome
 The outcome used to develop the clinical prediction models was all cause
-mortality within 30 days of the trauma.
+mortality within 30 days of trauma.
 
 ### Participant characteristics
 To describe the patient cohort we reported age, sex, Injury Severity Score (ISS)
@@ -238,22 +231,20 @@ sum of the over- and undertriage rates.
 ## Data sources and measurements
 Model predictors, outcome, participant characteristics and study outcome as
 outlined above were all obtained from SweTrau. The method of measurement for the
-model predictors is not specified (for example, if SBP is measured using an
-automated cuff or manually) in the registry entries. In Swedish emergency rooms,
+model predictors is not specified in the registry entries. In Swedish emergency rooms,
 patient parameters are usually obtained by a registered nurse or assistant nurse
 and are assumed to be accurate.  Whether the patient is dead or alive 30 days
-after trauma is manually entered into the registry locally, by each respective
-hospital. Participant characteristics are obtained from the patient file before
-being registered in SweTrau. NISS and ISS are calculated by hospital personal
+after trauma is manually entered into the registry locally by each respective
+hospital. NISS and ISS are calculated by hospital personal
 based on the patient’s injuries.
 
 ## Bias
 Data analysis was conducted according to a prearranged analysis plan. The
 analysis plan and statistical analysis code was finalised using simulated
 data. These efforts were taken to avoid confirmation bias. The analysis plan was
-reviewed by an experienced statistician and programmer prior to implementation,
-to ensure objectivity. Neither outcome nor variable were blinded when conducting
-data analysis, which made a structured objective approach important.
+reviewed by an experienced statistician and programmer prior to implementation. 
+Neither outcome nor variable were blinded when conductingdata analysis, which 
+made a structured objective approach important.
 
 ## Study size
 All patients matching eligibility criteria listed above. Four data sets were
@@ -270,9 +261,7 @@ the cutoff.
 
 ## Statistical methods
 ### Data sets
-The complete SweTrau cohort was split into four sets of data. High and low
-volume centres, metropolitan and non-metropolitan centres, multi and single
-centre data and individual centres.
+The complete SweTrau cohort was split into four sets of data, outlined below.
 
 ### High and low volume centres
 Based on number of patients, two samples were derived from this data set. High
@@ -302,13 +291,12 @@ subsample was the development sample, and the later subsample the validation
 sample. The development sample contained 70 events (events being patients who
 died within 30 days of the trauma) and all non-events (non-events being patient
 survival 30 days past the trauma) during the same time. The rationale for
-including 70 events is that we needed at least 10 events per free parameter in
+including 70 events is that at least 10 events per free parameter were needed in
 the logistic regression to obtain stable coefficient estimates [@RN30]. The
 validation sample instead contained 100 events and at least 100 non-events,
 which was suggested as the minimum number by Vergouwe in 2005 for external
 validation samples [@RN37]. See figure 1 for example using the high- and low
-volume centre data set, with high volume centres being those in the top quartile
-of number of patients registered. The minimum sample size of development and
+volume centre data set. The minimum sample size of development and
 validation samples was 140 and 200 respectively. We performed analyses only on
 data sets for which all samples included at least the minimum number of
 patients.
@@ -328,16 +316,15 @@ procedure.
 ### Model development
 In the model development step a clinical prediction model was developed in the
 high-volume centre development sample. The model was developed using logistic
-regression as implemented in the R function glm. The dependent variable was all
-cause mortality within 30 days of trauma and independent variables SBP, RR, and
-GCS modelled as previously described. To avoid overfitting the model a
-bootstrap procedure was used to estimate a linear shrinkage factor that was then applied
-to the model coefficients [@RN61]. The shrunk model was then used to estimate
-the probability of all cause 30-day mortality in the development sample. A
-gridsearch was performed across estimated probabilities in the development
-sample to identify the cut-off that optimised overtriage keeping undertriage at
-less than 5% [@RN39]. This cut-off was then used to classify patients as major
-or minor trauma.
+regression. The dependent variable was all cause mortality within 30 days of 
+trauma and independent variables SBP, RR, andGCS modelled as previously described. 
+To avoid overfitting the model a bootstrap procedure was used to estimate a linear 
+shrinkage factor that was then appliedto the model coefficients [@RN61]. The shrunk 
+model was then used to estimate the probability of all cause 30-day mortality in the 
+development sample. A gridsearch was performed across estimated probabilities in 
+the development sample to identify the cut-off that optimised overtriage keeping 
+undertriage at less than 5% [@RN39]. This cut-off was then used to classify patients 
+as major or minor trauma.
 
 ### Model validation
 In the model validation step, the model performance was assessed in the
@@ -361,13 +348,13 @@ Model performance was assessed in terms of over-, under-, and mistriage rates as
 defined above.
 
 ### Missing data
-We used multiple imputation using chained equations, as implemented in the R
-package mice, to handle missing data [@RN41]. The number of imputations created
+We used multiple imputation using chained equations (mice), to handle missing data [@RN41]. 
+The number of imputations created
 for each data set was equal to the highest percentage of missing data in that
 data set. Quantitative variables were imputed using predictive mean matching and
 qualitative variables were imputed using logistic regression. SBP and RR was
-transformed as restricted cubic splines before imputation and imputed as just
-another variable. All analyses outlined above were then conducted separately in
+transformed as restricted cubic splines before imputation. All analyses outlined 
+above were then conducted separately in
 each imputed dataset. We present the combined results as the median point
 estimate across imputations along with an empirical bootstrap of the 25th and
 75th percentiles across imputations, i.e. the lower bound of the presented
@@ -406,7 +393,6 @@ options(knitr.kable.NA = '')
 # kable(results$table.one.list$Characteristics_table_of_high.volume.vs.low.volume , format = "markdown")
 # kable(results$table.one.list$Characteristics_table_of_metropolitan.vs.non.metropolitan , format = "markdown")
 # kable(results$table.one.list$Characteristics_table_of_multi.centre.vs.single.centre , format = "markdown")
-
 kable(table_one_high_low, format = "markdown")
 kable(table_one_metro_non_metro, format = "markdown")
 kable(table_one_multi_single, format = "markdown")
@@ -421,7 +407,7 @@ multi and single centre data set respectively.
   
 Table 2 shows model validation performance. The model with the lowest validation
 mistriage rate was the `r colnames(lowest.val.mistriage)` model with a median
-mistriage rate with 95% UI of `r lowest.val.mistriage`. Performance in terms of
+mistriage rate of `r lowest.val.mistriage`. Performance in terms of
 undertriage and overtriage rate for the same model was `r val.undertriage`, and
 `r val.overtriage` respectively. Worst validation performance i.e. highest
 mistriage rate was found in the `r colnames(highest.val.mistriage)` sample, with
@@ -451,9 +437,7 @@ kable(table.3[,5:6], format = "markdown")
 ```  
    
 Table 4 shows the transferred model performance when compared to the validation
-performance in the sample reciving the transferred model, e.g. high volume
-transfer performance minus low volume validation performance.
-
+performance in the sample reciving the transferred model.
 The highest mistriage rate when compared to the reciveing sample validation
 model performance was found in the `r colnames(highest.comp.mistriage)` model,
 with a median mistriage rate difference of `r highest.comp.mistriage`, meaning
@@ -480,11 +464,9 @@ further uncertainty.
 
 The most notable effects on model performance following model
 transfer were seen after transferring the `r colnames(highest.comp.mistriage)`
-model. The mistriage rate increased by `r substr(format(highest.comp.mistriage), 1, 5)` 
-when using the `r colnames(highest.comp.mistriage)` model in the other
-sample in the same data set. Mainly contributing to this increase in mistriage
-was the marked increase in overtriage when performing this model transfer. For
-this transfer the 95% UI ranged from `r UI.top.bot[1]` to `r UI.top.bot[2]`, indicating 
+model, with a mistriage rate increase by `r substr(format(highest.comp.mistriage), 1, 5)`. 
+Mainly contributing to this was a marked increase in overtriage. 
+For this transfer the 95% UI ranged from `r UI.top.bot[1]` to `r UI.top.bot[2]`, indicating 
 a high level of uncertainty and that our findings are compatible with a `r UI.top.bot[1]` 
 decrease to a `r UI.top.bot[2]` increase in mistriage. The negative 95% UI of `r UI.top.bot[1]` 
 would signifiy an improvement in model performance. The higher
@@ -492,10 +474,10 @@ would signifiy an improvement in model performance. The higher
 compared to the point estimate of `r substr(format(highest.comp.mistriage), 1, 5)`.
 
 The transfer of clinical prediction models in trauma care has not previously
-been extensively studied. In 2016, Gerdin et al. found model transfer to
+been studied extensively . In 2016, Gerdin et al. found model transfer to
 adversely affect model performance in terms of calibration, but that this could
 be improved by updating the model [@RN27]. This study did not examine model
-performance in terms of calibration, neither was the effects of updating the
+performance in terms of calibration, neither were the effects of updating the
 model explored.
 
 External validation as the evaluation of a clinical prediction model in a
@@ -504,35 +486,26 @@ extensively. Studies using simulated clinical prediction models based on
 different predictors showed a decline in model performance when being externally
 validated [@RN60; @RN61]. A study from 2018 examining the external validity of
 prediction models for coronary artery disease (CAD) [@RN62], showed models
-significantly underestimating the probability of CAD. This study did not find
-the same dramatic decrease in model performance after transfer. However, the
+significantly underestimating the probability of CAD. The
 combined results of this study, the studies on model transfer and the studies on
-external validation warrants further caution when transferring models between
-different settings.
+external validation suggests caution when transferring models.
 
 ## Strengths and limitations
-This study design realistically reflects potential transfers: e.g. clinical
+This study design realistically reflects potential transfers: clinical
 prediction models for trauma are usually developed in large metropolitan centres
 and then transferred as clinical recommendations to minor non-metropolitan
-centres in which traumatic injuries are not as common.
+centres.
 
 Originally all single centres with a valid number of events were to constitute
-one data set, but when performing the analysis only one centre provided a
-sufficient number of events. Leading to the loss of the fourth data set:
-Individual centres, and the comparison between these. Possibly, the results this
-data set might have provided results that could reflect realistic situations as
-major trauma centres regularly exchange data to improve patient care.
+a data set, but only one centre provided a sufficient number of events. Leading to 
+the loss of the data set: Individual centres. This data set might have provided
+results that could reflect realistic situations as major trauma centres regularly 
+exchange data.
 
-In Sweden major trauma is relatively uncommon, this might lead to
-inconsistencies across centres when performing SweTrau registration. E.g. using
-NISS instead of ISS, registering SBP by category and not by absolute value or
-not following up on patient survival. This might lead to exaggerated performance
-differences between the settings.
-
-The models in this study used GCS, RR and SBP as predictors for 30-day
-mortality. Potentially, the use of additional predictors such as age, mechanism
+This study used GCS, RR and SBP as predictors for 30-day
+mortality. Additional predictors such as age, mechanism
 of injury, or newer predictors as shock index might increase model
-performance. Furthermore, we used 30-day mortality as an outcome, recognizing
+performance. Furthermore, we used 30-day mortality as outcome, recognizing
 that late mortality, time in hospital, functional impairment, and morbidity are
 also important outcome factors in the context of trauma care.
 
@@ -544,10 +517,10 @@ major way. Using GitHub, all code was made public for inspection and to ensure
 reproducibility [@RN59].
 
 ## Clinical applications
-The results of this study show that mistriage can potentially increase following
-model transfer, in this case more prominently when transferring from a
-metropolitan setting to a non-metropolitan setting. This supports the view that
-model transfers should be done with caution, as performance might decline.
+This study shows that mistriage can potentially increase following
+model transfer, and more prominently in certain cases. This supports 
+the view that model transfers should be done with caution, as 
+performance might decline.
 
 Recognizing these risks and updating models accordingly will lead to increased
 accuracy during trauma patient triage. Potentially saving lives by minimizing
@@ -564,22 +537,18 @@ results, one way of doing this would be to replicate this study with the latest
 data in the SweTrau, as many hospitals have joined recently leading to an
 increased number of patients registered.
 
-Model transfer could potentially be studied using different methods. Quite
-often, as mentioned, clinical models are transferred from a major metropolitan
-centre to a smaller rural centre. Staff opinions considering how applicable this
-new model is could be obtained using an interview or questionnaire approach
-Clinical trials using different models could also be performed, however,
-appropriate ethical considerations are paramount before performing this type of
-study.
+Model transfer could potentially be studied using different methods. Staff opinions 
+considering how applicable this new model is could be obtained using a questionnaire approach. 
+Clinical trials using different models could also be performed, however, appropriate ethical 
+considerations are paramount before performing this type of study.
 
 ## Conclusion
-Model transfer resulted in large and varying levels of uncertainty, and in all 
-samples 95% UI included 0. Model transfer can therefore be unpredictable, but can 
-potentially lead to increased mistriage, resulting in increased patient mortality 
-and a misappropriation of resources, due to increased undertriage and overtriage, 
-respectively. Transfer of the `r colnames(highest.comp.mistriage)` model lead to an 
-increased mistriage rate of `r highest.comp.mistriage`. This observed effect was also
-associated with considerable uncertainty, meaning mistriage might slightly
+Model transfer resulted in large and varying levels of uncertainty. Model transfer 
+can therefore be unpredictable, and potentially lead to increased mistriage, resulting 
+in increased patient mortality and a misappropriation of resources, due to increased 
+undertriage and overtriage, respectively. Transfer of the `r colnames(highest.comp.mistriage)` 
+model lead to an increased mistriage rate of `r highest.comp.mistriage`. This 
+observed effect was also associated with considerable uncertainty, meaning mistriage might slightly
 decrease, but would more likely increase, potentially substantially. Recognizing 
 the limitations of this study, the authors believe further studies are warranted due
 to the potential economic costs and patient consequences of poor model
