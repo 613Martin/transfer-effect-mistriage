@@ -109,14 +109,15 @@ abstract: |
   validation median mistriage rate with 95% UI ranged from `r lowest.val.mistriage` 
   to `r highest.val.mistriage`, and transferred model
   mistriage rate ranged from `r lowest.tran.mistriage` to `r highest.tran.mistriage` 
-  across all samples. Worst performance after transfer
-  compared to receiving sample validation performance was found in the `r colnames(highest.comp.mistriage)` 
+  across all samples. Transfer performance when compared to receiving sample validation 
+  performance resulted in subtantial uncertainty in all samples. Worst comparison 
+  performance after transfer was found in the `r colnames(highest.comp.mistriage)` 
   sample with a median mistriage difference of `r highest.comp.mistriage`.
   
-  **Conclusions:** Model transfer from the `r colnames(highest.comp.mistriage)`
-  to the other sample in the data set lead to an increased mistriage
-  rate. Mainly due to a marked increase in overtriage. In all samples, model
-  transfer was associated with high levels of uncertainty.
+  **Conclusions:** In all samples, model transfer was associated with high 
+  levels of uncertainty. Notably, model transfer from the `r colnames(highest.comp.mistriage)` 
+  sample to the other sample in the data set lead to an increased mistriage
+  rate, mainly due to a marked increase in overtriage. 
   
   **Keywords:** Trauma, Clinical prediction model, Transferability, Mistriage, Undertriage, Overtriage 
 ---
@@ -395,8 +396,8 @@ sample with `r highest.percent.missing.number `% incomplete observations. The
 variable with the highest number of missing values was `r name.variable.na `,
 with `r number.variable.na ` missing values, which constituted `r round(percent.variable.na) `
 % of the total values for this variable. The percentages 
-of missing values for the other model predictors, GCS and SBP was `r round(gcs.na$percentage)`
-% and `r round(sbp.na$percentage)`% respectively.
+of missing values for the other model predictors, GCS and SBP was `r round(gcs.na$percentage)`% 
+and `r round(sbp.na$percentage)`% respectively.
   
 **Table 1. Sample characteristics of multiple imputed data.** Data is presented as medians with interquartile range (IQR) or counts with % as applicable.
 ```{r, echo = FALSE, results = "asis"} 
@@ -472,15 +473,20 @@ kable(table.4[,5:6], format = "markdown")
 # Discussion
 This study aimed to assess how transfers of clinical prediction models for early
 trauma care between different contexts within a single health system affect
-mistriage rates. The most notable effects on model performance following model
+mistriage rates. In all data sets, model transfer between samples resulted in 
+substantial uncertainty, with some variation between different data sets. Comparing 
+transferred performance with the reciveing sample validation performance resulted in 
+further uncertainty.
+
+The most notable effects on model performance following model
 transfer were seen after transferring the `r colnames(highest.comp.mistriage)`
 model. The mistriage rate increased by `r substr(format(highest.comp.mistriage), 1, 5)` 
 when using the `r colnames(highest.comp.mistriage)` model in the other
 sample in the same data set. Mainly contributing to this increase in mistriage
 was the marked increase in overtriage when performing this model transfer. For
-this transfer the 95% UI ranged from `r UI.top.bot[1]` to `r UI.top.bot[2]`,
-indicating that our findings are compatible with a `r UI.top.bot[1]` decrease to
-a `r UI.top.bot[2]` increase in mistriage. The negative 95% UI of `r UI.top.bot[1]` 
+this transfer the 95% UI ranged from `r UI.top.bot[1]` to `r UI.top.bot[2]`, indicating 
+a high level of uncertainty and that our findings are compatible with a `r UI.top.bot[1]` 
+decrease to a `r UI.top.bot[2]` increase in mistriage. The negative 95% UI of `r UI.top.bot[1]` 
 would signifiy an improvement in model performance. The higher
 95% UI of `r UI.top.bot[2]` would mean a marked increase in model mistriage,
 compared to the point estimate of `r substr(format(highest.comp.mistriage), 1, 5)`.
@@ -567,16 +573,15 @@ appropriate ethical considerations are paramount before performing this type of
 study.
 
 ## Conclusion
-Transfer of the `r colnames(highest.comp.mistriage)` model lead to an increased
-mistriage rate of `r highest.comp.mistriage`. This observed effect was
+Model transfer resulted in large and varying levels of uncertainty, and in all 
+samples 95% UI included 0. Model transfer can therefore be unpredictable, but can 
+potentially lead to increased mistriage, resulting in increased patient mortality 
+and a misappropriation of resources, due to increased undertriage and overtriage, 
+respectively. Transfer of the `r colnames(highest.comp.mistriage)` model lead to an 
+increased mistriage rate of `r highest.comp.mistriage`. This observed effect was also
 associated with considerable uncertainty, meaning mistriage might slightly
-decrease, but would more likely increase, potentially substantially. In many
-other samples, model transfer led to large levels of uncertainty, and in all
-samples 95% UI included 0. In conclusion, model transfer is associated with
-varying degrees of uncertainty but can potentially lead to increased mistriage,
-resulting in increased patient mortality and a misappropriation of resources,
-due to increased undertriage and overtriage, respectively. Recognizing the
-limitations of this study, the authors believe further studies are warranted due
+decrease, but would more likely increase, potentially substantially. Recognizing 
+the limitations of this study, the authors believe further studies are warranted due
 to the potential economic costs and patient consequences of poor model
 transfers.
 
