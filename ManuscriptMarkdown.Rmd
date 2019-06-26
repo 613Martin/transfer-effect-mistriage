@@ -18,6 +18,7 @@ csl: bmcemerg.csl
 ```{r setup, include=FALSE}
 library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
+
 ## LOAD FUNCTIONS, ENVIROMENT AND TABLES
   ## Source functions
   source("functions/WorkTableCreator.R")
@@ -27,8 +28,8 @@ knitr::opts_chunk$set(echo = TRUE)
   result.tables.data.frame <- readRDS("result.tables.data.frame.Rds")
   ## Create table for ease of data retrival
   results.all.data <- WorkTableCreator(result.tables.data.frame)
-  ## RESULTS
-  ## Characteristics paragraph
+  
+## RESULTS
   ## Total patients and NA
   total.number.of.patients <- nrow(results$data.sets.before.imputations$multi.centre.vs.single.centre$multi.centre)
   total.number.of.na <- results$NA.info.sample$multi.centre.vs.single.centre$multi.centre$total.number.of.na
@@ -40,10 +41,10 @@ knitr::opts_chunk$set(echo = TRUE)
   ## Variable NA
   number.variable.na <- max(results$NA.info.variable$multi.centre.vs.single.centre$multi.centre$number.of.na)
   percent.variable.na <- results$NA.info.variable$multi.centre.vs.single.centre$multi.centre$percentage[results$NA.info.variable$multi.centre.vs.single.centre$multi.centre$number.of.na == number.variable.na]
-  name.variable.na <- row.names( results$NA.info.variable$multi.centre.vs.single.centre$multi.centre[results$NA.info.variable$multi.centre.vs.single.centre$multi.centre$number.of.na == number.variable.na,] )
+  name.variable.na <- row.names(results$NA.info.variable$multi.centre.vs.single.centre$multi.centre[results$NA.info.variable$multi.centre.vs.single.centre$multi.centre$number.of.na == number.variable.na,])
   gcs.na <- (results$NA.info.variable$multi.centre.vs.single.centre$multi.centre[row.names(results$NA.info.variable$multi.centre.vs.single.centre$multi.centre) == "ed_gcs_sum",])
   sbp.na <- (results$NA.info.variable$multi.centre.vs.single.centre$multi.centre[row.names(results$NA.info.variable$multi.centre.vs.single.centre$multi.centre) == "ed_sbp_value",])
-## Development and validation
+  ## Development and validation
   ## Imputation data
   high.low.imp <- results$original.stats$Total.imputations[results$original.stats$Sample.name == "high.volume"]
   metro.non.imp <- results$original.stats$Total.imputations[results$original.stats$Sample.name == "metropolitan"]
@@ -55,7 +56,7 @@ knitr::opts_chunk$set(echo = TRUE)
   val.undertriage <- results.all.data["Validation.undertriage", colnames(lowest.val.mistriage)]
   val.overtriage <- results.all.data["Validation.overtriage", colnames(lowest.val.mistriage)]
   highest.val.mistriage <- sorted.validation.mistriage[6]
-## Comparison
+  ## Comparison
   ## Transfer data
   sorted.transfer.mistriage <- sort(results.all.data[row.names(results.all.data) == "Transfer.mistriage",], decreasing = FALSE)
   lowest.tran.mistriage <- sorted.transfer.mistriage[1]
@@ -64,14 +65,21 @@ knitr::opts_chunk$set(echo = TRUE)
   sorted.comp.mistriage <- sort(results.all.data[row.names(results.all.data) == "Transferred.mistriage.minus.buddy.local.mistriage",], decreasing = FALSE)
   highest.comp.mistriage <- sorted.comp.mistriage[6]
   worst.transfer <- results$original.stats[results$original.stats$Transferred.mistriage.minus.buddy.local.mistriage.median == max(results$original.stats$Transferred.mistriage.minus.buddy.local.mistriage.median),]
+
 ## DISCUSSION
   ## First paragraph
   UI.interval <- sub("\\).*", "", sub(".*\\(", "", format(highest.comp.mistriage)))
   UI.top.bot.list <- strsplit(UI.interval, split = " - ")
   UI.top.bot <- unlist(UI.top.bot.list)
-## Table setup
+
+## TABLE SETUP
   # Table 1 = Sample characteristics table
-  #
+  high.low <- results$table.one.list$Characteristics_table_of_high.volume.vs.low.volume
+  names(high.low) <- c("characteristic", "level", "high volume", "low volume")
+  met.nonmet <- results$table.one.list$Characteristics_table_of_metropolitan.vs.non.metropolitan
+  names(met.nonmet) <- c("characteristic", "level", "metropolitan", "non metropolitan")
+  multi.single <- results$table.one.list$Characteristics_table_of_multi.centre.vs.single.centre
+  names(multi.single) <- c("characteristic", "level", "multi centre", "single centre")
   # Table 2 = result.tables, cropped to only show validation
   table.2 <- results.all.data[1:3,]
   rownames(table.2) <- c("Mistriage", "Undertriage", "Overtriage")
@@ -383,9 +391,9 @@ and `r round(sbp.na$percentage)`% respectively.
 ```{r, echo = FALSE, results = "asis"} 
 ## Table 1
 options(knitr.kable.NA = '')
-kable(results$table.one.list$Characteristics_table_of_high.volume.vs.low.volume , format = "markdown")
-kable(results$table.one.list$Characteristics_table_of_metropolitan.vs.non.metropolitan , format = "markdown")
-kable(results$table.one.list$Characteristics_table_of_multi.centre.vs.single.centre , format = "markdown")
+kable(high.low, format = "markdown")
+kable(met.nonmet, format = "markdown")
+kable(multi.single, format = "markdown")
 ``` 
 Abbreviations: GCS glasgow coma scale, SBP systolic blood pressure, RR respiratory rate, ISS injury severity score, NISS new injury severity score
 
