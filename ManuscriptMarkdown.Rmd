@@ -23,18 +23,11 @@ knitr::opts_chunk$set(echo = TRUE)
   source("functions/WorkTableCreator.R")
   ## Original results
   results <- readRDS("output/original.results.Rds")
-  ## Compiled results with UI
-  result.tables <- readRDS("result.tables.Rds")
   ## Compiled results with UI as data frame
   result.tables.data.frame <- readRDS("result.tables.data.frame.Rds")
   ## Create table for ease of data retrival
   results.all.data <- WorkTableCreator(result.tables.data.frame)
-  ## Sample characteristics table  (Retrived locally!)
-  library(readxl)
-  table_one_high_low <- read_excel("table one/table one high low.xlsx")
-  table_one_metro_non_metro <- read_excel("table one/table one metro non metro.xlsx")
-  table_one_multi_single <- read_excel("table one/table one multi single.xlsx")
-## RESULTS
+  ## RESULTS
   ## Characteristics paragraph
   ## Total patients and NA
   total.number.of.patients <- nrow(results$data.sets.before.imputations$multi.centre.vs.single.centre$multi.centre)
@@ -390,12 +383,9 @@ and `r round(sbp.na$percentage)`% respectively.
 ```{r, echo = FALSE, results = "asis"} 
 ## Table 1
 options(knitr.kable.NA = '')
-# kable(results$table.one.list$Characteristics_table_of_high.volume.vs.low.volume , format = "markdown")
-# kable(results$table.one.list$Characteristics_table_of_metropolitan.vs.non.metropolitan , format = "markdown")
-# kable(results$table.one.list$Characteristics_table_of_multi.centre.vs.single.centre , format = "markdown")
-kable(table_one_high_low, format = "markdown")
-kable(table_one_metro_non_metro, format = "markdown")
-kable(table_one_multi_single, format = "markdown")
+kable(results$table.one.list$Characteristics_table_of_high.volume.vs.low.volume , format = "markdown")
+kable(results$table.one.list$Characteristics_table_of_metropolitan.vs.non.metropolitan , format = "markdown")
+kable(results$table.one.list$Characteristics_table_of_multi.centre.vs.single.centre , format = "markdown")
 ``` 
 Abbreviations: GCS glasgow coma scale, SBP systolic blood pressure, RR respiratory rate, ISS injury severity score, NISS new injury severity score
 
