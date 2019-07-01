@@ -24,8 +24,8 @@ TableOneCreator <- function(data.sets, codebook = NULL) {
                                                                           include.overall = FALSE,
                                                                           group = "group") 
   })
-names(table.list) <- c("Characteristics_table_of_high.volume.vs.low.volume",
-                       "Characteristics_table_of_metropolitan.vs.non.metropolitan",
-                       "Characteristics_table_of_multi.centre.vs.single.centre")
-return(table.list)
+  names(table.list) <- c("Characteristics_table_of_high.volume.vs.low.volume",
+                         "Characteristics_table_of_metropolitan.vs.non.metropolitan",
+                         "Characteristics_table_of_multi.centre.vs.single.centre")
+  return(table.list)
 }
