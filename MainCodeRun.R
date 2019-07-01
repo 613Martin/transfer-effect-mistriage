@@ -39,9 +39,30 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE) {
     selected.data <- Metrocheck(selected.data)
     ## Mark entries as valid (>170 events) individual centres
     selected.data <- IndividualCentreCheck(selected.data)
+    ## Define codebook
+    codebook <- list(pt_age_yrs = list(full.label = "Patient age",
+                                       abbreviated.label = "Age"),
+                     pt_Gender = list(full.label = "Patient gender",
+                                      abbreviated.label = "Gender"),
+                     ed_gcs_sum = list(full.label = "Glasgow coma scale",
+                                       abbreviated.label = "GCS"),
+                     ed_sbp_value = list(full.label = "Systolic blood pressure",
+                                         abbreviated.label = "SBP"),
+                     ed_rr_value = list(full.label = "Respiratory rate",
+                                        abbreviated.label = "RR"),
+                     res_survival = list(full.label = "30 day survival",
+                                         abbreviated.label = "30d survival"),
+                     ISS = list(full.label = "Injury severity score",
+                                abbreviated.label = "ISS"),
+                     NISS = list(full.label = "New injury severity score",
+                                 abbreviated.label = "NISS"),
+                     ISS_over_15 = list(full.label = "Injury severity score over 15",
+                                        abbreviated.label = "ISS>15"),
+                     group = list(full.label = "Group",
+                                  abbreviated.label = ""))
     ## Get original results
     if (clean.start | !original.results.done)
-        RunStudy(selected.data = selected.data , boot = FALSE, test = test)
+        RunStudy(selected.data = selected.data , codebook = codebook, boot = FALSE, test = test)
     ## Create bootstrap samples
     number.of.bootstrap.samples = 1000
     bootstrap.samples <- list()

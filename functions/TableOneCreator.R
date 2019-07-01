@@ -2,7 +2,8 @@
 #' 
 #' Creates table one, i.e. a sample characteristics table
 #' @param data.sets The data.set list containing the samples.
-TableOneCreator <- function(data.sets) {
+#' @param codebook Codebook for pretty table printing. Defaults to NULL.
+TableOneCreator <- function(data.sets, codebook = NULL) {
   
        Table.Variables <- c("pt_age_yrs", "pt_Gender", "ed_gcs_sum", "ed_sbp_value", "ed_rr_value", "res_survival", "ISS", "NISS", "ISS_over_15", "group")
        table.list <- lapply(names(data.sets), function(data.set.name) {
@@ -16,6 +17,7 @@ TableOneCreator <- function(data.sets) {
                             table.name <- print(paste0("Characteristics_table_of_", data.set.name))
                             CreateSampleCharacteristicsTable(study.sample = combined.data.set,
                                                              variables = Table.Variables,
+                                                             codebook = codebook,
                                                              save.to.disk = FALSE,
                                                              save.to.results = FALSE,
                                                              table.name = table.name,
