@@ -15,14 +15,14 @@ TableOneCreator <- function(data.sets, codebook = NULL) {
                             })
                             combined.data.set <- do.call(rbind, data.set)
                             table.name <- print(paste0("Characteristics_table_of_", data.set.name))
-                            CreateSampleCharacteristicsTable(study.sample = combined.data.set,
-                                                             variables = Table.Variables,
-                                                             codebook = codebook,
-                                                             save.to.disk = FALSE,
-                                                             save.to.results = FALSE,
-                                                             table.name = table.name,
-                                                             include.overall = FALSE,
-                                                             group = "group") 
+                            bengaltiger::CreateSampleCharacteristicsTable(study.sample = combined.data.set,
+                                                                          variables = Table.Variables,
+                                                                          codebook = codebook,
+                                                                          save.to.disk = FALSE,
+                                                                          save.to.results = FALSE,
+                                                                          table.name = table.name,
+                                                                          include.overall = FALSE,
+                                                                          group = "group") 
   })
 names(table.list) <- c("Characteristics_table_of_high.volume.vs.low.volume",
                        "Characteristics_table_of_metropolitan.vs.non.metropolitan",

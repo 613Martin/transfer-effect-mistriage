@@ -62,7 +62,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE) {
                                   abbreviated.label = ""))
     ## Get original results
     if (clean.start | !original.results.done)
-        RunStudy(selected.data = selected.data , codebook = codebook, boot = FALSE, test = test)
+        RunStudy(selected.data = selected.data, codebook = codebook, boot = FALSE, test = test)
     ## Create bootstrap samples
     number.of.bootstrap.samples = 1000
     bootstrap.samples <- list()
@@ -92,12 +92,9 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE) {
     ## Compile results
     CompileResults()
     ## Render results document
-    rmarkdown::render("Results.Rmd")
+    rmarkdown::render("./ManuscriptMarkdown.Rmd")
 
 }
-start.time <- Sys.time()
-MainCodeRun(test = FALSE, clean.start = FALSE)
-end.time <- Sys.time()
-message("This run took ", difftime(end.time, start.time, units = "hours"), " hours")
+MainCodeRun(test = TRUE, clean.start = TRUE)
 
 
