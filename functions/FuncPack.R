@@ -4,6 +4,9 @@
 #'     but returned. Defaults to FALSE.
 #' @export
 FuncPack <- function(return.only = FALSE) {
+    ## Get specific bengaltiger version
+    library(devtools)
+    install_github("martingerdin/bengaltiger@c360801126f95d1573ed5e766d743648b51cd8f9")
     
     ## Load required packages
     packages <- c("data.table",
@@ -18,7 +21,7 @@ FuncPack <- function(return.only = FALSE) {
 
     if (!return.only)
         for(package in packages) library(package, character.only = TRUE)
-    
+   
     ## Source functions
     files <- list.files("./Functions", full.names = TRUE, pattern = ".R$")
     functions <- gsub("^./Functions/|.R$", "", files)
