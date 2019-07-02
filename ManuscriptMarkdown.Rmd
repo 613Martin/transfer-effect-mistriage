@@ -469,24 +469,26 @@ kable(table.4[,5:6], format = "markdown")
 # Discussion
 This study aimed to assess how transfers of clinical prediction models for early
 trauma care between different contexts within a single health system affect
-mistriage rates. In all data sets, model transfer between samples resulted in 
-substantial uncertainty, with some variation between different data sets. Comparing 
-transferred performance with the reciveing sample validation performance resulted in 
-further uncertainty.
+mistriage rates. In all data sets, model transfer between samples resulted in
+substantial uncertainty in its effect on model performance. Comparing
+transferred performance with the reciveing sample validation performance
+resulted in **further uncertainty** _(Not very clear what you mean here, please
+try to clarify.)_.
 
-The most notable effects on model performance following model
-transfer were seen after transferring the `r colnames(highest.comp.mistriage)`
-model, with a mistriage rate increase by `r substr(format(highest.comp.mistriage), 1, 5)`. 
-Mainly contributing to this was a marked increase in overtriage. 
-For this transfer the 95% UI ranged from `r UI.top.bot[1]` to `r UI.top.bot[2]`, indicating 
-a high level of uncertainty and that our findings are compatible with a `r UI.top.bot[1]` 
-decrease to a `r UI.top.bot[2]` increase in mistriage. The negative 95% UI of `r UI.top.bot[1]` 
-would signifiy an improvement in model performance. The higher
-95% UI of `r UI.top.bot[2]` would mean a marked increase in model mistriage,
-compared to the point estimate of `r substr(format(highest.comp.mistriage), 1, 5)`.
+The most notable effects on model performance following model transfer were seen
+after transferring the `r colnames(highest.comp.mistriage)` model. This transfer
+resulted in an increase of the mistriage rate by 
+`r substr(format(highest.comp.mistriage), 1, 5)`.  Mainly contributing to this was
+a marked increase in overtriage.  For this transfer the 95% UI ranged from 
+`r UI.top.bot[1]` to `r UI.top.bot[2]`, indicating a high level of uncertainty and
+that our findings are compatible with a `r UI.top.bot[1]` decrease to a 
+`r UI.top.bot[2]` increase in mistriage. The negative 95% UI of `r UI.top.bot[1]`
+would signifiy an improvement in model performance. The higher 95% UI of `r
+UI.top.bot[2]` would mean a marked increase in model mistriage, compared to the
+point estimate of `r substr(format(highest.comp.mistriage), 1, 5)`.
 
 The transfer of clinical prediction models in trauma care has not previously
-been studied extensively . In 2016, Gerdin et al. found model transfer to
+been studied extensively. In 2016, Gerdin et al. found model transfer to
 adversely affect model performance in terms of calibration, but that this could
 be improved by updating the model [@RN27]. This study did not examine model
 performance in terms of calibration, neither were the effects of updating the
@@ -498,21 +500,23 @@ extensively. Studies using simulated clinical prediction models based on
 different predictors showed a decline in model performance when being externally
 validated [@RN60; @RN61]. A study from 2018 examining the external validity of
 prediction models for coronary artery disease (CAD) [@RN62], showed models
-significantly underestimating the probability of CAD. The
-combined results of this study, the studies on model transfer and the studies on
-external validation suggests caution when transferring models.
+significantly underestimating the probability of CAD. The combined results of
+this study, the studies on model transfer and the studies on external validation
+suggests caution when transferring models.
 
 ## Strengths and limitations
-This study design realistically reflects potential transfers: clinical
-prediction models for trauma are usually developed in large metropolitan centres
-and then transferred as clinical recommendations to minor non-metropolitan
-centres.
+The main strength of this study is that its design realistically reflects
+potential model transfers: clinical prediction models for trauma are usually
+developed in large metropolitan centres and then transferred as clinical
+recommendations to minor non-metropolitan centres. The results should therefore
+be of practical importance.
 
-Originally all single centres with a valid number of events were to constitute
-a data set, but only one centre provided a sufficient number of events. Leading to 
-the loss of the data set: Individual centres. This data set might have provided
-results that could reflect realistic situations as major trauma centres regularly 
-exchange data.
+**One limitation is that** _(Try to highlight whether you disucss a strength or
+limitation)_ originally all single centres with a valid number of events were to
+constitute a data set, but only one centre provided a sufficient number of
+events. Leading to the loss of the data set: Individual centres. This data set
+might have provided results that could reflect realistic situations as major
+trauma centres regularly exchange data.
 
 This study used GCS, RR and SBP as predictors for 30-day
 mortality. Additional predictors such as age, mechanism
@@ -529,40 +533,42 @@ major way. Using GitHub, all code was made public for inspection and to ensure
 reproducibility [@RN59].
 
 ## Clinical applications
-This study shows that mistriage can potentially increase following
-model transfer, and more prominently in certain cases. This supports 
-the view that model transfers should be done with caution, as 
-performance might decline.
+This study shows that mistriage can potentially increase following model
+transfer, and more prominently in certain cases. This supports the view that
+model transfers should be done with caution, as performance might
+deteriorate. Recognizing this risks and updating models accordingly should lead
+to increased accuracy during trauma patient triage. Potentially saving lives by
+minimizing undertriage, and likely save resources by minimizing overtriage. With
+registries such as SweTrau, analysis of model transfer could be performed
+continuously to optimize models currently in use and advise which model
+transfers might be detrimental (or potentially beneficial).
 
-Recognizing these risks and updating models accordingly will lead to increased
-accuracy during trauma patient triage. Potentially saving lives by minimizing
-undertriage, and likely save resources by minimizing overtriage. With registries
-such as SweTrau, analysis of model transfer could be performed continuously to
-optimize models currently in use and advise which model transfers might be
-detrimental (or potentially beneficial).
-
-## Future studies
+## **Future studies** _(Is this heading required by the journal? If not I suggest we remove these two paragraphs)_
 Studies on model transfer can be performed in different settings, e.g. assessing
-the transferability between different but similar countries, such as Sweden and
-Norway. Also, increasing the number of patients would increase the power of the
-results, one way of doing this would be to replicate this study with the latest
-data in the SweTrau, as many hospitals have joined recently leading to an
-increased number of patients registered.
+the transferability between different but similar countries. Also, increasing
+the number of patients would increase the power of the results, one way of doing
+this would be to replicate this study with the latest data in the SweTrau, as
+many hospitals have joined recently leading to an increased number of patients
+registered.
 
-Model transfer could potentially be studied using different methods. Staff opinions 
-considering how applicable this new model is could be obtained using a questionnaire approach. 
-Clinical trials using different models could also be performed, however, appropriate ethical 
-considerations are paramount before performing this type of study.
+Model transfer could potentially be studied using different methods. Staff
+opinions considering how applicable this new model is could be obtained using a
+questionnaire approach.  Clinical trials using different models could also be
+performed, however, appropriate ethical considerations are paramount before
+performing this type of study.
 
 ## Conclusion
-Model transfer resulted in large and varying levels of uncertainty. Model transfer 
-can therefore be unpredictable, and potentially lead to increased mistriage, resulting 
-in increased patient mortality and a misappropriation of resources, due to increased 
-undertriage and overtriage, respectively. Transfer of the `r colnames(highest.comp.mistriage)` 
-model lead to an increased mistriage rate of `r highest.comp.mistriage`. This 
-observed effect was also associated with considerable uncertainty, meaning mistriage might slightly
-decrease, but would more likely increase, potentially substantially. Recognizing 
-the limitations of this study, the authors believe further studies are warranted due
+Model transfer resulted in large and varying levels of uncertainty in its effect
+on mistriage. Model transfer can therefore be unpredictable, and potentially
+lead to increased mistriage, **resulting in increased patient mortality and a
+misappropriation of resources, due to increased undertriage and overtriage,
+respectively** _(I suggest you move this part to clinical applications and that
+you try to express these potential effects a bit more carefully)_. Transfer of
+the `r colnames(highest.comp.mistriage)` model lead to an increased mistriage
+rate of `r highest.comp.mistriage`. This observed effect was also associated
+with considerable uncertainty, meaning mistriage might slightly decrease, but
+would more likely increase, potentially substantially. Recognizing the
+limitations of this study, the authors believe further studies are warranted due
 to the potential economic costs and patient consequences of poor model
 transfers.
 
