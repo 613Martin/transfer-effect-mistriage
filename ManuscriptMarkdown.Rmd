@@ -2,8 +2,8 @@
 title: "Transferability of clinical prediction models for early trauma care"
 author: 
 - Martin Henriksson
-- Johanna Berg
 - Dell Saulnier
+- Johanna Berg
 - Martin Gerdin Wärnberg
 date: "June 24, 2019"
 documentclass: "article"
