@@ -31,7 +31,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     ## Set random seed
     set.seed(-41892)
     ## Import data
-    raw.data <- ImportStudyData("simulated-swetrau-data.csv")
+    raw.data <- ImportStudyData("swetrau-20110101-20160425.csv")
     ## Create study sample from selected variables
     selected.data <- VariableSelection(raw.data)
     ## Select cases with age > 15 or age = NA
@@ -45,9 +45,30 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     selected.data <- Metrocheck(selected.data)
     ## Mark entries as valid (>170 events) individual centres
     selected.data <- IndividualCentreCheck(selected.data)
+    ## Define codebook
+    codebook <- list(pt_age_yrs = list(full.label = "Patient age",
+                                       abbreviated.label = "Age"),
+                     pt_Gender = list(full.label = "Patient gender",
+                                      abbreviated.label = "Gender"),
+                     ed_gcs_sum = list(full.label = "Glasgow coma scale",
+                                       abbreviated.label = "GCS"),
+                     ed_sbp_value = list(full.label = "Systolic blood pressure",
+                                         abbreviated.label = "SBP"),
+                     ed_rr_value = list(full.label = "Respiratory rate",
+                                        abbreviated.label = "RR"),
+                     res_survival = list(full.label = "30 day survival",
+                                         abbreviated.label = "30d survival"),
+                     ISS = list(full.label = "Injury severity score",
+                                abbreviated.label = "ISS"),
+                     NISS = list(full.label = "New injury severity score",
+                                 abbreviated.label = "NISS"),
+                     ISS_over_15 = list(full.label = "Injury severity score over 15",
+                                        abbreviated.label = "ISS>15"),
+                     group = list(full.label = "Group",
+                                  abbreviated.label = ""))
     ## Get original results
     if (clean.start | !original.results.done)
-        RunStudy(selected.data = selected.data , boot = FALSE, test = test)
+        RunStudy(selected.data = selected.data, codebook = codebook, boot = FALSE, test = test)
     ## Create bootstrap samples
     number.of.bootstrap.samples = 1000
     bootstrap.samples <- list()
@@ -77,12 +98,9 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     ## Compile results
     CompileResults()
     ## Render results document
-    rmarkdown::render("Results.Rmd")
+    rmarkdown::render("./ManuscriptMarkdown.Rmd")
 
 }
-start.time <- Sys.time()
 MainCodeRun(test = TRUE, clean.start = TRUE)
-end.time <- Sys.time()
-message("This run took ", difftime(end.time, start.time, units = "hours"), " hours")
 
 

@@ -5,6 +5,7 @@
 #' medians and IQR.  If bootstraps are used, the function will NOT return values
 #' to the Results.env or pring sample characteristics tables.
 #' @param selected.data Data used to run study. No default.
+#' @param codebook Codebook for pretty table printing. Defaults to NULL.
 #' @param boot Logical. If TRUE, the study will run with 1000
 #'     bootstraps. Defaults to FALSE.
 #' @param test Logical. If TRUE only multiple imputed datasets are created and 5
@@ -12,7 +13,8 @@
 #'     MICEImplement and DevelopmentModelCreator. Defaults to FALSE.
 #' @param copy.results.to.path Character or NULL. The path to which the results
 #'     should be copied. Defaults to NULL.
-RunStudy <- function(selected.data, boot = FALSE, test = FALSE, copy.results.to.path = NULL) {
+RunStudy <- function(selected.data, codebook = NULL boot = FALSE, test = FALSE, copy.results.to.path = NULL) {
+
 
     ## Error handling
     if (!is.data.frame(selected.data))
@@ -64,20 +66,19 @@ RunStudy <- function(selected.data, boot = FALSE, test = FALSE, copy.results.to.
     }
     ## Create restricted cubic splines
     data.sets <- lapply(data.sets, function(sample) lapply(sample, RCSplineConvert))
-
     ## Impute missing data
     data.sets <- lapply(data.sets, MICEImplement, test = test)
     ## If not a bootstrap run, create table one
     if (boot == FALSE) {
         ## Create sample characteristics tables, and save to Results
-        Results$table.one.list <- TableOneCreator(data.sets)
+        Results$table.one.list <- TableOneCreator(data.sets, codebook = codebook)
     }
     ## Removal of original data (.imp = 0) from data.sets 
     data.sets <- lapply(data.sets, function(sample) lapply(sample, function(x) {
         no.imp.zero <- x[!(x$.imp == "0"),]
         return(no.imp.zero)
     }))
-    
+   
     ## SPLIT DATA SETS BASED ON IMPUTATION
     split.data.sets <- lapply(data.sets, function(sample) lapply(sample, function(x) {
         x <- split(x, x$.imp)
@@ -86,7 +87,6 @@ RunStudy <- function(selected.data, boot = FALSE, test = FALSE, copy.results.to.
     ## DEVELOPMENT AND VALIDATION
     ## Create Development and validation sample, for each imputation
     split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, DevValCreator)))) 
-    
     
     ## CLINICAL PREDICTION MODEL
     ## MODEL DEVELOPMENT

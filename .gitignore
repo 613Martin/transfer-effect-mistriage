@@ -2,3 +2,5 @@ output/*
 */*~
 result.tables.Rds
 bootstrap.samples.Rds
+backup-output/*
+.Rhistory
