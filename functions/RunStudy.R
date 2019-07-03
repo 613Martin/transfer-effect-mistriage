@@ -10,11 +10,18 @@
 #' @param test Logical. If TRUE only multiple imputed datasets are created and 5
 #'     bootstraps are used to estimate the linear shrinkage factor. Passed to
 #'     MICEImplement and DevelopmentModelCreator. Defaults to FALSE.
-RunStudy <- function(selected.data, boot = FALSE, test = FALSE) {
+#' @param copy.results.to.path Character or NULL. The path to which the results
+#'     should be copied. Defaults to NULL.
+RunStudy <- function(selected.data, boot = FALSE, test = FALSE, copy.results.to.path = NULL) {
 
     ## Error handling
     if (!is.data.frame(selected.data))
         stop ("Input has to be a data frame")
+    if (!is.logical(test))
+        stop ("test has to be logical")
+    if (!is.null(copy.results.to.path) & !is.character(copy.results.to.path))
+        stop ("copy.results.to.path has to be character or NULL")
+
     ## Create results list
     Results <- list()
 
@@ -123,6 +130,8 @@ RunStudy <- function(selected.data, boot = FALSE, test = FALSE) {
     }
     file.name <- paste0("output/", results.specifier, ".results.Rds") 
     saveRDS(Results, file.name)
+    if (!is.null(copy.results.to.path))
+        saveRDS(Results, paste0(path, "/", results.specifier, ".results.Rds"))
     return(paste0(file.name, " saved to disk"))
 
 }

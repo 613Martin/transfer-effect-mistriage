@@ -2,7 +2,13 @@
 ## 
 ## This file was created using RStudio 1.1.463
 ## Cloned from GitHub 190422 23:00
-MainCodeRun <- function(test = FALSE, clean.start = TRUE) {
+#' @param test Logical. If TRUE only multiple imputed datasets are created and 5
+#'     bootstraps are used to estimate the linear shrinkage factor. Passed to
+#'     MICEImplement and DevelopmentModelCreator. Defaults to FALSE.
+#' @param copy.results.to.path Character or NULL. The path to which the results
+#'     should be copied. Defaults to NULL.
+MainCodeRun <- function(test = FALSE, clean.start = TRUE,
+                        copy.results.to.path = NULL) {
     
     ## INITIALIZING
     ## Load required packages and source functions
@@ -64,7 +70,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE) {
     foreach(bootstrap.sample = bootstrap.samples,
             .packages = FuncPack(return.only = TRUE)$packages,
             .export = FuncPack(return.only = TRUE)$functions) %dopar%
-        RunStudy(selected.data = bootstrap.sample, boot = TRUE, test = test)
+        RunStudy(selected.data = bootstrap.sample, boot = TRUE, test = test, copy.results.to.path = copy.results.to.path)
     stopCluster(study.cluster)
     ## Report all analyses completed
     message("All analyses completed")
