@@ -5,7 +5,7 @@ author:
 - Dell Saulnier
 - Johanna Berg
 - Martin Gerdin Wärnberg
-date: "July 03, 2019"
+date: "July 18, 2019"
 documentclass: "article"
 output:
   word_document:
@@ -410,7 +410,7 @@ kable(met.nonmet, format = "markdown")
 kable(multi.single, format = "markdown")
 # kable(complete.table.one, format = "markdown")
 ``` 
-GCS, glasgow coma scale; SBP, systolic blood pressure; RR, respiratory rate; 30DS, 30 day survival; ISS, injury severity score; NISS, new injury severity score
+GCS, glasgow coma scale; SBP, systolic blood pressure; RR, respiratory rate; ISS, injury severity score; NISS, new injury severity score
 
 ## Development and validation
 During model development, the number of imputations used for each data set was
