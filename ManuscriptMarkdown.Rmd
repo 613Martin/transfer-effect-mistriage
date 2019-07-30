@@ -5,7 +5,7 @@ author:
 - Dell Saulnier
 - Johanna Berg
 - Martin Gerdin Wärnberg
-date: "July 29, 2019"
+date: "July 31, 2019"
 documentclass: "article"
 output:
   word_document:
@@ -139,10 +139,11 @@ abstract: |
 
 # Introduction
 Trauma, defined as an injury to living tissue by an extrinsic agent [@RN63], 
-results in approximately 3,8 million deaths annually across the globe [@RN1; @RN21]. 
-Each year 9% of the world’s deaths are because of trauma, with the leading causes being 
-road traffic accidents, suicide and homicide. Predictions indicate the incidence of all 
-these causes are likely to increase by 2030 [@RN42].
+results in approximatly 458,5 million cases anually across the globe [@RN999], 
+and an estimated 3,8 million deaths [@RN1; @RN21]. Each year 9% of the world’s 
+deaths are because of trauma, with the leading causes being road traffic accidents, 
+suicide and homicide. Predictions indicate the incidence of these causes are 
+likely to increase by 2030 [@RN42].
 
 In a typical, high-resource setting, the initial management of trauma is
 performed on the scene by Emergency Medical Services
@@ -187,9 +188,9 @@ study the effects on mistriage. The study and analysis plans were made
 publicly available before the research was undertaken [@RN59].
 
 ## Setting
-In Sweden, trauma is the most common cause of death before 44 years of age. Up 
-to 10% of all major trauma patients suffer some form of disability. 
-The societal effects of trauma are also substantial, with the loss
+In Sweden, trauma is the most common cause of death before 44 years of age, and 
+10% of major trauma patients suffer some form of disability. 
+The societal effects of trauma are substantial, with the loss
 of work days comparable to those lost from cardiovascular and malignant diseases
 combined [@RN23].
 
@@ -208,7 +209,7 @@ Currently, the registry includes 55 000 cases, and its use is encouraged in
 both academic research and local quality improvement initiatives [@RN28].
 
 ## Participants 
-The eligibility criteria were adult patients aged 15 years or above registered in SweTrau 
+The eligibility criteria were patients aged 15 years or above registered in SweTrau 
 between 2011 and 2016. The study aimed to assess adult trauma and not
 paediatric trauma which differs in physiology, triage and initial care
 [@RN46]. The Swedish guidelines for trauma activation define children as age <15
@@ -314,9 +315,8 @@ validation samples were 140 and 200 respectively. We performed analyses only on
 data sets for which all samples included at least the minimum sample size.
 
 ![](fig1.jpg)  
-**Fig. 1: Sample development in the high and low volume centre data set.** Illustrates 
-creation of development and validation sample in the high and low volume data set. 
-Initial split based on number of patients. Temporal split made using date of traumatic event.
+**Fig. 1: Sample development in the high and low volume centre data set.**  Initial 
+split based on number of patients. Temporal split made using date of traumatic event.
 
 ### Sequence of analysis
 The programming language R was used for all analyses [@RN31], and all code has
@@ -472,20 +472,34 @@ This study aimed to assess how transfers of clinical prediction models for early
 trauma care between different contexts within a single health system affect
 mistriage rates. In all data sets, model transfer between samples resulted in
 substantial uncertainty in its effect on model performance. When comparing
-transferred performance to the reciveing sample validation performance the
-resulting differance also showed considerable uncertainty.
+transferred performance to the receiving sample validation performance, the
+resulting differences also showed considerable uncertainty.
 
 The most notable effects on model performance following model transfer were seen
 after transferring the `r colnames(highest.comp.mistriage)` model. This transfer
 resulted in an increase of the mistriage rate by 
 `r substr(format(highest.comp.mistriage), 1, 5)`.  Mainly contributing to this was
-a marked increase in overtriage.  For this transfer the 95% UI ranged from 
+a marked increase in overtriage.  For this transfer, the 95% UI ranged from 
 `r UI.top.bot[1]` to `r UI.top.bot[2]`, indicating a high level of uncertainty and
 that our findings are compatible with a `r UI.top.bot[1]` decrease to a 
 `r UI.top.bot[2]` increase in mistriage. The negative 95% UI of `r UI.top.bot[1]`
-would signifiy an improvement in model performance. The higher 95% UI of 
+would signify an improvement in model performance. The higher 95% UI of 
 `r UI.top.bot[2]` would mean a marked increase in model mistriage, compared to the
 point estimate of `r substr(format(highest.comp.mistriage), 1, 5)`.
+
+Due to centralized trauma care, non-metropolitan centres generelly have fewer 
+resources, and less experience reciving trauma patients. They may rely 
+on clinical prediction models more heavily for accurate trauma triage, and an 
+increased mistriage leads to further strain on already limited resources
+due to increased overtriage. Increased undertriage could also possibly lead to
+increased patient mortality
+
+Recognizing these risks and updating models accordingly should lead
+to increased accuracy during trauma patient triage. Potentially saving lives by
+minimizing undertriage, and likely save resources by minimizing overtriage. With
+registries such as SweTrau, analysis of model transfer could be performed
+continuously to optimize models currently in use and advise which model
+transfers might be detrimental (or potentially beneficial).
 
 The transfer of clinical prediction models in trauma care has not previously
 been studied extensively. In 2016, Gerdin et al. found model transfer to
@@ -502,7 +516,7 @@ validated [@RN60; @RN61]. A study from 2018 examining the external validity of
 prediction models for coronary artery disease (CAD) [@RN62], showed models
 significantly underestimating the probability of CAD. The combined results of
 this study, the studies on model transfer and the studies on external validation
-suggests caution when transferring models.
+would suggest caution when transferring models.
 
 ## Strengths and limitations
 ### Strengths
@@ -513,47 +527,33 @@ recommendations to minor non-metropolitan centres. The results should therefore
 be of practical importance.
 
 ### Limitations
-One limitation is that originally all single centres with a valid number of 
+Originally, all single centres with a valid number of 
 events were to constitute a data set, but only one centre provided a sufficient 
-number of events. Leading to the loss of the data set: Individual centres. 
-This data set might have provided results that could reflect realistic 
-situations as major trauma centres regularly exchange data.
+number of events, leading to the loss of the individual centres data set. 
+This data set could have provided interesting results reflecting realistic 
+situations.
 
-Furthermore, this study used GCS, RR and SBP as predictors for 30-day
+This study used GCS, RR and SBP as predictors for 30-day
 mortality. Additional predictors such as age, mechanism
-of injury, or newer predictors as shock index might increase model
+of injury, or newer predictors like shock index might increase model
 performance. Furthermore, we used 30-day mortality as outcome, recognizing
 that late mortality, time in hospital, functional impairment, and morbidity are
 also important outcome factors in the context of trauma care.
 
-The predetermined analysis plan was to be followed in a step-by-step fashion, to
-avoiding confirmation bias. Programming challenges and late-time code inclusions
-required a flexible approach to this analysis plan, sometimes with revisions of
-previous steps. This is not optimal, and efforts were made to not deviate in any
-major way. Using GitHub, all code was made public for inspection and to ensure
-reproducibility [@RN59].
-
-## Clinical applications
-This study shows that mistriage can potentially increase following model
-transfer, and more prominently in certain cases. This supports the view that
-model transfers should be done with caution, as performance might
-deteriorate. 
-
-Recognizing these risks and updating models accordingly should lead
-to increased accuracy during trauma patient triage. Potentially saving lives by
-minimizing undertriage, and likely save resources by minimizing overtriage. With
-registries such as SweTrau, analysis of model transfer could be performed
-continuously to optimize models currently in use and advise which model
-transfers might be detrimental (or potentially beneficial).
+The predetermined analysis plan was to be followed in a step-by-step fashion. 
+Programming challenges and late-time code inclusions required a flexible approach 
+to this analysis plan, sometimes with revisions of previous steps. This is not 
+optimal, and efforts were made to not deviate in any major way. Using GitHub, 
+all code was made public for inspection and to ensure reproducibility [@RN59].
 
 ## Conclusion
 Model transfer resulted in large and varying levels of uncertainty in its effect
-on mistriage. Therefore model transfer can be unpredictable, potentially leading 
+on mistriage. Therefore, model transfer can be unpredictable, potentially leading 
 to increased mistriage, but in some cases also to a decrease in mistriage. 
 Noticeably, transfer of the `r colnames(highest.comp.mistriage)` model lead to an 
 increased mistriage of `r highest.comp.mistriage`. This observed effect was also 
 associated with considerable uncertainty. Recognizing the limitations of this study, 
-the authors believe further studies are warranted dueto the potential economic 
+the authors believe further studies are warranted due to the potential economic 
 costs and patient consequences of poor model transfers.
 
   
