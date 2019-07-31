@@ -67,18 +67,21 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
                      group = list(full.label = "Group",
                                   abbreviated.label = ""))
     ## Get original results
-    if (clean.start | !original.results.done)
-        RunStudy(selected.data = selected.data, codebook = codebook, boot = FALSE, test = test)
+    if (clean.start | !original.results.done) {
+        message ("Estimating original results")
+        RunStudy(selected.data = selected.data, copy.results.to.path = copy.results.to.path, codebook = codebook, boot = FALSE, test = test)
+    }
     ## Create bootstrap samples
     number.of.bootstrap.samples = 1000
     bootstrap.samples <- list()
+    bootstrap.samples.exist <- file.exists("bootstrap.samples.Rds")
     if (test)
         number.of.bootstrap.samples = 5
-    if (!clean.start) 
+    if (!clean.start & bootstrap.samples.exist) 
         bootstrap.samples <- readRDS("bootstrap.samples.Rds")
-    if (!clean.start & length(bootstrap.samples) != number.of.bootstrap.samples)
+    if (!clean.start & length(bootstrap.samples) != number.of.bootstrap.samples & bootstrap.samples.exist)
         stop ("The number of saved bootstrap samples imported because clean.start = FALSE is not the same as the number of bootstrap samples requested.")
-    if (clean.start)
+    if (clean.start | !bootstrap.samples.exist)
         bootstrap.samples <- bengaltiger::CreateBootstrapSamples(selected.data,
                                                                  strata = "res_survival",
                                                                  save.to.disk = TRUE,
@@ -101,6 +104,6 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     rmarkdown::render("./ManuscriptMarkdown.Rmd")
 
 }
-MainCodeRun(test = TRUE, clean.start = TRUE)
+MainCodeRun(test = FALSE, clean.start = FALSE, copy.results.to.path = "~/ownCloud/projects/transfer-effect-mistriage-martin/")
 
 

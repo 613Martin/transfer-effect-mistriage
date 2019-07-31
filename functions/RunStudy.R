@@ -13,7 +13,7 @@
 #'     MICEImplement and DevelopmentModelCreator. Defaults to FALSE.
 #' @param copy.results.to.path Character or NULL. The path to which the results
 #'     should be copied. Defaults to NULL.
-RunStudy <- function(selected.data, codebook = NULL boot = FALSE, test = FALSE, copy.results.to.path = NULL) {
+RunStudy <- function(selected.data, codebook = NULL, boot = FALSE, test = FALSE, copy.results.to.path = NULL) {
 
 
     ## Error handling
@@ -131,7 +131,7 @@ RunStudy <- function(selected.data, codebook = NULL boot = FALSE, test = FALSE, 
     file.name <- paste0("output/", results.specifier, ".results.Rds") 
     saveRDS(Results, file.name)
     if (!is.null(copy.results.to.path))
-        saveRDS(Results, paste0(path, "/", results.specifier, ".results.Rds"))
+        saveRDS(Results, paste0(copy.results.to.path, file.name))
     return(paste0(file.name, " saved to disk"))
 
 }
