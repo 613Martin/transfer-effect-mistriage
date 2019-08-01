@@ -2,7 +2,7 @@
 title: "Transferability of clinical prediction models for early trauma care"
 author: 
 - Martin Henriksson
-- Dell Saulnier
+- Dell D Saulnier
 - Johanna Berg
 - Martin Gerdin Wärnberg
 date: "July 31, 2019"
@@ -138,11 +138,11 @@ abstract: |
 ---
 
 # Introduction
-Trauma, defined as an injury to living tissue by an extrinsic agent [@RN63], 
-results in approximatly 458,5 million cases anually across the globe [@RN999], 
-and an estimated 3,8 million deaths [@RN1; @RN21]. Each year 9% of the world’s 
-deaths are because of trauma, with the leading causes being road traffic accidents, 
-suicide and homicide. Predictions indicate the incidence of these causes are 
+Trauma, defined as physical injuries to a host by outside objects [@RN63], 
+results in approximately 458.5 million cases anually across the globe [@RN999], 
+and an estimated 3.8 million deaths [@RN1; @RN21]. Each year, 9% of the world’s 
+deaths are the result of trauma, with the leading causes being road traffic accidents, 
+suicide, and homicide. Predictions indicate the incidence of these causes is 
 likely to increase by 2030 [@RN42].
 
 In a typical, high-resource setting, the initial management of trauma is
@@ -152,11 +152,11 @@ This information is then evaluated using a system to determine
 the level of trauma, prepare adequate resources [@RN43] and dictate if a full
 or limited trauma team is activated [@RN44].
 
-Systems that determine the level of trauma can be based on clinical prediction
-models. Models differ in quality and characteristics, but generally perform
-well at predicting survival [@RN45]. Many models are developed in a single,
-standardized setting, such as a major trauma centre but are then implemented in 
-different settings, such as non-trauma centres.
+Systems that determine the level of trauma during early trauma care can be based 
+on clinical prediction models. Models differ in quality and characteristics, but 
+generally perform well at predicting survival [@RN45]. Many models are developed 
+in a single, standardized context, such as a major trauma centre but are then 
+implemented in different context, such as non-trauma centres.
 
 What is not fully understood is how this transfer affects model
 performance. Previous research has shown that model performance in terms of
@@ -170,13 +170,13 @@ the classification of severity as minor or major trauma. Mistriage can be
 subdivided into overtriage, the incorrect classification of a patient with minor
 trauma as major trauma, or undertriage, the incorrect classification of a patient
 with major trauma as minor trauma. Mistriage can ultimatly lead to decreased patient 
-survival, but is also detrimental in terms of patient care and distribution of resources. 
+survival, and is also detrimental to patient care and distribution of resources [@RN44]. 
 
 Thus, the effect of model transfers between care contexts within a single healthcare system, 
-as well as the effect of such transfers on mistriage,have not been studied and represent 
-substantial knowledge gaps. Therefore, the aim of this study is to assess how transfers 
-of clinical prediction models for early (on arrival to hospital) trauma 
-care between different care contexts within a single health system affect mistriage rates.
+as well as the effect of such transfers on mistriage, have not been studied and represent 
+substantial knowledge gaps. The aim of this study is to assess how transfers 
+of clinical prediction models for early trauma care between different care contexts 
+within a single health system affect mistriage rates.
   
   
 # Materials and methods
@@ -194,7 +194,7 @@ The societal effects of trauma are substantial, with the loss
 of work days comparable to those lost from cardiovascular and malignant diseases
 combined [@RN23].
 
-The trauma care in Sweden is usually clearly defined in major
+Trauma care in Sweden is usually clearly defined in major
 metropolitan areas: trauma patients are transported directly to a predesignated
 hospital with specific trauma competency. In more rural parts of the
 country, trauma patients are instead transported to the nearest hospital for
@@ -204,12 +204,12 @@ form of system to categorize the level of trauma, usually
 based on patient vital signs and injury mechanism, as reported by the EMS, or as
 registered in the emergency department [@RN90].
 
-Today 52 of the 55 Swedish hospitals record trauma cases in SweTrau. 
+Today, 52 of the 55 Swedish hospitals record trauma cases in SweTrau. 
 Currently, the registry includes 55 000 cases, and its use is encouraged in 
 both academic research and local quality improvement initiatives [@RN28].
 
 ## Participants 
-The eligibility criteria were patients aged 15 years or above registered in SweTrau 
+The eligibility criteria were adult patients aged 15 years or above registered in SweTrau 
 between 2011 and 2016. The study aimed to assess adult trauma and not
 paediatric trauma which differs in physiology, triage and initial care
 [@RN46]. The Swedish guidelines for trauma activation define children as age <15
@@ -258,7 +258,7 @@ analysis plan and statistical analysis code was finalised using simulated
 data. These efforts were taken to avoid confirmation bias. The analysis plan was
 reviewed by an experienced statistician and programmer prior to implementation. 
 Neither the outcome nor variables were blinded when during analysis, which 
-made a structured approach important, to ensure objectivity.
+made a structured approach important to ensure objectivity.
 
 ## Study size
 All patients matching eligibility criteria were included. Four data sets were
@@ -276,7 +276,7 @@ were presented as continuous. ISS was presented as dichotomous using ISS > 15 as
 ### Data sets
 The complete SweTrau cohort was split into three overlapping sets of data, each representing a 
 plausible care context for model transfer. These data sets were further divided 
-into samples, this process is outlined below.
+into samples:
 
 ### Data set 1: High and low volume centres
 Two samples were derived from the SweTrau cohort, based on the number of patients. 
@@ -421,7 +421,7 @@ Table 2 shows model validation performance. The model with the lowest validation
 mistriage rate was the `r colnames(lowest.val.mistriage)` model with a median
 mistriage rate of `r lowest.val.mistriage`. Performance in terms of
 undertriage and overtriage rate for the same model was `r val.undertriage`, and
-`r val.overtriage` respectively. Worst validation performance (i.e. highest
+`r val.overtriage` respectively. The worst validation performance (i.e. highest
 mistriage rate) was found in the `r colnames(highest.val.mistriage)` sample, with
 a model median mistriage rate of `r highest.val.mistriage`.
   
@@ -487,15 +487,15 @@ would signify an improvement in model performance. The higher 95% UI of
 `r UI.top.bot[2]` would mean a marked increase in model mistriage, compared to the
 point estimate of `r substr(format(highest.comp.mistriage), 1, 5)`.
 
-Due to centralized trauma care, non-metropolitan centres generelly have fewer 
-resources, and less experience reciving trauma patients. They may rely 
-on clinical prediction models more heavily for accurate trauma triage, and an 
-increased mistriage leads to further strain on already limited resources
-due to increased overtriage. Increased undertriage could also possibly lead to
-increased patient mortality
+Due to centralized trauma care, non-metropolitan centres generally have fewer 
+resources and less experience receiving trauma patients. They may rely 
+on clinical prediction models more heavily for accurate trauma triage, and 
+an increase in overtriage can lead to further strains on already limited 
+resources. Increased undertriage could possibly lead to increased patient 
+mortality.
 
-Recognizing these risks and updating models accordingly should lead
-to increased accuracy during trauma patient triage. Potentially saving lives by
+Recognizing these risks and updating models accordingly could lead
+to increased accuracy during trauma patient triage, potentially saving lives by
 minimizing undertriage, and likely save resources by minimizing overtriage. With
 registries such as SweTrau, analysis of model transfer could be performed
 continuously to optimize models currently in use and advise which model
