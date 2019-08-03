@@ -22,11 +22,10 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     }
     ## Identify starting point and go from there if clean start is FALSE
     original.results.done <- file.exists("./output/original.results.Rds")
-    start.from.bootstrap.sample <- 1
+    completed.bootstraps <- NULL
     if (!clean.start) {
         bootstraps.done <- list.files("./output/", "^bootstrap\\.sample\\.[0-9]*\\.results.Rds$")
-        bootstrap.index <- max(as.numeric(gsub("bootstrap\\.sample\\.|\\.results\\.Rds", "", bootstraps.done)))
-        start.from.bootstrap.sample <- bootstrap.index + 1
+        completed.bootstraps <- sort(as.numeric(gsub("bootstrap\\.sample\\.|\\.results\\.Rds", "", bootstraps.done)))
     }
     ## Set random seed
     set.seed(-41892)
@@ -72,7 +71,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
         RunStudy(selected.data = selected.data, copy.results.to.path = copy.results.to.path, codebook = codebook, boot = FALSE, test = test)
     }
     ## Create bootstrap samples
-    number.of.bootstrap.samples = 1000
+    number.of.bootstrap.samples <- 1000
     bootstrap.samples <- list()
     bootstrap.samples.exist <- file.exists("bootstrap.samples.Rds")
     if (test)
@@ -87,7 +86,9 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
                                                                  save.to.disk = TRUE,
                                                                  return.samples = TRUE,
                                                                  number.of.bootstrap.samples = number.of.bootstrap.samples)
-    bootstrap.samples <- bootstrap.samples[start.from.bootstrap.sample:number.of.bootstrap.samples]
+    if (!is.null(completed.bootstraps))
+        bootstrap.samples <- bootstrap.samples[-completed.bootstraps]
+    message (paste0("Estimating results in bootstrap samples ", paste0((1:number.of.bootstrap.samples)[-completed.bootstraps], collapse = ", ")))
     ## Get bootstrap results
     study.cluster <- makeCluster(detectCores())
     registerDoParallel(study.cluster)
