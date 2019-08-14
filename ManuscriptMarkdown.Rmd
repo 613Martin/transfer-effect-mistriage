@@ -393,14 +393,14 @@ investigate the effects of transfer on clinical prediction models (Table 1). The
 total number of missing observations across all variables was `r total.number.of.na ` 
 in the entire study cohort. The sample with the highest
 percentage of missing observations was the `r highest.percent.missing.name `
-sample with `r highest.percent.missing.number `% incomplete observations. The
-variable with the highest number of missing values was `r name.variable.na `,
+sample, with `r highest.percent.missing.number `% incomplete observations. The
+variable with the highest number of missing values was the `r name.variable.na `,
 with `r number.variable.na ` missing values, or `r round(percent.variable.na)`% of 
 the total values for this variable. The percentages of missing values for the other 
-model predictors, was `r round(gcs.na$percentage)`% for GCS and `r round(sbp.na$percentage)`% 
+model predictors were `r round(gcs.na$percentage)`% for GCS and `r round(sbp.na$percentage)`% 
 for SBP.
 
-**Table 1. Sample characteristics of multiple imputed data.** Data is presented as medians with interquartile range (IQR) or counts with % as applicable.
+**Table 1. Sample characteristics of multiple imputed data.** Data are presented as medians with interquartile range (IQR) or counts with %, as applicable.
 ```{r, echo = FALSE, results = "asis"} 
 ## Table 1
 options(knitr.kable.NA = '')
@@ -409,23 +409,23 @@ kable(met.nonmet, format = "markdown")
 kable(multi.single, format = "markdown")
 # kable(complete.table.one, format = "markdown")
 ``` 
-GCS, glasgow coma scale; SBP, systolic blood pressure; RR, respiratory rate; ISS, injury severity score; NISS, new injury severity score
+GCS, Glasgow coma scale; SBP, systolic blood pressure; RR, respiratory rate; ISS, injury severity score; NISS, new injury severity score
 
 ## Development and validation
 During model development, the number of imputations used for each data set was
-`r high.low.imp`, `r metro.non.imp` and `r multi.single.imp` for the high and
-low volume data set, the metropolitan and non-metropolitan data set, and the
-multi- and single centre data set, respectively.
+`r high.low.imp`, `r metro.non.imp` and `r multi.single.imp` for the high- and
+low-volume data set, the metropolitan and non-metropolitan data set, and the
+multiple and single centre data set, respectively.
   
-Table 2 shows model validation performance. The model with the lowest validation
-mistriage rate was the `r colnames(lowest.val.mistriage)` model with a median
-mistriage rate of `r lowest.val.mistriage`. Performance in terms of
-undertriage and overtriage rate for the same model was `r val.undertriage`, and
-`r val.overtriage` respectively. The worst validation performance (i.e. highest
+Table 2 shows the model validation performance. The model with the lowest validation
+mistriage rate was the `r colnames(lowest.val.mistriage)` model, with a median
+mistriage rate of `r lowest.val.mistriage`. The performance in terms of
+undertriage and overtriage rate for the same model was `r val.undertriage` and
+`r val.overtriage`, respectively. The worst validation performance (i.e. highest
 mistriage rate) was found in the `r colnames(highest.val.mistriage)` sample, with
 a model median mistriage rate of `r highest.val.mistriage`.
   
-**Table 2. Model validation performance, i.e. performance when applied to the sample in which the model was created.** Data is presented as point estimates with 95% Uncertainty Intervals (95% UI).
+**Table 2. Model validation performance, i.e. performance when applied to the sample in which the model was created.** Data are presented as point estimates with 95% uncertainty intervals (95% UI).
 ```{r, echo = FALSE, results = "asis"} 
 ## Table 2
 kable(table.2[,1:2], format = "markdown")
@@ -435,14 +435,14 @@ kable(table.2[,5:6], format = "markdown")
 ```
 
 ## Comparison
-Model performance after transfer was determined for each model being transferred
-to the other sample in the data set, in all data sets (Table 3). When
+Model performance after transfer was determined for each model after being transferred
+to the other sample in the data set in all data sets (Table 3). When
 transferred, the model with the lowest mistriage rate was the `r colnames(lowest.tran.mistriage)` 
-model with a median mistriage rate of `r lowest.tran.mistriage`. The model with 
-the highest mistriage rate after transfer was the `r colnames(highest.tran.mistriage)` 
+model, with a median mistriage rate of `r lowest.tran.mistriage`. The model with 
+the highest mistriage rate after transfer was the `r colnames(highest.tran.mistriage)` model 
 with a median mistriage rate of `r highest.tran.mistriage`.
   
-**Table 3. Model transfer performance, i.e. performance when transferred to the other sample in the same data set. ** Data is presented as point estimates with 95% Uncertainty Intervals (95% UI).  
+**Table 3. Model transfer performance, i.e. performance when transferred to the other sample in the same data set.** Data are presented as point estimates with 95% uncertainty intervals (95% UI).  
 ```{r, echo = FALSE, results = "asis"} 
 kable(table.3[,1:2], format = "markdown")
 kable(table.3[,3:4], format = "markdown")
@@ -450,16 +450,16 @@ kable(table.3[,5:6], format = "markdown")
 ```  
 
 Table 4 shows the transferred model performance when compared to the validation
-performance in the sample reciving the transferred model.
-The highest mistriage rate when compared to the reciveing sample validation
+performance in the sample receiving the transferred model.
+The highest mistriage rate when compared to the receiving sample validation
 model performance was found in the `r colnames(highest.comp.mistriage)` model,
 with a median mistriage rate difference of `r highest.comp.mistriage`, meaning
 this model performed worse when transferred to the other sample in the same data
 set. In clinical terms, this model transfer means that among 100 trauma
 patients, `r abs(worst.transfer$Transferred.mistriage.minus.buddy.local.mistriage.median) * 100` 
-more patients would be wrongly classified as major or minor trauma.
+more patients would be wrongly classified as having major or minor trauma.
   
-**Table 4. Comparison mistriage, i.e. sample validation performance subtracted from transferred performance.** Data is presented as point estimates with 95% Uncertainty Intervals (95% UI).  
+**Table 4. Comparison mistriage, i.e. sample validation performance subtracted from transferred performance.** Data are presented as point estimates with 95% uncertainty intervals (95% UI).  
 ```{r, echo = FALSE, results = "asis"} 
 kable(table.4[,1:2], format = "markdown")
 kable(table.4[,3:4], format = "markdown")
@@ -471,20 +471,20 @@ kable(table.4[,5:6], format = "markdown")
 This study aimed to assess how transfers of clinical prediction models for early
 trauma care between different contexts within a single health system affect
 mistriage rates. In all data sets, model transfer between samples resulted in
-substantial uncertainty in its effect on model performance. When comparing
+substantial uncertainty in terms of its effect on model performance. When comparing the
 transferred performance to the receiving sample validation performance, the
 resulting differences also showed considerable uncertainty.
 
-The most notable effects on model performance following model transfer were seen
+The most notable effects on model performance following model transfer were observed
 after transferring the `r colnames(highest.comp.mistriage)` model. This transfer
-resulted in an increase of the mistriage rate by 
+resulted in an increase in the mistriage rate of 
 `r substr(format(highest.comp.mistriage), 1, 5)`.  Mainly contributing to this was
 a marked increase in overtriage.  For this transfer, the 95% UI ranged from 
-`r UI.top.bot[1]` to `r UI.top.bot[2]`, indicating a high level of uncertainty and
+`r UI.top.bot[1]` to `r UI.top.bot[2]`, indicating a high level of uncertainty, suggesting
 that our findings are compatible with a `r UI.top.bot[1]` decrease to a 
 `r UI.top.bot[2]` increase in mistriage. The negative 95% UI of `r UI.top.bot[1]`
 would signify an improvement in model performance. The higher 95% UI of 
-`r UI.top.bot[2]` would mean a marked increase in model mistriage, compared to the
+`r UI.top.bot[2]` would mean a marked increase in model mistriage compared to the
 point estimate of `r substr(format(highest.comp.mistriage), 1, 5)`.
 
 Due to centralized trauma care, non-metropolitan centres generally have fewer 
@@ -496,25 +496,25 @@ mortality.
 
 Recognizing these risks and updating models accordingly could lead
 to increased accuracy during trauma patient triage, potentially saving lives by
-minimizing undertriage, and likely save resources by minimizing overtriage. With
-registries such as SweTrau, analysis of model transfer could be performed
-continuously to optimize models currently in use and advise which model
+minimizing undertriage, and likely saving resources by minimizing overtriage. With
+registries such as SweTrau, the analysis of model transfer could be performed
+continuously to optimize the models currently in use and advise which model
 transfers might be detrimental (or potentially beneficial).
 
 The transfer of clinical prediction models in trauma care has not previously
-been studied extensively. In 2016, Gerdin et al. found model transfer to
-adversely affect model performance in terms of calibration, but that this could
+been studied extensively. In 2016, Gerdin et al. found that model transfer
+adversely affected model performance in terms of calibration but that this could
 be improved by updating the model [@RN27]. This study did not examine model
-performance in terms of calibration, neither were the effects of updating the
+performance in terms of calibration, nor were the effects of updating the
 model explored.
 
 External validation as the evaluation of a clinical prediction model in a
 setting in which it was not originally developed has been studied more
 extensively. Studies using simulated clinical prediction models based on
-different predictors showed a decline in model performance when being externally
+different predictors showed a decline in model performance when externally
 validated [@RN60; @RN61]. A study from 2018 examining the external validity of
-prediction models for coronary artery disease (CAD) [@RN62], showed models
-significantly underestimating the probability of CAD. The combined results of
+prediction models for coronary artery disease (CAD) [@RN62] showed that the models
+significantly underestimated the probability of CAD. The combined results of
 this study, the studies on model transfer and the studies on external validation
 would suggest caution when transferring models.
 
@@ -534,11 +534,11 @@ This data set could have provided interesting results reflecting realistic
 situations.
 
 This study used GCS, RR and SBP as predictors for 30-day
-mortality. Additional predictors such as age, mechanism
-of injury, or newer predictors like shock index might increase model
-performance. Furthermore, we used 30-day mortality as outcome, recognizing
+mortality. Additional predictors such as age and mechanism
+of injury or newer predictors such as the shock index might increase model
+performance. Furthermore, we used 30-day mortality as an outcome, recognizing
 that late mortality, time in hospital, functional impairment, and morbidity are
-also important outcome factors in the context of trauma care.
+also important outcomes in the context of trauma care.
 
 The predetermined analysis plan was to be followed in a step-by-step fashion. 
 Programming challenges and late-time code inclusions required a flexible approach 
@@ -547,13 +547,13 @@ optimal, and efforts were made to not deviate in any major way. Using GitHub,
 all code was made public for inspection and to ensure reproducibility [@RN59].
 
 ## Conclusion
-Model transfer resulted in large and varying levels of uncertainty in its effect
+Model transfer resulted in large and varying levels of uncertainty in in terms of its effect
 on mistriage. Therefore, model transfer can be unpredictable, potentially leading 
-to increased mistriage, but in some cases also to a decrease in mistriage. 
-Noticeably, transfer of the `r colnames(highest.comp.mistriage)` model lead to an 
+to increased mistriage but in some cases also to a decrease in mistriage. 
+Noticeably, transfer of the `r colnames(highest.comp.mistriage)` model led to an 
 increased mistriage of `r highest.comp.mistriage`. This observed effect was also 
 associated with considerable uncertainty. Recognizing the limitations of this study, 
-the authors believe further studies are warranted due to the potential economic 
+the authors believe that further studies are warranted due to the potential economic 
 costs and patient consequences of poor model transfers.
 
   
