@@ -11,7 +11,7 @@ WorkTableCreator <- function(result.tables.data.frame) {
   results.all.data$multi.centre.Measure <- NULL
   results.all.data$single.centre.11001.Measure <- NULL
   ## Set column names
-  colnames(results.all.data) <- c("Measure", "high volume", "low volume", "metropolitan", "non metropolitan", "multi centre", "single centre")
+  colnames(results.all.data) <- c("Measure", "High volume", "Low volume", "Metropolitan", "Non-metropolitan", "Multiple centres", "Single centre")
   ## Retrive names to use for rows
   measure.names <- results.all.data$Measure
   measure.names <- as.vector(measure.names)
