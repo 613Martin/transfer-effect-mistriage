@@ -75,11 +75,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ## TABLE SETUP
   # Table 1 = Sample characteristics table
   high.low <- results$table.one.list$Characteristics_table_of_high.volume.vs.low.volume
-  names(high.low) <- c("characteristic", "level", "high volume", "low volume")
+  names(high.low) <- c("Characteristic", "Level", "High volume", "Low volume")
   met.nonmet <- results$table.one.list$Characteristics_table_of_metropolitan.vs.non.metropolitan
-  names(met.nonmet) <- c("characteristic", "level", "metropolitan", "non metropolitan")
+  names(met.nonmet) <- c("Characteristic", "Level", "Metropolitan", "Non-metropolitan")
   multi.single <- results$table.one.list$Characteristics_table_of_multi.centre.vs.single.centre
-  names(multi.single) <- c("characteristic", "level", "multi centre", "single centre")
+  names(multi.single) <- c("Characteristic", "Level", "Multiple centres", "Single centre")
    # Create complete table one (test)
    complete.table.one <- results$table.one.list$Characteristics_table_of_high.volume.vs.low.volume
    complete.table.one <- cbind(complete.table.one, results$table.one.list$Characteristics_table_of_metropolitan.vs.non.metropolitan$metropolitan)
