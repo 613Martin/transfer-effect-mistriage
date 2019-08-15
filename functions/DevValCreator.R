@@ -13,8 +13,12 @@ DevValCreator <- function(df) {
         stop ("Input has to be a data.frame")
     ## Selecting events only
     events.only <- df[which(df$res_survival == "Dead"),]
-    ## Sorting by date
-    sorted.events.only <- events.only[order(as.Date(events.only$DateTime_Of_Trauma), decreasing = FALSE),]
+    
+    ## Sorting by date (new line 190815)
+    sorted.events.only <- events.only[order(as.Date(as.character(events.only$DateTime_Of_Trauma, "%Y%m%d")), decreasing = FALSE),]
+    ## Sorting by date (old line)
+    # sorted.events.only <- events.only[order(as.Date(events.only$DateTime_Of_Trauma), decreasing = FALSE),]
+    
     ## Saving cut-off date
     cut.off.date <- sorted.events.only$DateTime_Of_Trauma[70]
     ##Split data frame
