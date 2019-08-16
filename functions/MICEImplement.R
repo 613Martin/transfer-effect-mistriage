@@ -25,8 +25,9 @@ MICEImplement <- function(df.list, test = FALSE) {
     
     ## Set number of imputations
     number.of.imputations <- as.integer(max(unlist(percents.NA)))
+    maxit <- 5
     if (test)
-        number.of.imputations <- 3
+        number.of.imputations <- maxit <- 3
     ## number.of.imputations <- 5
     
     ## Run mice

@@ -30,7 +30,10 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     ## Set random seed
     set.seed(-41892)
     ## Import data
-    raw.data <- ImportStudyData("swetrau-20110101-20160425.csv")
+    data.file <- "swetrau-20110101-20160425.csv"
+    if (test)
+        data.file <- "simulated-swetrau-data.csv"
+    raw.data <- ImportStudyData(data.file)
     ## Create study sample from selected variables
     selected.data <- VariableSelection(raw.data)
     ## Select cases with age > 15 or age = NA
@@ -86,16 +89,29 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
                                                                  save.to.disk = TRUE,
                                                                  return.samples = TRUE,
                                                                  number.of.bootstrap.samples = number.of.bootstrap.samples)
-    if (!is.null(completed.bootstraps))
+    estimated.bootstraps <- 1:number.of.bootstrap.samples
+    if (!is.null(completed.bootstraps)) {
         bootstrap.samples <- bootstrap.samples[-completed.bootstraps]
-    message (paste0("Estimating results in bootstrap samples ", paste0((1:number.of.bootstrap.samples)[-completed.bootstraps], collapse = ", ")))
+        estimated.bootstraps <- estimated.bootstraps[-completed.bootstraps]
+    }
+    message (paste0("Estimating results in bootstrap samples ", paste0(estimated.bootstraps, collapse = ", ")))
     ## Get bootstrap results
+    errorlog <- "output/errorlog.txt"
+    write("", errorlog)
     study.cluster <- makeCluster(detectCores())
     registerDoParallel(study.cluster)
     foreach(bootstrap.sample = bootstrap.samples,
             .packages = FuncPack(return.only = TRUE)$packages,
-            .export = FuncPack(return.only = TRUE)$functions) %dopar%
-        RunStudy(selected.data = bootstrap.sample, boot = TRUE, test = test, copy.results.to.path = copy.results.to.path)
+            .export = FuncPack(return.only = TRUE)$functions) %dopar% {
+                boot.id <- mean(bootstrap.sample[, ".boot.id"])
+                tryCatch(expr = RunStudy(selected.data = bootstrap.sample,
+                                         boot = TRUE,
+                                         test = test,
+                                         copy.results.to.path = copy.results.to.path),
+                         error = function(e) write(paste0("bootstrap sample ", boot.id, ": ", e),
+                                                   errorlog,
+                                                   append = TRUE))
+            }
     stopCluster(study.cluster)
     ## Report all analyses completed
     message("All analyses completed")
@@ -106,5 +122,6 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
 
 }
 MainCodeRun(test = FALSE, clean.start = FALSE, copy.results.to.path = "~/ownCloud/projects/transfer-effect-mistriage-martin/")
+
 
 
