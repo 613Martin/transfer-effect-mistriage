@@ -28,6 +28,8 @@ knitr::opts_chunk$set(echo = TRUE)
   result.tables.data.frame <- readRDS("result.tables.data.frame.Rds")
   ## Create table from result.tables.data.frame for ease of data retrival in document
   results.all.data <- WorkTableCreator(result.tables.data.frame)
+  ## Set names in in retrival table for correct formatting
+  names(results.all.data) <- c("high-volume", "low-volume", "metropolitan", "non-metropolitan", "multiple centres", "single centre")
   
 ## RESULTS
   ## Total patients and NA
@@ -35,7 +37,7 @@ knitr::opts_chunk$set(echo = TRUE)
   total.number.of.na <- results$NA.info.sample$multi.centre.vs.single.centre$multi.centre$total.number.of.na
   ## Sample NA
   na.vector <- unlist(results$NA.info.sample)
-  names(na.vector) <- c("high volume", "high volume", "low volume", "low volume", "metropolitan", "metropolitan", "non metropolitan", "non metropolitan", "multi centre", "multi centre", "single centre", "single centre")
+  names(na.vector) <- c("high-volume", "high-volume", "low-volume", "low-volume", "metropolitan", "metropolitan", "non-metropolitan", "non-metropolitan", "multiple centres", "multiple centres", "single centre", "single centre")
   highest.percent.missing.number <- max(na.vector[na.vector<100])
   highest.percent.missing.name <- names((na.vector[na.vector == highest.percent.missing.number]))
   ## Variable NA
@@ -436,7 +438,7 @@ kable(table.2[,5:6], format = "markdown")
 
 ## Comparison
 Model performance after transfer was determined for each model after being transferred
-to the other sample in the data set in all data sets (Table 3). When
+to the other sample in the data set, in all data sets (Table 3). When
 transferred, the model with the lowest mistriage rate was the `r colnames(lowest.tran.mistriage)` 
 model, with a median mistriage rate of `r lowest.tran.mistriage`. The model with 
 the highest mistriage rate after transfer was the `r colnames(highest.tran.mistriage)` model 
