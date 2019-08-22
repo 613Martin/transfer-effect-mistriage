@@ -5,6 +5,7 @@
 #' res_survival 999 is replaced with NA.
 #' GCS 999 is raplaced with NA.
 #' GCS 99 is replaced with 3.
+#' DateTime_Of_Trauma "" is replaced with NA.
 #' Patient sex converted to factor w/ 2 levels
 #' Patient 30-day survival converted to factor w/ 2 levels
 #' New colum is created: ISS_over_15, dichotomized and converted to factor
