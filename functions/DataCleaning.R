@@ -15,9 +15,10 @@ DataCleaning <- function(df) {
     if (!is.data.frame(df))
         stop ("Input has to be a data.frame")
     ## Entry replacements
-    df$res_survival <- MyReplace(df$res_survival, 999)
+    df$res_survival <- MyReplace(df$res_survival, 999, NA)
     df$ed_gcs_sum <- MyReplace(df$ed_gcs_sum, 999)
     df$ed_gcs_sum <- MyReplace(df$ed_gcs_sum, 99, 3)
+    df$DateTime_Of_Trauma <- MyReplace(df$DateTime_Of_Trauma, "", NA)
     ## Convert patient sex to factor
     df$pt_Gender <- factor(df$pt_Gender, levels = c(1, 2), labels = c("Male", "Female"))
     ## Convert patient 30-day survival to factor
