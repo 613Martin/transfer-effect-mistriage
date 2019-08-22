@@ -29,5 +29,8 @@ DataCleaning <- function(df) {
     df$ISS_over_15 <- df$ISS
     df$ISS_over_15 <- ifelse(df$ISS_over_15 > 15, 1, 2)
     df$ISS_over_15 <- factor(df$ISS_over_15, levels = c(1, 2), labels = c("Yes", "No"))
+    ## Categorise systolic blood pressure, respiratory rate and Glasgow come
+    ## scale using Revised Trauma Score cutoffs
+    df[, c("gcs", "sbp", "rr")] <- bengaltiger::GetRevisedTraumaScoreComponents(df, gcs.name = "ed_gcs_sum", sbp.name = "ed_sbp_value", rr.name = "ed_rr_value", return.labels = TRUE)
     return(df)
 }
