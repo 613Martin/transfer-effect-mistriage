@@ -31,8 +31,8 @@ MICEImplement <- function(df.list, test = FALSE) {
     ## number.of.imputations <- 5
     
     ## Run mice
-    df.list <- lapply(df.list, function(df) { 
-        temporary.data <- mice(df, m = number.of.imputations, maxit = 5) 
+    df.list <- lapply(df.list, function(df) {
+        temporary.data <- mice(df, m = number.of.imputations, maxit = maxit) 
         df <- complete(temporary.data, action = "long", include = TRUE)
         return(df)
     })
