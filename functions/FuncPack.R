@@ -6,7 +6,7 @@
 FuncPack <- function(return.only = FALSE) {
     ## Get specific bengaltiger version
     library(devtools)
-    install_github("martingerdin/bengaltiger@c360801126f95d1573ed5e766d743648b51cd8f9")
+    install_github("martingerdin/bengaltiger@81672faabfb2d18dd66a92a7c0c4f32b2477d2f4")
     
     ## Load required packages
     packages <- c("data.table",
