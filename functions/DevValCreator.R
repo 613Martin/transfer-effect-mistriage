@@ -26,7 +26,7 @@ DevValCreator <- function(df) {
     # sorted.events.only <- events.only[order(as.Date(events.only$DateTime_Of_Trauma), decreasing = FALSE),]
     
     ## Saving cut-off date
-    cut.off.date <- sorted.events.only$DateTime_Of_Trauma[70]
+    cut.off.date <- sorted.events.only$DateTime_Of_Trauma[120]
     ##Split data frame
     dev.sample <- df[df$DateTime_Of_Trauma <= cut.off.date, ]
     val.sample <- df[df$DateTime_Of_Trauma > cut.off.date, ]
