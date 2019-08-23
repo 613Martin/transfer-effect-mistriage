@@ -33,5 +33,6 @@ DataCleaning <- function(df) {
     ## Categorise systolic blood pressure, respiratory rate and Glasgow come
     ## scale using Revised Trauma Score cutoffs
     df[, c("gcs", "sbp", "rr")] <- bengaltiger::GetRevisedTraumaScoreComponents(df, gcs.name = "ed_gcs_sum", sbp.name = "ed_sbp_value", rr.name = "ed_rr_value", return.labels = TRUE)
+    df[, c("ed_gcs_sum", "ed_sbp_value", "ed_rr_value")] <- NULL
     return(df)
 }
