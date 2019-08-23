@@ -28,8 +28,7 @@ MICEImplement <- function(df.list, test = FALSE) {
     maxit <- 5
     if (test)
         number.of.imputations <- maxit <- 3
-    ## number.of.imputations <- 5
-    
+
     ## Run mice
     df.list <- lapply(df.list, function(df) {
         temporary.data <- mice(df, m = number.of.imputations, maxit = maxit) 
