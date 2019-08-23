@@ -33,6 +33,7 @@ knitr::opts_chunk$set(echo = TRUE)
   ## Total patients and NA
   total.number.of.patients <- nrow(results$data.sets.before.imputations$multi.centre.vs.single.centre$multi.centre)
   total.number.of.na <- results$NA.info.sample$multi.centre.vs.single.centre$multi.centre$total.number.of.na
+  n.missing.data.time.of.trauma <- Results$n.missing.date.time.of.trauma
   ## Sample NA
   na.vector <- unlist(results$NA.info.sample)
   names(na.vector) <- c("high volume", "high volume", "low volume", "low volume", "metropolitan", "metropolitan", "non metropolitan", "non metropolitan", "multi centre", "multi centre", "single centre", "single centre")
@@ -209,11 +210,12 @@ Currently, the registry includes 55 000 cases, and its use is encouraged for
 both academic research and local quality improvement initiatives [@RN28].
 
 ## Participants 
-The eligibility criteria were adult patients aged 15 years or above registered 
+The eligibility criteria were adult patients aged 15 years or above registered
 in SweTrau between 2011 and 2016. The study aimed to assess adult trauma and not
 paediatric trauma, which differs in physiology, triage and initial care
-[@RN46]. The Swedish guidelines for trauma activation define children as 
-individuals aged <15 years [@RN90].
+[@RN46]. The Swedish guidelines for trauma activation define children as
+individuals aged <15 years [@RN90]. Further, patients with missing date and time
+of trauma were excluded.
 
 ## Variables
 ### Participant characteristics
@@ -389,8 +391,9 @@ honour their wishes.
   
 # Results
 We analysed data from `r total.number.of.patients ` trauma patients to
-investigate the effects of transfer on clinical prediction models (Table 1). The
-total number of missing observations across all variables was `r total.number.of.na ` 
+investigate the effects of transfer on clinical prediction models (Table 1), after 
+excluding `r n.missing.date.time.of.trauma ` patients with missing date and time of 
+trauma. The total number of missing observations across all variables was `r total.number.of.na ` 
 in the entire study cohort. The sample with the highest
 percentage of missing observations was the `r highest.percent.missing.name `
 sample, with `r highest.percent.missing.number `% incomplete observations. The

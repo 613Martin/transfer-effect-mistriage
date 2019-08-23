@@ -28,6 +28,11 @@ RunStudy <- function(selected.data, codebook = NULL, boot = FALSE, test = FALSE,
     Results <- list()
 
     ## RUN STUDY
+    ## Exclude observations with missing date and time of trauma
+    if (!boot)
+        Results$n.missing.date.time.of.trauma <- sum(is.na(selected.data$DateTime_Of_Trauma))
+    selected.data <- selected.data[!is.na(selected.data$DateTime_Of_Trauma), ]
+    
     ## Create High Volume Sample and Low Volume Sample
     High.Volume.Sample <- selected.data[selected.data$High_Volume_Centre == "Yes", ]
     Low.Volume.Sample <- selected.data[selected.data$High_Volume_Centre == "No", ]
