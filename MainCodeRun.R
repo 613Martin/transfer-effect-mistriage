@@ -121,7 +121,10 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     rmarkdown::render("./ManuscriptMarkdown.Rmd")
 
 }
-MainCodeRun(test = FALSE, clean.start = FALSE, copy.results.to.path = "~/ownCloud/projects/transfer-effect-mistriage-martin/")
+## Uncomment for real run
+## MainCodeRun(test = FALSE, clean.start = FALSE, copy.results.to.path = "~/ownCloud/projects/transfer-effect-mistriage-martin/")
+## Uncomment for test run
+MainCodeRun(test = TRUE, clean.start = TRUE, copy.results.to.path = NULL)
 
 
 
