@@ -16,7 +16,7 @@ IndividualCentreCheck <- function(df) {
   
     ## Evaluates if Sjukhuskod is valid individual centre
     x <- as.data.frame(table(df$Sjukhuskod, df$res_survival, exclude = c(2, NA, NaN, 999, "Alive")))
-    y <- as.vector(x$Var1[x$Freq >= 220])
+    y <- as.vector(x$Var1[x$Freq >= 175])
   
     df$Valid_Individual_Centre <- ifelse(df$Sjukhuskod %in% y, "Yes", "No")
   
