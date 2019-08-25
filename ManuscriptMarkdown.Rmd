@@ -33,7 +33,7 @@ knitr::opts_chunk$set(echo = TRUE)
   ## Total patients and NA
   total.number.of.patients <- nrow(results$data.sets.before.imputations$multi.centre.vs.single.centre$multi.centre)
   total.number.of.na <- results$NA.info.sample$multi.centre.vs.single.centre$multi.centre$total.number.of.na
-  n.missing.data.time.of.trauma <- Results$n.missing.date.time.of.trauma
+  n.missing.data.time.of.trauma <- results$n.missing.date.time.of.trauma
   ## Sample NA
   na.vector <- unlist(results$NA.info.sample)
   names(na.vector) <- c("high volume", "high volume", "low volume", "low volume", "metropolitan", "metropolitan", "non metropolitan", "non metropolitan", "multi centre", "multi centre", "single centre", "single centre")
@@ -269,16 +269,17 @@ representing a different care context. The data sets and sample size considerati
 are outlined below.
 
 ## Quantitative variables
-GCS was modelled as a continuous linear term, and SBP and RR were modelled using 
-restricted cubic splines with four knots whenever possible, placed at equally spaced 
-percentiles. When describing the participant characteristics, quantitative variables 
-were presented as continuous. ISS was presented as dichotomous, using ISS > 15 as the cutoff.
+GCS, SBP, and RR were modelled as continuous linear terms. In the original study
+plan it was specified that SBP and RR would be modelled using restricted cubic
+splines with four knots. This approach however resulted in an unstable
+imputation model and we therefore decided to simplify the analysis model. ISS
+was presented as dichotomous, using ISS > 15 as the cutoff.
 
 ## Statistical methods
 ### Data sets
-The complete SweTrau cohort was split into three overlapping sets of data, each representing a 
-plausible care context for model transfer. These data sets were further divided 
-into samples as follows:
+The complete SweTrau cohort was split into three overlapping sets of data, each
+representing a plausible care context for model transfer. These data sets were
+further divided into samples as follows:
 
 ### Data set 1: High- and low-volume centres
 Two samples were derived from the SweTrau cohort based on the number of patients. 
@@ -301,21 +302,21 @@ data set was removed before analysis due to a lack of centres
 with a sufficiently large sample size.
 
 ### Development and validation sample
-The samples in each data set were split into
-two subsamples using a temporal split based on the date of trauma. The earlier
-subsample was the development sample, and the later subsample was the validation
-sample. The development sample contained 70 events (events being patients who
-died within 30 days of the trauma) and all non-events (non-events being patients who
-survived 30 days past the trauma) during the same time. The rationale for
-including 70 events is that at least 10 events per free parameter were needed in
-the logistic regression to obtain stable coefficient estimates [@RN30]. The
-validation sample contained 100 events and at least 100 non-events,
-which was suggested as the minimum number by Vergouwe in 2005 for external
-validation samples [@RN37]. Figure 1 shows the development of the samples using 
-the high- and low-volume centre data set as an example. The minimum sample sizes 
-of the development and validation samples were 140 and 200, respectively. 
-We performed analyses only on data sets for which all samples included at 
-least the minimum sample size.
+The samples in each data set were split into two subsamples using a temporal
+split based on the date of trauma. The earlier subsample was the development
+sample, and the later subsample was the validation sample. The development
+sample contained 75 events (events being patients who died within 30 days of the
+trauma) and all non-events (non-events being patients who survived 30 days past
+the trauma) during the same time. The rationale for including 75 events was that
+25 events per variable have been shown to result in less biased coefficient
+estimates compared to the more standard 10 events per variable [@RN30;
+@Courvoisier2011]. The validation sample contained 100 events and at least 100
+non-events, which was suggested as the minimum number by Vergouwe in 2005 for
+external validation samples [@RN37]. Figure 1 shows the development of the
+samples using the high- and low-volume centre data set as an example. The
+minimum sample sizes of the development and validation samples were 140 and 200,
+respectively.  We performed analyses only on data sets for which all samples
+included at least the minimum sample size.
 
 ![](fig1.jpg)  
 **Fig. 1: Sample development in the high- and low-volume centre data set.**  Initial 
@@ -323,24 +324,25 @@ split based on the number of patients. Temporal split made using the date of the
 
 ### Sequence of analysis
 The programming language R was used for all analyses [@RN31], and all code has
-been made publicly available [@RN59]. Analyses were performed in the sequence
-of model development, model validation and finally model comparison. These steps
+been made publicly available [@RN59]. Analyses were performed in the sequence of
+model development, model validation and finally model comparison. These steps
 were repeated in each data set. Below, we use the transfer of a model from the
-high-volume centre sample to the low-volume centre sample as an example to describe 
-the complete procedure.
+high-volume centre sample to the low-volume centre sample as an example to
+describe the complete procedure.
 
 ### Model development
 In the model development step, a clinical prediction model was developed in the
 high-volume centre development sample. The model was developed using logistic
-regression. The dependent variable was all-cause mortality within 30 days of 
-trauma, and the independent variables SBP, RR, and GCS were modelled as previously described. 
-To avoid overfitting the model, a bootstrap procedure was used to estimate a linear 
-shrinkage factor that was then applied to the model coefficients [@RN61]. The shrunk 
-model was used to estimate the probability of all-cause 30-day mortality in the 
-development sample. A grid search was performed across estimated probabilities in 
-the development sample to identify the cutoff value that optimised overtriage while keeping 
-undertriage at less than 5% [@RN39]. This cutoff value was then used to classify patients 
-as having major or minor trauma.
+regression. The dependent variable was all-cause mortality within 30 days of
+trauma, and the independent variables SBP, RR, and GCS were modelled as
+previously described.  To avoid overfitting the model, a bootstrap procedure was
+used to estimate a linear shrinkage factor that was then applied to the model
+coefficients [@RN61]. The shrunk model was used to estimate the probability of
+all-cause 30-day mortality in the development sample. A grid search was
+performed across estimated probabilities in the development sample to identify
+the cutoff value that optimised overtriage while keeping undertriage at less
+than 5% [@RN39]. This cutoff value was then used to classify patients as having
+major or minor trauma.
 
 ### Model validation
 In the model validation step, the model performance was assessed in the
@@ -351,33 +353,32 @@ development sample was applied to the validation samples, patients were
 classified as having major or minor trauma, and the model performance was estimated.
 
 ### Model comparison
-Finally, the difference in model performance
-between the high- and low-volume centre validation samples was
-calculated. Empirical bootstrapping was used to estimate the 95% confidence intervals
-(CI) around the performance and the differences in the performance estimates. Both bootstrap
-procedures used 1 000 bootstrap samples drawn with replacement of the same size
-as the original samples. The three steps of model development, model validation,
-and model comparison were repeated in all four sets of data.
+Finally, the difference in model performance between the high- and low-volume
+centre validation samples was calculated. Empirical bootstrapping was used to
+estimate the 95% confidence intervals (CI) around the performance and the
+differences in the performance estimates. Both bootstrap procedures used 1 000
+bootstrap samples drawn with replacement of the same size as the original
+samples. The three steps of model development, model validation, and model
+comparison were repeated in all four sets of data.
 
 ### Performance measures
 Model performance was assessed in terms of over-, under-, and mistriage rates as
 defined above.
 
 ### Missing data
-We used multiple imputation using chained equations (mice) to handle missing data [@RN41]. 
-The number of imputations created for each data set was equal to the highest 
-percentage of missing data in that data set. Quantitative variables were imputed 
-using predictive mean matching, and qualitative variables were imputed using logistic 
-regression. SBP and RR were transformed as restricted cubic splines before imputation. 
-All analyses outlined above were then conducted separately in
-each imputed dataset. We present the combined results as the median point
-estimate across imputations along with an empirical bootstrap of the 25th and
-75th percentiles across imputations, i.e. the lower bound of the presented
-interval is the lower bound of a 95% CI of the 25th percentile, and the upper
-bound is the upper bound of a 95% CI of the 75th percentile. This combined CI
-was referred to as an uncertainty interval (UI) and was used to express the
-added uncertainty associated with the imputation procedure to handle missing
-data; as such, it is more conservative than a standard 95% CI.
+We used multiple imputation using chained equations (mice) to handle missing
+data [@RN41].  The number of imputations created for each data set was equal to
+the highest percentage of missing data in that data set. Quantitative variables
+were imputed using predictive mean matching, and qualitative variables were
+imputed using logistic regression.  All analyses outlined above were then
+conducted separately in each imputed dataset. We present the combined results as
+the median point estimate across imputations along with an empirical bootstrap
+of the 25th and 75th percentiles across imputations, i.e. the lower bound of the
+presented interval is the lower bound of a 95% CI of the 25th percentile, and
+the upper bound is the upper bound of a 95% CI of the 75th percentile. This
+combined CI was referred to as an uncertainty interval (UI) and was used to
+express the added uncertainty associated with the imputation procedure to handle
+missing data; as such, it is more conservative than a standard 95% CI.
 
 ## Ethical considerations
 The study was approved by the regional ethics review board in Stockholm, Sweden. 
