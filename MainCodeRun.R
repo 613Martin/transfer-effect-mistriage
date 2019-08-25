@@ -31,8 +31,8 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     set.seed(-41892)
     ## Import data
     data.file <- "swetrau-20110101-20160425.csv"
-    if (test)
-        data.file <- "simulated-swetrau-data.csv"
+    ## if (test)
+    ##     data.file <- "simulated-swetrau-data.csv"
     raw.data <- ImportStudyData(data.file)
     ## Create study sample from selected variables
     selected.data <- VariableSelection(raw.data)
@@ -52,11 +52,11 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
                                        abbreviated.label = "Age"),
                      pt_Gender = list(full.label = "Patient gender",
                                       abbreviated.label = "Gender"),
-                     gcs = list(full.label = "Glasgow coma scale",
+                     ed_gcs_sum = list(full.label = "Glasgow coma scale",
                                        abbreviated.label = "GCS"),
-                     sbp = list(full.label = "Systolic blood pressure",
+                     ed_sbp_value = list(full.label = "Systolic blood pressure",
                                          abbreviated.label = "SBP"),
-                     rr = list(full.label = "Respiratory rate",
+                     ed_rr_value = list(full.label = "Respiratory rate",
                                         abbreviated.label = "RR"),
                      res_survival = list(full.label = "30 day survival",
                                          abbreviated.label = "30d survival"),
