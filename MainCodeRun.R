@@ -11,6 +11,10 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
                         copy.results.to.path = NULL) {
     
     ## INITIALIZING
+    ## Start the MPI cluster to prevent slaves to execute master code
+    library(doMPI)
+    study.cluster <- startMPIcluster()
+    registerDoMPI(study.cluster)
     ## Load required packages and source functions
     ## FuncPack() first needs to be sourced to run
     source("./functions/FuncPack.R")
@@ -97,9 +101,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     message (paste0("Estimating results in bootstrap samples ", paste0(estimated.bootstraps, collapse = ", ")))
     ## Get bootstrap results
     errorlog <- "output/errorlog.txt"
-    write("", errorlog)
-    study.cluster <- makeCluster(detectCores())
-    registerDoParallel(study.cluster)
+    write(Sys.time(), errorlog)
     foreach(bootstrap.sample = bootstrap.samples,
             .packages = FuncPack(return.only = TRUE)$packages,
             .export = FuncPack(return.only = TRUE)$functions) %dopar% {
@@ -112,7 +114,8 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
                                                    errorlog,
                                                    append = TRUE))
             }
-    stopCluster(study.cluster)
+    closeCluster(study.cluster)
+    mpi.quit()
     ## Report all analyses completed
     message("All analyses completed")
     ## Compile results
