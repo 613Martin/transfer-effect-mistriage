@@ -1,6 +1,6 @@
 #!/bin/sh
 #SBATCH -t 48:00:00
-#SBATCH -N 20
+#SBATCH -N 10
 #SBATCH --tasks-per-node=20
 #SBATCH --exclusive
 #SBATCH --mail-user=martingerdin@gmail.com
