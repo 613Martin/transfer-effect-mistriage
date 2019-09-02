@@ -13,7 +13,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     ## INITIALIZING
     ## Start the MPI cluster to prevent slaves to execute master code
     library(doMPI)
-    study.cluster <- startMPIcluster()
+    study.cluster <- startMPIcluster(verbose = TRUE, logdir = "log")
     registerDoMPI(study.cluster)
     ## Load required packages and source functions
     ## FuncPack() first needs to be sourced to run
@@ -123,12 +123,8 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     rmarkdown::render("./ManuscriptMarkdown.Rmd")
     ## Quit MPI
     mpi.quit()
-
 }
 ## Uncomment for real run
-## MainCodeRun(test = FALSE, clean.start = FALSE, copy.results.to.path = "~/ownCloud/projects/transfer-effect-mistriage-martin/")
+MainCodeRun(test = FALSE, clean.start = FALSE, copy.results.to.path = NULL)
 ## Uncomment for test run
-MainCodeRun(test = TRUE, clean.start = TRUE, copy.results.to.path = NULL)
-
-
-
+## MainCodeRun(test = TRUE, clean.start = TRUE, copy.results.to.path = NULL)
