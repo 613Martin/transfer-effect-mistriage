@@ -36,7 +36,7 @@ MICEImplement <- function(df.list, test = FALSE) {
         temporary.data <- mice(df, m = number.of.imputations, maxit = maxit)
         print(temporary.data$loggedEvents)
         df <- complete(temporary.data, action = "long", include = TRUE)
-        df$ISS_over_15 <- table(factor(df$ISS > 15, labels = c("No", "Yes")))
+        df$ISS_over_15 <- factor(df$ISS > 15, labels = c("No", "Yes"))
         print(sum(is.na(df[df[, ".imp"] != 0, ])))
         return(df)
     })
