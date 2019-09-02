@@ -37,7 +37,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     data.file <- "swetrau-20110101-20160425.csv"
     ## if (test)
     ##     data.file <- "simulated-swetrau-data.csv"
-    raw.data <- ImportStudyData(data.file)
+    raw.data <- bengaltiger::ImportStudyData(data.file, data.path = "../data/")
     ## Create study sample from selected variables
     selected.data <- VariableSelection(raw.data)
     ## Select cases with age > 15 or age = NA
@@ -115,13 +115,14 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
                                                    append = TRUE))
             }
     closeCluster(study.cluster)
-    mpi.quit()
     ## Report all analyses completed
     message("All analyses completed")
     ## Compile results
     CompileResults()
     ## Render results document
     rmarkdown::render("./ManuscriptMarkdown.Rmd")
+    ## Quit MPI
+    mpi.quit()
 
 }
 ## Uncomment for real run
