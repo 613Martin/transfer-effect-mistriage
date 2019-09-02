@@ -13,7 +13,7 @@
 #'     MICEImplement and DevelopmentModelCreator. Defaults to FALSE.
 #' @param copy.results.to.path Character or NULL. The path to which the results
 #'     should be copied. Defaults to NULL.
-RunStudy <- function(selected.data, codebook = NULL boot = FALSE, test = FALSE, copy.results.to.path = NULL) {
+RunStudy <- function(selected.data, codebook = NULL, boot = FALSE, test = FALSE, copy.results.to.path = NULL) {
 
 
     ## Error handling
@@ -28,6 +28,11 @@ RunStudy <- function(selected.data, codebook = NULL boot = FALSE, test = FALSE, 
     Results <- list()
 
     ## RUN STUDY
+    ## Exclude observations with missing date and time of trauma
+    if (!boot)
+        Results$n.missing.date.time.of.trauma <- sum(is.na(selected.data$DateTime_Of_Trauma))
+    selected.data <- selected.data[!is.na(selected.data$DateTime_Of_Trauma), ]
+    
     ## Create High Volume Sample and Low Volume Sample
     High.Volume.Sample <- selected.data[selected.data$High_Volume_Centre == "Yes", ]
     Low.Volume.Sample <- selected.data[selected.data$High_Volume_Centre == "No", ]
@@ -64,8 +69,8 @@ RunStudy <- function(selected.data, codebook = NULL boot = FALSE, test = FALSE, 
         Results$NA.info.variable <- NA.info.variable
         rm(NA.info.sample, NA.info.variable)
     }
-    ## Create restricted cubic splines
-    data.sets <- lapply(data.sets, function(sample) lapply(sample, RCSplineConvert))
+    ## Create restricted cubic splines (disabled 20190822)
+    ## data.sets <- lapply(data.sets, function(sample) lapply(sample, RCSplineConvert))
     ## Impute missing data
     data.sets <- lapply(data.sets, MICEImplement, test = test)
     ## If not a bootstrap run, create table one
@@ -90,10 +95,10 @@ RunStudy <- function(selected.data, codebook = NULL boot = FALSE, test = FALSE, 
     
     ## CLINICAL PREDICTION MODEL
     ## MODEL DEVELOPMENT
-    ## Remove all restricted cubic splines
-    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, function(devval) lapply(devval, RCRemover)))))
-    ## Recreate restricted cubic splines using knot locations from development sample in validation sample
-    split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, RCSplineConvertDevVal)))) 
+    ## Remove all restricted cubic splines (disabled 20190822)
+    ## split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, function(devval) lapply(devval, RCRemover)))))
+    ## Recreate restricted cubic splines using knot locations from development sample in validation sample (disabled 20190822)
+    ## split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, RCSplineConvertDevVal)))) 
     ## Create model and apply shrinkage factor for each development sample, save as Development model coefficients
     split.data.sets <- lapply(split.data.sets, function(sample) lapply(sample, function(imp) (lapply(imp, DevelopmentModelCreator, test = test)))) 
     ## Predict 30-day mortality in development sample and create development grid + prediction grid
@@ -131,7 +136,7 @@ RunStudy <- function(selected.data, codebook = NULL boot = FALSE, test = FALSE, 
     file.name <- paste0("output/", results.specifier, ".results.Rds") 
     saveRDS(Results, file.name)
     if (!is.null(copy.results.to.path))
-        saveRDS(Results, paste0(path, "/", results.specifier, ".results.Rds"))
+        saveRDS(Results, paste0(copy.results.to.path, file.name))
     return(paste0(file.name, " saved to disk"))
 
 }

@@ -7,12 +7,9 @@
 #' @param df.list List of dataframes.
 PredictGridCreator <- function(df.list) {
     ## Creates dummy model (as predict function only accepts glm. and not "pure" coefficients)
-    model.formula <- paste0("res_survival ~ ",
-                            paste0(names(df.list[["Model coefficients"]])[-1],
-                                   collapse = " + "))
-    dummy.model <- glm(as.formula(model.formula),
-                       data = df.list$Development, 
-                       family = "binomial")
+    dummy.model <- glm(res_survival ~ ed_gcs_sum + ed_sbp_value + ed_rr_value,
+                     data = df.list$Development,
+                     family = "binomial")
     ## Apply shrunk coefficients to dummy.model
     dummy.model$coefficients <- as.numeric(df.list[["Model coefficients"]])
     ## Calculate product and sum of coefficiants in all entries in development sample

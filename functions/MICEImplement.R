@@ -25,14 +25,19 @@ MICEImplement <- function(df.list, test = FALSE) {
     
     ## Set number of imputations
     number.of.imputations <- as.integer(max(unlist(percents.NA)))
+    maxit <- 5
     if (test)
-        number.of.imputations <- 3
-    ## number.of.imputations <- 5
-    
+        number.of.imputations <- maxit <- 3
+
     ## Run mice
-    df.list <- lapply(df.list, function(df) { 
-        temporary.data <- mice(df, m = number.of.imputations, maxit = 5) 
+    df.list <- lapply(df.list, function(df) {
+        df$ISS_over_15 <- NULL
+        df$Sjukhuskod <- as.factor(df$Sjukhuskod)
+        temporary.data <- mice(df, m = number.of.imputations, maxit = maxit)
+        print(temporary.data$loggedEvents)
         df <- complete(temporary.data, action = "long", include = TRUE)
+        df$ISS_over_15 <- factor(df$ISS > 15, labels = c("No", "Yes"))
+        print(sum(is.na(df[df[, ".imp"] != 0, ])))
         return(df)
     })
 

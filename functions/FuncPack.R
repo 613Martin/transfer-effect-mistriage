@@ -6,25 +6,30 @@
 FuncPack <- function(return.only = FALSE) {
     ## Get specific bengaltiger version
     library(devtools)
-    install_github("martingerdin/bengaltiger@c360801126f95d1573ed5e766d743648b51cd8f9")
+    ## install_github("martingerdin/bengaltiger@81672faabfb2d18dd66a92a7c0c4f32b2477d2f4")
+    library(bengaltiger)
     
     ## Load required packages
     packages <- c("data.table",
                   "mice",
                   "Hmisc",
                   "boot",
-                  "bengaltiger",
-                  "doParallel",
                   "foreach",
                   "knitr",
                   "rmarkdown")
 
-    if (!return.only)
-        for(package in packages) library(package, character.only = TRUE)
+    if (!return.only) {
+        for(package in packages) {
+            tryCatch(expr = library(package, character.only = TRUE),
+                     error = function(e) install.packages(package, repos = "https://cloud.r-project.org"),
+                     finally = library(package, character.only = TRUE))
+        }
+        
+    }
    
     ## Source functions
-    files <- list.files("./Functions", full.names = TRUE, pattern = ".R$")
-    functions <- gsub("^./Functions/|.R$", "", files)
+    files <- list.files("./functions", full.names = TRUE, pattern = ".R$")
+    functions <- gsub("^./functions/|.R$", "", files)
     if (!return.only)
         invisible(lapply(files, source))
 
