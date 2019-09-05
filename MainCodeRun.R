@@ -130,4 +130,4 @@ MainCodeRun(test = TRUE, clean.start = TRUE, copy.results.to.path = NULL)
 ## MainCodeRun(test = FALSE, clean.start = TRUE, copy.results.to.path = NULL)
 
 ## Uncomment to resume real run
-## MainCodeRun(test = FALSE, clean.start = TRUE, copy.results.to.path = NULL)
+## MainCodeRun(test = FALSE, clean.start = FALSE, copy.results.to.path = NULL)
