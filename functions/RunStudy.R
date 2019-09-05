@@ -25,7 +25,8 @@ RunStudy <- function(selected.data, codebook = NULL, boot = FALSE, test = FALSE,
         stop ("copy.results.to.path has to be character or NULL")
 
     ## Log
-    write(paste0("Bootstrap sample ", unique(selected.data[, ".boot.id"]), "started \n"), "log.out", append = TRUE)
+    if (boot)
+        write(paste0("Bootstrap sample ", unique(selected.data[, ".boot.id"]), "started \n"), "log.out", append = TRUE)
     
     ## Create results list
     Results <- list()
@@ -143,5 +144,6 @@ RunStudy <- function(selected.data, codebook = NULL, boot = FALSE, test = FALSE,
     message(paste0(file.name, " saved to disk"))
 
     ## Log
-    write(paste0("Bootstrap sample ", unique(selected.data[, ".boot.id"]), "completed \n"), "log.out", append = TRUE)
+    if (boot)
+        write(paste0("Bootstrap sample ", unique(selected.data[, ".boot.id"]), "completed \n"), "log.out", append = TRUE)
 }
