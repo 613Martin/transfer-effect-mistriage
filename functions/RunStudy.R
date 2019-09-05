@@ -24,6 +24,9 @@ RunStudy <- function(selected.data, codebook = NULL, boot = FALSE, test = FALSE,
     if (!is.null(copy.results.to.path) & !is.character(copy.results.to.path))
         stop ("copy.results.to.path has to be character or NULL")
 
+    ## Log
+    write(paste0("Bootstrap sample ", unique(selected.data[, ".boot.id"]), "started \n"), "log.out", append = TRUE)
+    
     ## Create results list
     Results <- list()
 
@@ -137,6 +140,8 @@ RunStudy <- function(selected.data, codebook = NULL, boot = FALSE, test = FALSE,
     saveRDS(Results, file.name)
     if (!is.null(copy.results.to.path))
         saveRDS(Results, paste0(copy.results.to.path, file.name))
-    return(paste0(file.name, " saved to disk"))
+    message(paste0(file.name, " saved to disk"))
 
+    ## Log
+    write(paste0("Bootstrap sample ", unique(selected.data[, ".boot.id"]), "completed \n"), "log.out", append = TRUE)
 }

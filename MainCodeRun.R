@@ -15,6 +15,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     library(doMPI)
     study.cluster <- startMPIcluster(verbose = TRUE, logdir = "log")
     registerDoMPI(study.cluster)
+    write(paste0("Log ", as.character(Sys.time()), " \n"), "log.out")
     ## Load required packages and source functions
     ## FuncPack() first needs to be sourced to run
     source("./functions/FuncPack.R")
@@ -100,8 +101,6 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     }
     message (paste0("Estimating results in bootstrap samples ", paste0(estimated.bootstraps, collapse = ", ")))
     ## Get bootstrap results
-    errorlog <- "output/errorlog.txt"
-    write(Sys.time(), errorlog)
     foreach(bootstrap.sample = bootstrap.samples,
             .packages = FuncPack(return.only = TRUE)$packages,
             .export = FuncPack(return.only = TRUE)$functions) %dopar% {
@@ -110,8 +109,8 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
                                          boot = TRUE,
                                          test = test,
                                          copy.results.to.path = copy.results.to.path),
-                         error = function(e) write(paste0("bootstrap sample ", boot.id, ": ", e),
-                                                   errorlog,
+                         error = function(e) write(paste0("bootstrap sample ", boot.id, ": ", e, " \n"),
+                                                   "log.out",
                                                    append = TRUE))
             }
     closeCluster(study.cluster)
@@ -125,6 +124,6 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     mpi.quit()
 }
 ## Uncomment for real run
-MainCodeRun(test = FALSE, clean.start = FALSE, copy.results.to.path = NULL)
+## MainCodeRun(test = FALSE, clean.start = FALSE, copy.results.to.path = NULL)
 ## Uncomment for test run
-## MainCodeRun(test = TRUE, clean.start = TRUE, copy.results.to.path = NULL)
+MainCodeRun(test = TRUE, clean.start = TRUE, copy.results.to.path = NULL)
