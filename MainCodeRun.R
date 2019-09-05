@@ -27,11 +27,10 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     }
     ## Identify starting point and go from there if clean start is FALSE
     original.results.done <- file.exists("./output/original.results.Rds")
-    completed.bootstraps <- NULL
-    if (!clean.start) {
-        bootstraps.done <- list.files("./output/", "^bootstrap\\.sample\\.[0-9]*\\.results.Rds$")
-        completed.bootstraps <- sort(as.numeric(gsub("bootstrap\\.sample\\.|\\.results\\.Rds", "", bootstraps.done)))
-    }
+    bootstraps.done <- list.files("./output/", "^bootstrap\\.sample\\.[0-9]*\\.results.Rds$")
+    completed.bootstraps <- sort(as.numeric(gsub("bootstrap\\.sample\\.|\\.results\\.Rds", "", bootstraps.done)))
+    if (length(completed.bootstraps) == 0)
+        completed.bootstraps <- NULL
     ## Set random seed
     set.seed(-41892)
     ## Import data
