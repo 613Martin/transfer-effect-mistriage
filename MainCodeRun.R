@@ -75,6 +75,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     ## Get original results
     if (clean.start | !original.results.done) {
         message ("Estimating original results")
+        write("Estimating original results \n", "log.out")
         RunStudy(selected.data = selected.data, copy.results.to.path = copy.results.to.path, codebook = codebook, boot = FALSE, test = test)
     }
     ## Create bootstrap samples
