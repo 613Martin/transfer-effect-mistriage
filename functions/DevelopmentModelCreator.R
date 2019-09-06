@@ -11,14 +11,8 @@ DevelopmentModelCreator <- function(df.list, test = FALSE) {
     development.data <- df.list$Development
     ## Create model function
     log.reg.model <- function(model.data) {
-        ## Define formula
-        predictors <- grep("^ed_gcs_sum|^ed_sbp_value|^ed_rr_value",
-                           colnames(model.data),
-                           value = TRUE)
-        model.formula <- paste0("res_survival ~ ",
-                                paste0(predictors, collapse = " + "))
         ## Run model
-        model <- glm(as.formula(model.formula),
+        model <- glm(res_survival ~ ed_gcs_sum + ed_sbp_value + ed_rr_value,
                      data = model.data,
                      family = "binomial")
         ## Return model

@@ -1,7 +1,7 @@
 #' IndividualCentreCheck
 #'
 #' Creates a table from a data.frame, based on number of deaths within 30 days of trauma.
-#' "Sjukhusnummer" with > 170 deaths within 30 days of trauma are considered valid individual centres.
+#' "Sjukhusnummer" with > 220 deaths within 30 days of trauma are considered valid individual centres.
 #' Adds a new colum called Valid_Individual_Centre
 #' If a "Sjukhusnummer" is a valid individual centre, adds Yes to the new colum, otherwise No.
 #' 
@@ -16,7 +16,7 @@ IndividualCentreCheck <- function(df) {
   
     ## Evaluates if Sjukhuskod is valid individual centre
     x <- as.data.frame(table(df$Sjukhuskod, df$res_survival, exclude = c(2, NA, NaN, 999, "Alive")))
-    y <- as.vector(x$Var1[x$Freq >= 170])
+    y <- as.vector(x$Var1[x$Freq >= 175])
   
     df$Valid_Individual_Centre <- ifelse(df$Sjukhuskod %in% y, "Yes", "No")
   

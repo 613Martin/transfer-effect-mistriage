@@ -5,7 +5,7 @@
 #' @param codebook Codebook for pretty table printing. Defaults to NULL.
 TableOneCreator <- function(data.sets, codebook = NULL) {
   
-       Table.Variables <- c("pt_age_yrs", "pt_Gender", "ed_gcs_sum", "ed_sbp_value", "ed_rr_value", "res_survival", "ISS", "NISS", "ISS_over_15", "group")
+       Table.Variables <- names(codebook)
        table.list <- lapply(names(data.sets), function(data.set.name) {
                             data.set <- data.sets[[data.set.name]]
                             data.set <- lapply(names(data.set), function(sample.name) {
