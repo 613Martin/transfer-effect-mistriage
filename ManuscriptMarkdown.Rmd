@@ -35,7 +35,7 @@ knitr::opts_chunk$set(echo = TRUE)
   ## Total patients and NA
   total.number.of.patients <- nrow(results$data.sets.before.imputations$multi.centre.vs.single.centre$multi.centre)
   total.number.of.na <- results$NA.info.sample$multi.centre.vs.single.centre$multi.centre$total.number.of.na
-  n.missing.data.time.of.trauma <- results$n.missing.date.time.of.trauma
+  n.missing.date.time.of.trauma <- results$n.missing.date.time.of.trauma
   ## Sample NA
   na.vector <- unlist(results$NA.info.sample)
   names(na.vector) <- c("high-volume", "high-volume", "low-volume", "low-volume", "metropolitan", "metropolitan", "non-metropolitan", "non-metropolitan", "multiple centres", "multiple centres", "single centre", "single centre")
