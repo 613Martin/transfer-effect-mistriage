@@ -5,7 +5,7 @@ author:
 - Dell D Saulnier
 - Johanna Berg
 - Martin Gerdin Wärnberg
-date: "August 14, 2019"
+date: "September 07, 2019"
 documentclass: "article"
 output:
   word_document:
