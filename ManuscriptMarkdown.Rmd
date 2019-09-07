@@ -76,6 +76,8 @@ knitr::opts_chunk$set(echo = TRUE)
   UI.top.bot <- unlist(UI.top.bot.list)
 
 ## TABLE SETUP
+  # Capitalize names before table creation
+  names(results.all.data) <- c("High-volume", "Low-volume", "Metropolitan", "Non-metropolitan", "Multiple centres", "Single centre")
   # Table 1 = Sample characteristics table
   high.low <- results$table.one.list$Characteristics_table_of_high.volume.vs.low.volume
   names(high.low) <- c("Characteristic", "Level", "High volume", "Low volume")
@@ -132,11 +134,12 @@ abstract: |
   transfer was found in the `r colnames(highest.comp.mistriage)` 
   sample, with a mistriage difference of `r highest.comp.mistriage`.
   
-  **Conclusions:** In all samples, model transfer was associated with high 
-  levels of uncertainty. Notably, transfer from the `r colnames(highest.comp.mistriage)` 
-  sample to the other sample in the data set led to an increased mistriage
-  rate, primarily due to increased overtriage. 
-  
+  **Conclusions:** In all samples, model transfer was associated with some degree of uncertainty. 
+  Models developed in samples with a high number of patients performed the best after transfer. Affirming 
+  this, the worst performance after transfer was the low-volume model transferred to the high-volume 
+  sample, resulting in a significant mistriage increase of `r highest.comp.mistriage`, this was
+  primarily due to increased overtriage. 
+
   **Keywords:** Trauma, Clinical prediction model, Transferability, Mistriage, Undertriage, Overtriage 
 ---
 
@@ -316,7 +319,7 @@ estimates compared to the more standard 10 events per variable [@RN30;
 non-events, which was suggested as the minimum number by Vergouwe in 2005 for
 external validation samples [@RN37]. Figure 1 shows the development of the
 samples using the high- and low-volume centre data set as an example. The
-minimum sample sizes of the development and validation samples were 140 and 200,
+minimum sample sizes of the development and validation samples were 150 and 200,
 respectively.  We performed analyses only on data sets for which all samples
 included at least the minimum sample size.
 
@@ -476,31 +479,35 @@ kable(table.4[,5:6], format = "markdown")
 # Discussion
 This study aimed to assess how transfers of clinical prediction models for early
 trauma care between different contexts within a single health system affect
-mistriage rates. In all data sets, model transfer between samples resulted in
-substantial uncertainty in terms of its effect on model performance. When comparing the
-transferred performance to the receiving sample validation performance, the
-resulting differences also showed considerable uncertainty.
+mistriage rates. In many data sets, varying degrees of uncertainty were observed 
+when comparing the transferred performance to the receiving sample validation performance.
 
-The most notable effects on model performance following model transfer were observed
+The most notable effect on model performance following model transfer were observed
 after transferring the `r colnames(highest.comp.mistriage)` model. This transfer
 resulted in an increase in the mistriage rate of 
-`r substr(format(highest.comp.mistriage), 1, 5)`.  Mainly contributing to this was
-a marked increase in overtriage.  For this transfer, the 95% UI ranged from 
-`r UI.top.bot[1]` to `r UI.top.bot[2]`, indicating a high level of uncertainty, suggesting
-that our findings are compatible with a `r UI.top.bot[1]` decrease to a 
-`r UI.top.bot[2]` increase in mistriage. The negative 95% UI of `r UI.top.bot[1]`
-would signify an improvement in model performance. The higher 95% UI of 
-`r UI.top.bot[2]` would mean a marked increase in model mistriage compared to the
-point estimate of `r substr(format(highest.comp.mistriage), 1, 5)`.
+`r substr(format(highest.comp.mistriage), 1, 5)`. Mainly contributing to this was
+an increase in overtriage.  For this transfer, the 95% UI ranged from 
+`r UI.top.bot[1]` to `r UI.top.bot[2]`, indicating a high level of uncertainty. 
+In contrast, the transfer of the high-volume model to the low-volume sample 
+reduced mistriage, this was primarily due to reduced overtriage.
 
-Due to centralized trauma care, non-metropolitan centres generally have fewer 
-resources and less experience receiving trauma patients. They may rely 
-on clinical prediction models more heavily for accurate trauma triage, and 
-an increase in overtriage can lead to further strains on already limited 
-resources. Increased undertriage could possibly lead to increased patient 
-mortality.
+Low-volume centres do by definition receive fewer trauma patients, and therefore 
+less data is available to establish accurate clinical prediction models. It is 
+reasonable to assume this is the reason for the marked increase in mistriage 
+when transferring the low-volume model to the high-volume sample. This also 
+explains why the low-volume model and the single-centre model showed the highest 
+levels of mistriage during model validation (i.e. when applied to the sample in 
+which the model was created). Further confirming this, the transfer of the 
+high-volume model to the low-volume sample reduces mistriage.
 
-Recognizing these risks and updating models accordingly could lead
+In a clinical context, this seems to suggest clinical prediction models for early 
+trauma care should be developed in settings with a high number of trauma patients. 
+These models could then be transferred to settings with less trauma patients. Low-volume 
+centres generally have fewer resources and less experience receiving trauma patients, 
+these centres could therefore benefit by using models developed in centres with more 
+experience receiving trauma patients
+
+Recognizing settings with high mistriage and updating models accordingly could lead
 to increased accuracy during trauma patient triage, potentially saving lives by
 minimizing undertriage, and likely saving resources by minimizing overtriage. With
 registries such as SweTrau, the analysis of model transfer could be performed
@@ -528,9 +535,9 @@ would suggest caution when transferring models.
 ### Strengths
 The main strength of this study is that its design realistically reflects
 potential model transfers: clinical prediction models for trauma are usually
-developed in large metropolitan centres and then transferred as clinical
-recommendations to minor non-metropolitan centres. The results should therefore
-be of practical importance.
+developed in large metropolitan centres with a high volume of patients and 
+then transferred as clinical recommendations to minor low-volume centres. The 
+results should therefore be of practical importance.
 
 ### Limitations
 Originally, all single centres with a valid number of 
@@ -553,12 +560,12 @@ optimal, and efforts were made to not deviate in any major way. Using GitHub,
 all code was made public for inspection and to ensure reproducibility [@RN59].
 
 ## Conclusion
-Model transfer resulted in large and varying levels of uncertainty in in terms of its effect
-on mistriage. Therefore, model transfer can be unpredictable, potentially leading 
-to increased mistriage but in some cases also to a decrease in mistriage. 
-Noticeably, transfer of the `r colnames(highest.comp.mistriage)` model led to an 
-increased mistriage of `r highest.comp.mistriage`. This observed effect was also 
-associated with considerable uncertainty. Recognizing the limitations of this study, 
+Model transfer resulted in varying levels of uncertainty in in terms of its effect
+on mistriage. In general, samples with a high number of patients had the lowest mistriage 
+both during validation and after transfer to the other sample in the data set. The opposite 
+was also true, and the transfer of the `r colnames(highest.comp.mistriage)` 
+model led to an increased mistriage of `r highest.comp.mistriage`, noting that this observation 
+was associated with considerable uncertainty. Recognizing the limitations of this study, 
 the authors believe that further studies are warranted due to the potential economic 
 costs and patient consequences of poor model transfers.
 
