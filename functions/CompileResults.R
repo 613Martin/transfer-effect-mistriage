@@ -71,7 +71,7 @@ CompileResults <- function() {
         colnames(point.estimates) <- colnames(lbs) <- colnames(ubs) <- colnames
         combined <- data.frame(t(rbind(point.estimates, lbs, ubs)))
         colnames(combined) <- c("pe", "lb", "ub")
-        combined[] <- lapply(combined, function(column) sprintf("%.3f", column))
+        combined[] <- lapply(combined, function(column) sprintf("%.2f", column))
         rownames <- rownames(combined)
         combined <- data.frame(with(combined, paste0(pe, " (", lb, " - ", ub, ")")))
         combined <- cbind(rownames, combined)
