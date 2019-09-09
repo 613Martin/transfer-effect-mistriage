@@ -5,7 +5,7 @@ author:
 - Dell D Saulnier
 - Johanna Berg
 - Martin Gerdin Wärnberg
-date: "September 07, 2019"
+date: "September 09, 2019"
 documentclass: "article"
 output:
   word_document:
@@ -479,17 +479,17 @@ kable(table.4[,5:6], format = "markdown")
 # Discussion
 This study aimed to assess how transfers of clinical prediction models for early
 trauma care between different contexts within a single health system affect
-mistriage rates. In many data sets, varying degrees of uncertainty were observed 
-when comparing the transferred performance to the receiving sample validation performance.
+mistriage rates. Varying degrees of uncertainty were observed when comparing 
+the transferred performance to the receiving sample validation performance.
 
-The most notable effect on model performance following model transfer were observed
+The most notable effect on model performance following model transfer was observed
 after transferring the `r colnames(highest.comp.mistriage)` model. This transfer
-resulted in an increase in the mistriage rate of 
-`r substr(format(highest.comp.mistriage), 1, 5)`. Mainly contributing to this was
+resulted in an increased mistriage rate of `r substr(format(highest.comp.mistriage), 1, 4)`.
+Mainly contributing to this was
 an increase in overtriage.  For this transfer, the 95% UI ranged from 
 `r UI.top.bot[1]` to `r UI.top.bot[2]`, indicating a high level of uncertainty. 
 In contrast, the transfer of the high-volume model to the low-volume sample 
-reduced mistriage, this was primarily due to reduced overtriage.
+reduced mistriage, primarily due to reduced overtriage.
 
 Low-volume centres do by definition receive fewer trauma patients, and therefore 
 less data is available to establish accurate clinical prediction models. It is 
@@ -498,21 +498,20 @@ when transferring the low-volume model to the high-volume sample. This also
 explains why the low-volume model and the single-centre model showed the highest 
 levels of mistriage during model validation (i.e. when applied to the sample in 
 which the model was created). Further confirming this, the transfer of the 
-high-volume model to the low-volume sample reduces mistriage.
+high-volume model to the low-volume sample reduced mistriage.
 
-In a clinical context, this seems to suggest clinical prediction models for early 
-trauma care should be developed in settings with a high number of trauma patients. 
-These models could then be transferred to settings with less trauma patients. Low-volume 
-centres generally have fewer resources and less experience receiving trauma patients, 
-these centres could therefore benefit by using models developed in centres with more 
-experience receiving trauma patients
+In a clinical context, this suggests that clinical prediction models for early 
+trauma care should be developed in settings with a high number of trauma patients.
+These models could then be transferred to settings with less trauma patients, which 
+should then result in a decreased mistriage rate in those settings. 
 
-Recognizing settings with high mistriage and updating models accordingly could lead
-to increased accuracy during trauma patient triage, potentially saving lives by
-minimizing undertriage, and likely saving resources by minimizing overtriage. With
-registries such as SweTrau, the analysis of model transfer could be performed
-continuously to optimize the models currently in use and advise which model
-transfers might be detrimental (or potentially beneficial).
+In 2018, Granström et al. found that using a criteria-based triage system based on a 
+clinical prediction model was effective in reducing overtriage without increasing 
+mortality [@RN44]. Therefore, improving clinical prediction models to reduce mistriage is
+clinically beneficial, potentially saving lives by minimizing undertriage, and likely 
+saving resources by minimizing overtriage. Possibly, with registries as SweTrau, the analysis of 
+model transfer could be performed continuously to optimize the models currently in use 
+and advise which model transfers might be detrimental (or potentially beneficial).
 
 The transfer of clinical prediction models in trauma care has not previously
 been studied extensively. In 2016, Gerdin et al. found that model transfer
@@ -521,19 +520,21 @@ be improved by updating the model [@RN27]. This study did not examine model
 performance in terms of calibration, nor were the effects of updating the
 model explored.
 
-External validation as the evaluation of a clinical prediction model in a
-setting in which it was not originally developed has been studied more
+External validation - the evaluation of a clinical prediction model in a
+setting in which it was not originally developed - has been studied more
 extensively. Studies using simulated clinical prediction models based on
 different predictors showed a decline in model performance when externally
 validated [@RN60; @RN61]. A study from 2018 examining the external validity of
 prediction models for coronary artery disease (CAD) [@RN62] showed that the models
 significantly underestimated the probability of CAD. The combined results of
 this study, the studies on model transfer and the studies on external validation
-would suggest caution when transferring models.
+would suggest indiscriminate model transfers could lead to detrimental clinical
+consequences, but also that clinically beneficial model transfers could be
+identified.
 
 ## Strengths and limitations
 ### Strengths
-The main strength of this study is that its design realistically reflects
+The study design realistically reflects
 potential model transfers: clinical prediction models for trauma are usually
 developed in large metropolitan centres with a high volume of patients and 
 then transferred as clinical recommendations to minor low-volume centres. The 
