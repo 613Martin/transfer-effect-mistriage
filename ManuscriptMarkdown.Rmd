@@ -5,7 +5,7 @@ author:
 - Dell D Saulnier
 - Johanna Berg
 - Martin Gerdin Wärnberg
-date: "September 10, 2019"
+date: "September 09, 2019"
 documentclass: "article"
 output:
   word_document:
@@ -434,7 +434,7 @@ undertriage and overtriage rate for the same model was `r val.undertriage` and
 mistriage rate) was found in the `r colnames(highest.val.mistriage)` sample, with
 a model median mistriage rate of `r highest.val.mistriage`.
   
-**Table 2. Model validation performance, i.e. performance when applied to the sample in which the model was created.** Data are presented as point estimates with 95% uncertainty intervals (95% UI).
+**Table 2. Model validation performance, i.e. performance when applied to the validation subsample of the sample in which the model was created.** Data are presented as point estimates with 95% uncertainty intervals (95% UI).
 ```{r, echo = FALSE, results = "asis"} 
 ## Table 2
 kable(table.2[,1:2], format = "markdown")
@@ -451,7 +451,7 @@ model, with a median mistriage rate of `r lowest.tran.mistriage`. The model with
 the highest mistriage rate after transfer was the `r colnames(highest.tran.mistriage)` model 
 with a median mistriage rate of `r highest.tran.mistriage`.
   
-**Table 3. Model transfer performance, i.e. performance when transferred to the other sample in the same data set.** Data are presented as point estimates with 95% uncertainty intervals (95% UI).  
+**Table 3. Model transfer performance, i.e. performance when transferred to the other validation subsample in the same data set.** Data are presented as point estimates with 95% uncertainty intervals (95% UI).  
 ```{r, echo = FALSE, results = "asis"} 
 kable(table.3[,1:2], format = "markdown")
 kable(table.3[,3:4], format = "markdown")
@@ -568,5 +568,5 @@ model led to an increased mistriage of `r highest.comp.mistriage`, noting that t
 was associated with considerable uncertainty. Recognizing the limitations of this study, 
 the authors believe that further studies are warranted due to the potential economic 
 costs and patient consequences of poor model transfers.
-  
+
 # References
