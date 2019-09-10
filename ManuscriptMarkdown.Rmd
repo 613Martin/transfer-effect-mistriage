@@ -5,7 +5,7 @@ author:
 - Dell D Saulnier
 - Johanna Berg
 - Martin Gerdin Wärnberg
-date: "September 09, 2019"
+date: "September 10, 2019"
 documentclass: "article"
 output:
   word_document:
@@ -503,15 +503,14 @@ high-volume model to the low-volume sample reduced mistriage.
 In a clinical context, this suggests that clinical prediction models for early 
 trauma care should be developed in settings with a high number of trauma patients.
 These models could then be transferred to settings with less trauma patients, which 
-should then result in a decreased mistriage rate in those settings. 
-
-In 2018, Granström et al. found that using a criteria-based triage system based on a 
-clinical prediction model was effective in reducing overtriage without increasing 
-mortality [@RN44]. Therefore, improving clinical prediction models to reduce mistriage is
-clinically beneficial, potentially saving lives by minimizing undertriage, and likely 
-saving resources by minimizing overtriage. Possibly, with registries as SweTrau, the analysis of 
-model transfer could be performed continuously to optimize the models currently in use 
-and advise which model transfers might be detrimental (or potentially beneficial).
+should then result in a decreased mistriage rate in those settings. In 2018, Granström 
+et al. found that using a criteria-based triage system (i.e. a clinical prediction model) 
+for trauma triage was effective in reducing overtriage without increasing mortality [@RN44]. 
+Therefore, improving clinical prediction models to reduce mistriage is clinically beneficial, 
+potentially saving lives by minimizing undertriage, and likely saving resources by 
+minimizing overtriage. Possibly, with registries as SweTrau, the analysis of model 
+transfer could be performed continuously to optimize the models currently in use and 
+advise which model transfers might be detrimental (or potentially beneficial).
 
 The transfer of clinical prediction models in trauma care has not previously
 been studied extensively. In 2016, Gerdin et al. found that model transfer
@@ -569,6 +568,5 @@ model led to an increased mistriage of `r highest.comp.mistriage`, noting that t
 was associated with considerable uncertainty. Recognizing the limitations of this study, 
 the authors believe that further studies are warranted due to the potential economic 
 costs and patient consequences of poor model transfers.
-
   
 # References
