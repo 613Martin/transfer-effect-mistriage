@@ -6,7 +6,7 @@
 FuncPack <- function(return.only = FALSE) {
     ## Get specific bengaltiger version
     library(devtools)
-    ## install_github("martingerdin/bengaltiger@81672faabfb2d18dd66a92a7c0c4f32b2477d2f4")
+    ## install_github("martingerdin/bengaltiger@aea49457aa68a4d00c0045cb22db582f09727a18")
     library(bengaltiger)
     
     ## Load required packages
