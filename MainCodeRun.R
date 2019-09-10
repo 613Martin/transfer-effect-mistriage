@@ -124,10 +124,10 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     mpi.quit()
 }
 ## Uncomment for test run
-MainCodeRun(test = TRUE, clean.start = TRUE, copy.results.to.path = NULL)
+## MainCodeRun(test = TRUE, clean.start = TRUE, copy.results.to.path = NULL)
 
 ## Uncomment for first real run
 ## MainCodeRun(test = FALSE, clean.start = TRUE, copy.results.to.path = NULL)
 
 ## Uncomment to resume real run
-## MainCodeRun(test = FALSE, clean.start = FALSE, copy.results.to.path = NULL)
+MainCodeRun(test = FALSE, clean.start = FALSE, copy.results.to.path = NULL)
