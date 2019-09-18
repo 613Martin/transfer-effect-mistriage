@@ -5,7 +5,7 @@ author:
 - Dell D Saulnier
 - Johanna Berg
 - Martin Gerdin Wärnberg
-date: "September 09, 2019"
+date: "September 18, 2019"
 documentclass: "article"
 output:
   word_document:
@@ -430,8 +430,8 @@ Table 2 shows the model validation performance. The model with the lowest valida
 mistriage rate was the `r colnames(lowest.val.mistriage)` model, with a median
 mistriage rate of `r lowest.val.mistriage`. The performance in terms of
 undertriage and overtriage rate for the same model was `r val.undertriage` and
-`r val.overtriage`, respectively. The worst validation performance (i.e. highest
-mistriage rate) was found in the `r colnames(highest.val.mistriage)` sample, with
+`r val.overtriage`, respectively. The highest validation mistriage rate (i.e. worst
+validation performance) was found in the `r colnames(highest.val.mistriage)` sample, with
 a model median mistriage rate of `r highest.val.mistriage`.
   
 **Table 2. Model validation performance, i.e. performance when applied to the validation subsample of the sample in which the model was created.** Data are presented as point estimates with 95% uncertainty intervals (95% UI).
@@ -445,7 +445,7 @@ kable(table.2[,5:6], format = "markdown")
 
 ## Comparison
 Model performance after transfer was determined for each model after being transferred
-to the other sample in the data set, in all data sets (Table 3). When
+to the validation subsample in the other sample, in the data set (Table 3). When
 transferred, the model with the lowest mistriage rate was the `r colnames(lowest.tran.mistriage)` 
 model, with a median mistriage rate of `r lowest.tran.mistriage`. The model with 
 the highest mistriage rate after transfer was the `r colnames(highest.tran.mistriage)` model 
@@ -459,7 +459,7 @@ kable(table.3[,5:6], format = "markdown")
 ```  
 
 Table 4 shows the transferred model performance when compared to the validation
-performance in the sample receiving the transferred model.
+performance in the validation subsample receiving the transferred model.
 The highest mistriage rate when compared to the receiving sample validation
 model performance was found in the `r colnames(highest.comp.mistriage)` model,
 with a median mistriage rate difference of `r highest.comp.mistriage`, meaning
