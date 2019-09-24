@@ -5,7 +5,7 @@ author:
 - Dell D Saulnier
 - Johanna Berg
 - Martin Gerdin Wärnberg
-date: "September 18, 2019"
+date: "September 24, 2019"
 documentclass: "article"
 output:
   word_document:
@@ -109,7 +109,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ---
 abstract: |
 
-  **Background:** Trauma results in approximately 3.8 million deaths annually. Clinical
+  **Background:** Trauma results in approximately four million deaths annually. Clinical
   prediction models are often used for triage in early trauma care. Previous research has
   indicated that transferring these models between different settings might adversely affect 
   model performance.
@@ -125,20 +125,17 @@ abstract: |
   performance was reported as medians with the 95% uncertainty interval across
   imputed data sets.
   
-  **Results:** A total of `r total.number.of.patients ` patients were included. The model
+  **Results:** A total of `r total.number.of.patients ` patients were included. Model
   validation mistriage rate ranged from `r lowest.val.mistriage` 
   to `r highest.val.mistriage`, and the transferred model
-  mistriage rate ranged from `r lowest.tran.mistriage` to `r highest.tran.mistriage` 
-  across all samples. Performance after transfer when compared to the receiving sample validation 
-  performance resulted in substantial uncertainty in all samples. The worst performance after 
-  transfer was found in the `r colnames(highest.comp.mistriage)` 
-  sample, with a mistriage difference of `r highest.comp.mistriage`.
+  mistriage rate ranged from `r lowest.tran.mistriage` to `r highest.tran.mistriage`, 
+  across all samples. The worst performance after transfer was the low-volume model transferred 
+  to the high-volume sample, resulting in a significant mistriage rate increase of `r highest.comp.mistriage`, 
+  primarily due to increased overtriage.
   
   **Conclusions:** In all samples, model transfer was associated with some degree of uncertainty. 
-  Models developed in samples with a high number of patients performed the best after transfer. Affirming 
-  this, the worst performance after transfer was the low-volume model transferred to the high-volume 
-  sample, resulting in a significant mistriage increase of `r highest.comp.mistriage`, this was
-  primarily due to increased overtriage. 
+  Models developed in samples with high numbers of patients performed best after transfer, and the
+  model developed in the low-volume sample performed worst after transfer.
 
   **Keywords:** Trauma, Clinical prediction model, Transferability, Mistriage, Undertriage, Overtriage 
 ---
@@ -146,7 +143,7 @@ abstract: |
 # Introduction
 Trauma, defined as physical injuries to a host by outside objects [@RN63], 
 accounts for approximately 458.5 million cases annually across the globe [@RN999] 
-and an estimated 3.8 million deaths [@RN1; @RN21]. Each year, 9% of global 
+and around four million deaths [@RN1; @RN21]. Each year, 9% of global 
 deaths are the result of trauma, with the leading causes being road traffic accidents, 
 suicide, and homicide. Predictions indicate that the incidence of these causes is 
 likely to increase by 2030 [@RN42].
