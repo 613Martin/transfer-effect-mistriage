@@ -5,7 +5,7 @@ author:
 - Dell D Saulnier
 - Johanna Berg
 - Martin Gerdin Wärnberg
-date: "September 24, 2019"
+date: "September 28, 2019"
 documentclass: "article"
 output:
   word_document:
@@ -109,12 +109,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ---
 abstract: |
 
-  **Background:** Trauma results in approximately four million deaths annually. Clinical
+  **Abstract**  	    
+
+  *Background:* Trauma results in approximately four million deaths annually. Clinical
   prediction models are often used for triage in early trauma care. Previous research has
   indicated that transferring these models between different settings might adversely affect 
   model performance.
   
-  **Methods:** Patients aged 15 years or older who were registered between 2011 and
+  *Methods:* Patients aged 15 years or older who were registered between 2011 and
   2016 in the Swedish national trauma registry, SweTrau, were included. Three sets
   of data were created: high- and low-volume centres, metropolitan and
   non-metropolitan centres, and multiple and single centres. Clinical
@@ -125,7 +127,7 @@ abstract: |
   performance was reported as medians with the 95% uncertainty interval across
   imputed data sets.
   
-  **Results:** A total of `r total.number.of.patients ` patients were included. Model
+  *Results:* A total of `r total.number.of.patients ` patients were included. Model
   validation mistriage rate ranged from `r lowest.val.mistriage` 
   to `r highest.val.mistriage`, and the transferred model
   mistriage rate ranged from `r lowest.tran.mistriage` to `r highest.tran.mistriage`, 
@@ -133,7 +135,7 @@ abstract: |
   to the high-volume sample, resulting in a significant mistriage rate increase of `r highest.comp.mistriage`, 
   primarily due to increased overtriage.
   
-  **Conclusions:** In all samples, model transfer was associated with some degree of uncertainty. 
+  *Conclusions:* In all samples, model transfer was associated with some degree of uncertainty. 
   Models developed in samples with high numbers of patients performed best after transfer, and the
   model developed in the low-volume sample performed worst after transfer.
 
