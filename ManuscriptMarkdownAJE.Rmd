@@ -1,6 +1,6 @@
 ---
 title: "Transferability of clinical prediction models for early trauma care"
-date: "October 08, 2019"
+date: "October 09, 2019"
 documentclass: "article"
 output:
   word_document:
@@ -107,27 +107,26 @@ abstract: |
   **Abstract**  	    
 
   *Background:* Trauma results in approximately four million deaths annually. Clinical
-  prediction models are often used for triage in early trauma care. Transferring these 
-  models between different settings might adversely affect model performance.
+  prediction models are often used for triage in early trauma care. This study aimed to 
+  assess how transfers of clinical prediction models for early trauma 
+  care between different care contexts within a single health system affected mistriage rates.
   
   *Methods:* Patients aged 15 years or older, registered between 2011-2016 
   in the Swedish national trauma registry, were included. Three data sets 
   were created: high- and low-volume centres, metropolitan and
   non-metropolitan centres, and multiple and single centres. Clinical
   prediction models were developed using logistic regression, and transferred within sets. 
-  Model performance was evaluated in all data sets using the mistriage rate, undertriage 
+  Model performance was evaluated in all data sets using mistriage rate, undertriage 
   rate and overtriage rate. Model performance was reported as medians with the 95% uncertainty 
   interval across imputed data sets.
   
   *Results:* `r total.number.of.patients ` patients were included. Transferred model
-  mistriage rate ranged from `r lowest.tran.mistriage` to `r highest.tran.mistriage`, 
-  across all samples. The worst performance after transfer was the low-volume model 
-  transferred to the high-volume sample, resulting in a significant mistriage rate 
-  increase of `r highest.comp.mistriage`.
+  mistriage rate ranged from `r lowest.tran.mistriage` to `r highest.tran.mistriage`. 
+  Transfer of the low-volume model to the high-volume sample resulted in a significant 
+  mistriage rate increase of `r highest.comp.mistriage`.
   
-  *Conclusions:* In all samples, model transfer was associated with some uncertainty. 
-  Models developed in samples with high numbers of patients generally performed best after 
-  transfer, and the model developed in the low-volume sample performed worst after transfer.
+  *Conclusions:* Models developed in samples with high numbers of patients generally performed best after 
+  transfer, and the model developed in the low-volume sample performed significantly worse after transfer.
 
   **Keywords:** Trauma, Clinical prediction model, Transferability, Mistriage, Undertriage, Overtriage 
 ---
