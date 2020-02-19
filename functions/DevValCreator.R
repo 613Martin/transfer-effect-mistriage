@@ -24,10 +24,11 @@ DevValCreator <- function(df) {
                                    })
    
     ## Saving cut-off date
-    cut.off.date <- sorted.events.only$DateTime_Of_Trauma[75]
+    cut.off.date.dev <- sorted.events.only$DateTime_Of_Trauma[75]
+    cut.off.date.val <- sorted.events.only$DateTime_Of_Trauma[175]
     ##Split data frame
-    dev.sample <- df[df$DateTime_Of_Trauma <= cut.off.date, ]
-    val.sample <- df[df$DateTime_Of_Trauma > cut.off.date, ]
+    dev.sample <- df[df$DateTime_Of_Trauma <= cut.off.date.dev, ]
+    val.sample <- df[df$DateTime_Of_Trauma > cut.off.date.dev & df$DateTime_Of_Trauma <= cut.off.date.val, ]
     ## Create output list
     output <- list("Development" = dev.sample, "Validation" = val.sample)
     ## Return list with development and validation sample
