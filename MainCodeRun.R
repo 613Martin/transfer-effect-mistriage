@@ -119,7 +119,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
     ## Compile results
     CompileResults()
     ## Render results document
-    rmarkdown::render("./ManuscriptMarkdown.Rmd")
+    ## rmarkdown::render("./ManuscriptMarkdown.Rmd")
     ## Quit MPI
     mpi.quit()
 }
@@ -127,7 +127,7 @@ MainCodeRun <- function(test = FALSE, clean.start = TRUE,
 ## MainCodeRun(test = TRUE, clean.start = TRUE, copy.results.to.path = NULL)
 
 ## Uncomment for first real run
-## MainCodeRun(test = FALSE, clean.start = TRUE, copy.results.to.path = NULL)
+MainCodeRun(test = FALSE, clean.start = TRUE, copy.results.to.path = NULL)
 
 ## Uncomment to resume real run
-MainCodeRun(test = FALSE, clean.start = FALSE, copy.results.to.path = NULL)
+## MainCodeRun(test = FALSE, clean.start = FALSE, copy.results.to.path = NULL)

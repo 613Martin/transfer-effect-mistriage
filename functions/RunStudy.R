@@ -125,7 +125,7 @@ RunStudy <- function(selected.data, codebook = NULL, boot = FALSE, test = FALSE,
     ## COMPILE RESULTS
     ## Create list of data frames with local mistriage, transfer mistriage and differance
     results.data.frames <- ResultsCompiler(combined.split.datasets = combined.cpm.data)
-    ## Calculate medians and IQR for each sample
+    ## Calculate means, medians and IQR for each sample
     stats.calculated <- CalculateStats(results.data.frames)
     ## Save results to disk
     if (!dir.exists("output"))
