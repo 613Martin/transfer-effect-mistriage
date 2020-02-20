@@ -6,10 +6,11 @@
 CalculateStats <- function(results.data.frames) {   
 
     ## Setup function for median and IQR
-    MedianIQR <- function(num.vector) {
+    MeanMedianIQR <- function(num.vector) {
+        mean <- mean(num.vector)
         medi <- median(num.vector)
         qu <- quantile(num.vector)
-        mediqr <- setNames(round(c(medi, qu[2], qu[4]), digits = 2), c("median", "lb", "ub"))
+        mediqr <- setNames(round(c(mean, medi, qu[2], qu[4]), digits = 2), c("mean", "median", "lb", "ub"))
         return(mediqr)
     }
     ## Calculate median and IQR
@@ -17,33 +18,42 @@ CalculateStats <- function(results.data.frames) {
         ## Setup sample name place holder and calculate per row
         output <- list(
             Total.imputations = max(x[[1]]),
-            Validation.mistriage.median = MedianIQR(x[[2]])["median"],
-            Validation.mistriage.lb = MedianIQR(x[[2]])["lb"],
-            Validation.mistriage.ub = MedianIQR(x[[2]])["ub"],
-            Validation.undertriage.median = MedianIQR(x[[3]])["median"],
-            Validation.undertriage.lb = MedianIQR(x[[3]])["lb"],
-            Validation.undertriage.ub = MedianIQR(x[[3]])["ub"],
-            Validation.overtriage.median = MedianIQR(x[[4]])["median"],
-            Validation.overtriage.lb = MedianIQR(x[[4]])["lb"],
-            Validation.overtriage.ub = MedianIQR(x[[4]])["ub"],
-            Transfer.mistriage.median = MedianIQR(x[[5]])["median"],
-            Transfer.mistriage.lb = MedianIQR(x[[5]])["lb"],
-            Transfer.mistriage.ub = MedianIQR(x[[5]])["ub"],                
-            Transfer.undertriage.median = MedianIQR(x[[6]])["median"],
-            Transfer.undertriage.lb = MedianIQR(x[[6]])["lb"],
-            Transfer.undertriage.ub = MedianIQR(x[[6]])["ub"],
-            Transfer.overtriage.median = MedianIQR(x[[7]])["median"],
-            Transfer.overtriage.lb = MedianIQR(x[[7]])["lb"],
-            Transfer.overtriage.ub = MedianIQR(x[[7]])["ub"],       
-            Transferred.mistriage.minus.buddy.local.mistriage.median =  MedianIQR(x[[8]])["median"],
-            Transferred.mistriage.minus.buddy.local.mistriage.lb =  MedianIQR(x[[8]])["lb"],
-            Transferred.mistriage.minus.buddy.local.mistriage.ub =  MedianIQR(x[[8]])["ub"],       
-            Transferred.undertriage.minus.buddy.local.undertriage.median =  MedianIQR(x[[9]])["median"],
-            Transferred.undertriage.minus.buddy.local.undertriage.lb =  MedianIQR(x[[9]])["lb"],
-            Transferred.undertriage.minus.buddy.local.undertriage.ub =  MedianIQR(x[[9]])["ub"],        
-            Transferred.overtriage.minus.buddy.local.overtriage.median =  MedianIQR(x[[10]])["median"],
-            Transferred.overtriage.minus.buddy.local.overtriage.lb =  MedianIQR(x[[10]])["lb"],
-            Transferred.overtriage.minus.buddy.local.overtriage.ub =  MedianIQR(x[[10]])["ub"]
+            Validation.mistriage.mean = MeanMedianIQR(x[[2]])["mean"],
+            Validation.mistriage.median = MeanMedianIQR(x[[2]])["median"],
+            Validation.mistriage.lb = MeanMedianIQR(x[[2]])["lb"],
+            Validation.mistriage.ub = MeanMedianIQR(x[[2]])["ub"],
+            Validation.undertriage.mean = MeanMedianIQR(x[[3]])["mean"],
+            Validation.undertriage.median = MeanMedianIQR(x[[3]])["median"],
+            Validation.undertriage.lb = MeanMedianIQR(x[[3]])["lb"],
+            Validation.undertriage.ub = MeanMedianIQR(x[[3]])["ub"],
+            Validation.overtriage.mean = MeanMedianIQR(x[[4]])["mean"],
+            Validation.overtriage.median = MeanMedianIQR(x[[4]])["median"],
+            Validation.overtriage.lb = MeanMedianIQR(x[[4]])["lb"],
+            Validation.overtriage.ub = MeanMedianIQR(x[[4]])["ub"],
+            Transfer.mistriage.mean = MeanMedianIQR(x[[5]])["mean"],            
+            Transfer.mistriage.median = MeanMedianIQR(x[[5]])["median"],
+            Transfer.mistriage.lb = MeanMedianIQR(x[[5]])["lb"],
+            Transfer.mistriage.ub = MeanMedianIQR(x[[5]])["ub"],
+            Transfer.undertriage.mean = MeanMedianIQR(x[[6]])["mean"],            
+            Transfer.undertriage.median = MeanMedianIQR(x[[6]])["median"],
+            Transfer.undertriage.lb = MeanMedianIQR(x[[6]])["lb"],
+            Transfer.undertriage.ub = MeanMedianIQR(x[[6]])["ub"],
+            Transfer.overtriage.mean = MeanMedianIQR(x[[7]])["mean"],            
+            Transfer.overtriage.median = MeanMedianIQR(x[[7]])["median"],
+            Transfer.overtriage.lb = MeanMedianIQR(x[[7]])["lb"],
+            Transfer.overtriage.ub = MeanMedianIQR(x[[7]])["ub"],
+            Transferred.mistriage.minus.buddy.local.mistriage.mean =  MeanMedianIQR(x[[8]])["mean"],            
+            Transferred.mistriage.minus.buddy.local.mistriage.median =  MeanMedianIQR(x[[8]])["median"],
+            Transferred.mistriage.minus.buddy.local.mistriage.lb =  MeanMedianIQR(x[[8]])["lb"],
+            Transferred.mistriage.minus.buddy.local.mistriage.ub =  MeanMedianIQR(x[[8]])["ub"],
+            Transferred.undertriage.minus.buddy.local.undertriage.mean =  MeanMedianIQR(x[[9]])["mean"],            
+            Transferred.undertriage.minus.buddy.local.undertriage.median =  MeanMedianIQR(x[[9]])["median"],
+            Transferred.undertriage.minus.buddy.local.undertriage.lb =  MeanMedianIQR(x[[9]])["lb"],
+            Transferred.undertriage.minus.buddy.local.undertriage.ub =  MeanMedianIQR(x[[9]])["ub"],        
+            Transferred.overtriage.minus.buddy.local.overtriage.mean =  MeanMedianIQR(x[[10]])["mean"],
+            Transferred.overtriage.minus.buddy.local.overtriage.median =  MeanMedianIQR(x[[10]])["median"],
+            Transferred.overtriage.minus.buddy.local.overtriage.lb =  MeanMedianIQR(x[[10]])["lb"],
+            Transferred.overtriage.minus.buddy.local.overtriage.ub =  MeanMedianIQR(x[[10]])["ub"]
         )
         output <- lapply(output, function(item) {
             attr(item, "names") <- NULL
