@@ -21,19 +21,21 @@ CompileResults <- function() {
         stats <- stats[[1]][, -grep("Sample\\.name|Total\\.imputations", colnames(stats[[1]]))]
         return(stats)
     })
-    ## Calculate differences between original and bootstrap estimates
-    bootstrap.differences <- lapply(bootstrap.stats, function(stats) {
-        difference <- original.stats - stats
-        difference$Sample.name <- sample.names
-        return(difference)
-    })
-    ## Combine differences into data frame
-    bootstrap.differences.data <- do.call(rbind, bootstrap.differences)
-    ## Name original stats again
+    ## Keep only means
+    mean.columns <- grep("\\.mean$", names(original.stats))
+    original.stats <- original.stats[, mean.columns]
+    bootstrap.stats <- lapply(bootstrap.stats, function(stats) stats[, mean.columns])
+    ## Name original and bootstrap stats again
     original.stats$Sample.name <- sample.names
+    bootstrap.stats <- lapply(bootstrap.stats, function(stats) {
+        stats$Sample.name <- sample.names
+        return(stats)
+    })
+    ## Combine bootstrap data
+    bootstrap.data <- do.call(rbind, bootstrap.stats)
     ## Separate stats into list elements based on sample name
     original.stats.list <- split(original.stats, f = original.stats$Sample.name)
-    bootstrap.differences.list <- split(bootstrap.differences.data, f = bootstrap.differences.data$Sample.name)
+    bootstrap.stats.list <- split(bootstrap.data, f = bootstrap.data$Sample.name)
     ## Remove sample names again
     RemoveSampleNames <- function(stats) {
         index <- grep("Sample.name", colnames(stats))
@@ -42,32 +44,28 @@ CompileResults <- function() {
         return(stats)
     }
     original.stats.list <- lapply(original.stats.list, RemoveSampleNames)
-    bootstrap.differences.list <- lapply(bootstrap.differences.list, RemoveSampleNames)
-    ## Calculate quantiles
-    bootstrap.quantiles.lists <- lapply(bootstrap.differences.list, function(bootstrap.differences) {
-        bootstrap.quantiles <- lapply(bootstrap.differences, quantile, probs = c(0.025, 0.975))
-        return(bootstrap.quantiles)
+    bootstrap.stats.list <- lapply(bootstrap.stats.list, RemoveSampleNames)
+    ## Calculate percentiles
+    bootstrap.percentiles.lists <- lapply(bootstrap.stats.list, function(bootstrap.stats) {
+        bootstrap.percentiles <- lapply(bootstrap.stats, quantile, probs = c(0.025, 0.975))
+        return(bootstrap.percentiles)
     })
     ## Calculate confidence intervals
     bootstrap.confidence.intervals <- lapply(sample.names, function(sample.name) {
-        point.estimates <- original.stats.list[[sample.name]]
-        point.estimates <- rbind(point.estimates, point.estimates)
-        quantiles <- data.frame(do.call(cbind, bootstrap.quantiles.lists[[sample.name]]))
-        bounds <- point.estimates - quantiles
+        bounds  <- data.frame(do.call(cbind, bootstrap.percentiles.lists[[sample.name]]))
         bounds[] <- lapply(bounds, function(bound) c(min(bound), max(bound)))
         rownames(bounds) <- c("lb", "ub")
         return(bounds)
     })
     names(bootstrap.confidence.intervals) <- sample.names
-    ## Define final uncertainty as the 2.5% percentile of the 25% percentile and
-    ## 97.5% percentile of the 75% percentile
-    point.estimate.with.uncertainty <- lapply(sample.names, function(sample.name) {
+    ## Define point estimate with confidence interval
+    point.estimate.with.confidence.interval <- lapply(sample.names, function(sample.name) {
         original <- original.stats.list[[sample.name]]
-        point.estimates <- original[, grep("\\.median$", names(original))]
-        colnames <- sub(".median", "", colnames(point.estimates))
+        point.estimates <- original[, grep("\\.mean$", names(original))]
+        colnames <- sub(".mean", "", colnames(point.estimates))
         cis <- bootstrap.confidence.intervals[[sample.name]]
-        lbs <- cis["lb", grep("\\.lb$", names(cis))]
-        ubs <- cis["ub", grep("\\.ub$", names(cis))]
+        lbs <- cis["lb", ]
+        ubs <- cis["ub", ]
         colnames(point.estimates) <- colnames(lbs) <- colnames(ubs) <- colnames
         combined <- data.frame(t(rbind(point.estimates, lbs, ubs)))
         colnames(combined) <- c("pe", "lb", "ub")
@@ -75,12 +73,12 @@ CompileResults <- function() {
         rownames <- rownames(combined)
         combined <- data.frame(with(combined, paste0(pe, " (", lb, " - ", ub, ")")))
         combined <- cbind(rownames, combined)
-        colnames(combined) <- c("Measure", "Point estimate (95% UI)")
+        colnames(combined) <- c("Measure", "Point estimate (95% CI)")
         return(combined)
     })
-    names(point.estimate.with.uncertainty) <- sample.names
+    names(point.estimate.with.confidence.interval) <- sample.names
     ## Create result tables
-    result.tables.data.frame <- point.estimate.with.uncertainty
+    result.tables.data.frame <- point.estimate.with.confidence.interval
     # result.tables <- lapply(point.estimate.with.uncertainty, function(result) {
     #     kable(result, format = "markdown")
     # })

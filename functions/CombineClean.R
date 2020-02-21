@@ -2,22 +2,22 @@
 #'
 #' Takes the two lists and combines to a single list.
 #' Removes values noot needed for future results processing
-#' @param split.data.sets. Split data sets
-#' @param comparison.split.data.sets. Comparison data
-CombineClean <- function(split.data.sets, comparison.split.data.sets){
+#' @param split.datasets. Split data sets
+#' @param comparison.split.datasets. Comparison data
+CombineClean <- function(split.datasets, comparison.split.datasets){
 
     ## Setup output variable
-    split.data.sets.output <- split.data.sets
+    split.datasets.output <- split.datasets
     ## Combine on correct level
-    for (x in seq_along(split.data.sets.output)) {
-        for (y in seq_along(split.data.sets.output[[x]])) {
-            for (z in seq_along(split.data.sets.output[[x]][[y]])) {
-                split.data.sets.output[[x]][[y]][[z]] <- c(split.data.sets[[x]][[y]][[z]], comparison.split.data.sets[[x]][[y]][[z]], z)
+    for (x in seq_along(split.datasets.output)) {
+        for (y in seq_along(split.datasets.output[[x]])) {
+            for (z in seq_along(split.datasets.output[[x]][[y]])) {
+                split.datasets.output[[x]][[y]][[z]] <- c(split.datasets[[x]][[y]][[z]], comparison.split.datasets[[x]][[y]][[z]], z)
             }
         }
     }
     ## Clean to only show values needed for next steps
-    split.data.sets.output <- lapply(split.data.sets.output, function(sample) lapply(sample, function(imp) (lapply(imp, function(df) {
+    split.datasets.output <- lapply(split.datasets.output, function(sample) lapply(sample, function(imp) (lapply(imp, function(df) {
         df <- list("Imputation" = df[[13]],
                    "Validation mistriage" = df[[7]],
                    "Validation undertriage" = df[[8]],
@@ -27,6 +27,6 @@ CombineClean <- function(split.data.sets, comparison.split.data.sets){
                    "Transfer overtriage" = df[[12]])
     })))) 
     ## Return output
-    return(split.data.sets.output)
+    return(split.datasets.output)
 
 }
