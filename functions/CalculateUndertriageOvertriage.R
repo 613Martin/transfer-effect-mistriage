@@ -32,23 +32,15 @@ CalculateUndertriageOvertriage  <- function(data, model, cutoff) {
     prob <- exp(sum.coef)/(1+exp(sum.coef))
     ## Create grid on which to test the cutoff
     grid <- data.frame(probs = prob, ISS_over_15 = data$ISS_over_15)
-    ## Create Cribari matrix
-    cribari.matrix <- as.matrix(table(grid$probs >= cutoff, grid$ISS_over_15))
-    colnames(cribari.matrix) <- c("Minor trauma", "Major trauma")
-    rownames(cribari.matrix) <- c("Predicted minor trauma", "Predicted major trauma")
-    cribari.matrix <- cribari.matrix[c("Predicted major trauma", "Predicted minor trauma"), ]
-    cribari.elements <- list(a = cribari.matrix["Predicted major trauma", "Minor trauma"],
-                             b = cribari.matrix["Predicted major trauma", "Major trauma"],
-                             c = cribari.matrix["Predicted minor trauma", "Minor trauma"],
-                             d = cribari.matrix["Predicted minor trauma", "Major trauma"])
-    ## Obtain undertriage rate according to Peng et al, 10.1016/j.ajem.2016.08.061
-    undertriage.rate <- with(cribari.elements, d/(b + d))
-    ## Obtain overtriage rate according to Peng et al, 10.1016/j.ajem.2016.08.061
-    overtriage.rate <- with(cribari.elements, a/(a + b))
+    ## Calculate undertriage and overtriage
+    underANDover <- FindUnderOverTriagePeng(grid = grid, cutoff = cutoff)
+    ## Setup undertriage
+    undertriage.rate <- underANDover$undertriage.rate
+    ## Setup overtriage
+    overtriage.rate <- underANDover$overtriage.rate
     ## Obtain mistriage
     ## Mistriage.rate <- undertriage.rate + overtriage.rate
     ## Return mistriage rate
     undertriage.overtriage <- setNames(c(undertriage.rate, overtriage.rate), c("undertriage", "overtriage"))
     return(undertriage.overtriage)
-
 }
