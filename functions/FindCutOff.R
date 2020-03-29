@@ -10,7 +10,6 @@ FindCutOff <- function(prob.list, grid) {
     probs.triage.value <- as.data.frame(unlist(prob.list))
     names(probs.triage.value) <- c("probs")
     
-    
     ## Calculate undertriage for each probability
     probs.triage.value$undertriage <- unlist(lapply(prob.list, function(x) {
       underANDover<- FindUnderOverTriagePeng(grid = grid, cutoff = x)
@@ -23,8 +22,13 @@ FindCutOff <- function(prob.list, grid) {
       return(underANDover$overtriage.rate)
     }
     )) 
-    
-    
+    ## Find best cutoff
+    valid.cutoffs <- probs.triage.value[probs.triage.value$undertriage <= 0.05,]
+    best.cutoff <- valid.cutoffs[valid.cutoffs$overtriage == min(valid.cutoffs$overtriage),]
+    ## Return optimal cutoff    
+    return(mean(best.cutoff$probs))
+
+    ## OLD CODE - PREVIOUS METHOD
     # ## Calculate undertriage for each probability
     # probs.triage.value$undertriage <- unlist(lapply(prob.list, function(x) {
     #     ## Set tested data (all major traumas according to cutoff)
@@ -55,10 +59,4 @@ FindCutOff <- function(prob.list, grid) {
     # }
     # ))
     
-    ## Find best cutoff
-    valid.cutoffs <- probs.triage.value[probs.triage.value$undertriage <= 0.05,]
-    best.cutoff <- valid.cutoffs[valid.cutoffs$overtriage == min(valid.cutoffs$overtriage),]
-    ## Return optimal cutoff    
-    return(mean(best.cutoff$probs))
-
 }
