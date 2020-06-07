@@ -1,6 +1,6 @@
 #' CalculateUndertriageOvertriage
 #' 
-#' Inputs a data frame on which to calculate the mistriage rate
+#' Inputs a data frame on which to calculate the undertriage rate + overtriage rate + traditional values
 #' Also needs input of model(coefficient) to use and cutoff.
 #' Outputs a vector with undertriage and overtriage
 #' @param data. A data frame, the data to be tested.
@@ -33,14 +33,20 @@ CalculateUndertriageOvertriage  <- function(data, model, cutoff) {
     ## Create grid on which to test the cutoff
     grid <- data.frame(probs = prob, ISS_over_15 = data$ISS_over_15)
     ## Calculate undertriage and overtriage
-    underANDover <- FindUnderOverTriagePeng(grid = grid, cutoff = cutoff)
+    underANDoverANDtraditional <- FindUnderOverTriagePeng(grid = grid, cutoff = cutoff)
     ## Setup undertriage
-    undertriage.rate <- underANDover$undertriage.rate
+    undertriage.rate <- underANDoverANDtraditional$undertriage.rate
     ## Setup overtriage
-    overtriage.rate <- underANDover$overtriage.rate
-    ## Obtain mistriage
-    ## Mistriage.rate <- undertriage.rate + overtriage.rate
-    ## Return mistriage rate
-    undertriage.overtriage <- setNames(c(undertriage.rate, overtriage.rate), c("undertriage", "overtriage"))
-    return(undertriage.overtriage)
+    overtriage.rate <- underANDoverANDtraditional$overtriage.rate
+    ## Setup Sensitivity
+    sensitivity <- underANDoverANDtraditional$sensitivity
+    ## Setup Specificity
+    specificity <- underANDoverANDtraditional$specificity
+    ## Setup PPV
+    PPV <- underANDoverANDtraditional$PPV
+    ## Setup NPV
+    NPV <- underANDoverANDtraditional$NPV
+    ## Return undertriage, overtriage and traditional values
+    undertriage.overtriage.traditional <- setNames(c(undertriage.rate, overtriage.rate, sensitivity, specificity), c("undertriage", "overtriage", "sensitivity", "specificity"))
+    return(undertriage.overtriage.traditional)
 }
