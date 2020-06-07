@@ -1,7 +1,7 @@
 #' FindUnderOverTriagePeng
 #' 
 #' Inputs a grid with probabilities and outcomes
-#' Finds overtriage and undertriage based on grid, according to Peng et al.
+#' Finds overtriage and undertriage based on grid, according to Peng et al. + Traditional values
 #' @param grid. A dataframe with "probs" and "ISS_over_15"
 #' @param cutoff. The cutoff to be used for calculations
 FindUnderOverTriagePeng <- function(grid, cutoff) {
@@ -24,12 +24,19 @@ FindUnderOverTriagePeng <- function(grid, cutoff) {
   undertriage.rate <- with(cribari.elements, d/(a + b + c + d))
   ## Obtain overtriage rate according to Peng et al, 10.1016/j.ajem.2016.08.061
   overtriage.rate <- with(cribari.elements, a/(a + b + c + d))
+  ## Obtain Sensitivity according to Peng et al, 10.1016/j.ajem.2016.08.061
+  sensitivity <- with(cribari.elements, b/(b + d))
+  ## Obtain Specificity according to Peng et al, 10.1016/j.ajem.2016.08.061
+  specificity <- with(cribari.elements, c/(a + c))
+  ## Obtain Positive Predictive Value(PPV) according to Peng et al, 10.1016/j.ajem.2016.08.061
+  PPV <- with(cribari.elements, b/(a + b))
+  ## Obtain Negative Predictive Value(NPV) according to Peng et al, 10.1016/j.ajem.2016.08.061
+  NPV <- with(cribari.elements, c/(c + d))
   
   ## Prepare output data frame
-  undertriageANDovertriage <- data.frame(undertriage.rate, overtriage.rate)
-
-  ## Return ...  
-  return(undertriageANDovertriage)
+  undertriageANDovertriageANDtraditional <- data.frame(undertriage.rate, overtriage.rate, sensitivity, specificity, PPV, NPV)
+  ## Return
+  return(undertriageANDovertriageANDtraditional)
 
   ## OLD CALCULATION METHOD
   # ## Create Cribari matrix
@@ -45,5 +52,10 @@ FindUnderOverTriagePeng <- function(grid, cutoff) {
   # undertriage.rate <- with(cribari.elements, d/(b + d))
   # ## Obtain overtriage rate according to Peng et al, 10.1016/j.ajem.2016.08.061
   # overtriage.rate <- with(cribari.elements, a/(a + b))  
+  
+  # ## Obtain undertriage rate according to Peng et al, 10.1016/j.ajem.2016.08.061
+  # undertriage.rate <- with(cribari.elements, d/(b + d))
+  # ## Obtain overtriage rate according to Peng et al, 10.1016/j.ajem.2016.08.061
+  # overtriage.rate <- with(cribari.elements, a/(a + b))
   
 }
