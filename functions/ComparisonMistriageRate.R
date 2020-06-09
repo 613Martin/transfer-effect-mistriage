@@ -1,6 +1,6 @@
 #' ComparisonMistriageRate
 #' 
-#' Obtains mistriage rate when transferring model and cutoff to "buddy sample".
+#' Obtains mistriage rate when transferring model and cutoff to "buddy sample" + obtains tradiational values when applied to other sample.
 #' Does this for all imputations.
 #' Outputs a list with the rates of mistriage for transfers, for each imputation.
 #' Reference:
@@ -23,12 +23,20 @@ ComparisonMistriageRate <- function(df) {
   TtB <- lapply(TtB, function(x) {
     list("Transfer mistriage" = setNames(x["undertriage"]+x["overtriage"], "mistriage"), 
          "Transfer undertriage" = x["undertriage"],
-         "Transfer overtriage" = x["overtriage"])
+         "Transfer overtriage" = x["overtriage"],
+         "Transfer sensitivity" = x["sensitivity"],
+         "Transfer specificity" = x["specificity"],
+         "Transfer PPV" = x["PPV"],
+         "Transfer NPV" = x["NPV"])
   })
   BtT <- lapply(BtT, function(x) {
     list("Transfer mistriage" = setNames(x["undertriage"]+x["overtriage"], "mistriage"), 
          "Transfer undertriage" = x["undertriage"],
-         "Transfer overtriage" = x["overtriage"])
+         "Transfer overtriage" = x["overtriage"],
+         "Transfer sensitivity" = x["sensitivity"],
+         "Transfer specificity" = x["specificity"],
+         "Transfer PPV" = x["PPV"],
+         "Transfer NPV" = x["NPV"])
   })  
   ## Create output
   output <- list("Top to Bottom" = TtB, "Bottom to Top" = BtT)
