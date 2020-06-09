@@ -13,6 +13,7 @@ CalculateStats <- function(results.data.frames) {
         mediqr <- setNames(round(c(mean, medi, qu[2], qu[4]), digits = 2), c("mean", "median", "lb", "ub"))
         return(mediqr)
     }
+    
     ## Calculate median and IQR
     stats <- lapply(results.data.frames, function(sample) lapply(sample, function(x) {
         ## Setup sample name place holder and calculate per row
@@ -53,7 +54,56 @@ CalculateStats <- function(results.data.frames) {
             Transferred.overtriage.minus.buddy.local.overtriage.mean =  MeanMedianIQR(x[[10]])["mean"],
             Transferred.overtriage.minus.buddy.local.overtriage.median =  MeanMedianIQR(x[[10]])["median"],
             Transferred.overtriage.minus.buddy.local.overtriage.lb =  MeanMedianIQR(x[[10]])["lb"],
-            Transferred.overtriage.minus.buddy.local.overtriage.ub =  MeanMedianIQR(x[[10]])["ub"]
+            Transferred.overtriage.minus.buddy.local.overtriage.ub =  MeanMedianIQR(x[[10]])["ub"],
+            
+            Validation.sensitivity.mean = MeanMedianIQR(x[[11]])["mean"],
+            Validation.sensitivity.median = MeanMedianIQR(x[[11]])["median"],
+            Validation.sensitivity.lb = MeanMedianIQR(x[[11]])["lb"],
+            Validation.sensitivity.ub = MeanMedianIQR(x[[11]])["ub"],
+            Validation.specificity.mean = MeanMedianIQR(x[[12]])["mean"],
+            Validation.specificity.median = MeanMedianIQR(x[[12]])["median"],
+            Validation.specificity.lb = MeanMedianIQR(x[[12]])["lb"],
+            Validation.specificity.ub = MeanMedianIQR(x[[12]])["ub"],
+            Validation.PPV.mean = MeanMedianIQR(x[[13]])["mean"],
+            Validation.PPV.median = MeanMedianIQR(x[[13]])["median"],
+            Validation.PPV.lb = MeanMedianIQR(x[[13]])["lb"],
+            Validation.PPV.ub = MeanMedianIQR(x[[13]])["ub"],
+            Validation.NPV.mean = MeanMedianIQR(x[[14]])["mean"],
+            Validation.NPV.median = MeanMedianIQR(x[[14]])["median"],
+            Validation.NPV.lb = MeanMedianIQR(x[[14]])["lb"],
+            Validation.NPV.ub = MeanMedianIQR(x[[14]])["ub"],
+            Transfer.sensitivity.mean = MeanMedianIQR(x[[15]])["mean"],            
+            Transfer.sensitivity.median = MeanMedianIQR(x[[15]])["median"],
+            Transfer.sensitivity.lb = MeanMedianIQR(x[[15]])["lb"],
+            Transfer.sensitivity.ub = MeanMedianIQR(x[[15]])["ub"],
+            Transfer.specificity.mean = MeanMedianIQR(x[[16]])["mean"],            
+            Transfer.specificity.median = MeanMedianIQR(x[[16]])["median"],
+            Transfer.specificity.lb = MeanMedianIQR(x[[16]])["lb"],
+            Transfer.specificity.ub = MeanMedianIQR(x[[16]])["ub"],
+            Transfer.PPV.mean = MeanMedianIQR(x[[17]])["mean"],
+            Transfer.PPV.median = MeanMedianIQR(x[[17]])["median"],
+            Transfer.PPV.lb = MeanMedianIQR(x[[17]])["lb"],
+            Transfer.PPV.ub = MeanMedianIQR(x[[17]])["ub"],
+            Transfer.NPV.mean = MeanMedianIQR(x[[18]])["mean"],            
+            Transfer.NPV.median = MeanMedianIQR(x[[18]])["median"],
+            Transfer.NPV.lb = MeanMedianIQR(x[[18]])["lb"],
+            Transfer.NPV.ub = MeanMedianIQR(x[[18]])["ub"],
+            Transferred.sensitivity.minus.buddy.local.sensitivity.mean =  MeanMedianIQR(x[[19]])["mean"],            
+            Transferred.sensitivity.minus.buddy.local.sensitivity.median =  MeanMedianIQR(x[[19]])["median"],
+            Transferred.sensitivity.minus.buddy.local.sensitivity.lb =  MeanMedianIQR(x[[19]])["lb"],
+            Transferred.sensitivity.minus.buddy.local.sensitivity.ub =  MeanMedianIQR(x[[19]])["ub"],
+            Transferred.specificity.minus.buddy.local.specificity.mean =  MeanMedianIQR(x[[20]])["mean"],            
+            Transferred.specificity.minus.buddy.local.specificity.median =  MeanMedianIQR(x[[20]])["median"],
+            Transferred.specificity.minus.buddy.local.specificity.lb =  MeanMedianIQR(x[[20]])["lb"],
+            Transferred.specificity.minus.buddy.local.specificity.ub =  MeanMedianIQR(x[[20]])["ub"],
+            Transferred.PPV.minus.buddy.local.PPV.mean =  MeanMedianIQR(x[[21]])["mean"],
+            Transferred.PPV.minus.buddy.local.PPV.median =  MeanMedianIQR(x[[21]])["median"],
+            Transferred.PPV.minus.buddy.local.PPV.lb =  MeanMedianIQR(x[[21]])["lb"],
+            Transferred.PPV.minus.buddy.local.PPV.ub =  MeanMedianIQR(x[[21]])["ub"],
+            Transferred.NPV.minus.buddy.local.NPV.mean =  MeanMedianIQR(x[[22]])["mean"],            
+            Transferred.NPV.minus.buddy.local.NPV.median =  MeanMedianIQR(x[[22]])["median"],
+            Transferred.NPV.minus.buddy.local.NPV.lb =  MeanMedianIQR(x[[22]])["lb"],
+            Transferred.NPV.minus.buddy.local.NPV.ub =  MeanMedianIQR(x[[22]])["ub"]
         )
         output <- lapply(output, function(item) {
             attr(item, "names") <- NULL
