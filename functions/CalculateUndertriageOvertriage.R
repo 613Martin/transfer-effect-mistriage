@@ -47,6 +47,6 @@ CalculateUndertriageOvertriage  <- function(data, model, cutoff) {
     ## Setup NPV
     NPV <- underANDoverANDtraditional$NPV
     ## Return undertriage, overtriage and traditional values
-    undertriage.overtriage.traditional <- setNames(c(undertriage.rate, overtriage.rate, sensitivity, specificity), c("undertriage", "overtriage", "sensitivity", "specificity"))
+    undertriage.overtriage.traditional <- setNames(c(undertriage.rate, overtriage.rate, sensitivity, specificity, PPV, NPV), c("undertriage", "overtriage", "sensitivity", "specificity", "PPV", "NPV"))
     return(undertriage.overtriage.traditional)
 }
