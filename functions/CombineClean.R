@@ -18,13 +18,22 @@ CombineClean <- function(split.datasets, comparison.split.datasets){
     }
     ## Clean to only show values needed for next steps
     split.datasets.output <- lapply(split.datasets.output, function(sample) lapply(sample, function(imp) (lapply(imp, function(df) {
-        df <- list("Imputation" = df[[13]],
+        df <- list("Imputation" = df[[21]],
                    "Validation mistriage" = df[[7]],
                    "Validation undertriage" = df[[8]],
                    "Validation overtriage" = df[[9]],
-                   "Transfer mistriage" = df[[10]],
-                   "Transfer undertriage" = df[[11]],
-                   "Transfer overtriage" = df[[12]])
+                   "Transfer mistriage" = df[[14]],
+                   "Transfer undertriage" = df[[15]],
+                   "Transfer overtriage" = df[[16]],
+                   
+                   "Validation sensitivity" = df[[10]],
+                   "Validation specificity" = df[[11]],
+                   "Validation PPV" = df[[12]],
+                   "Validation NPV" = df[[13]],
+                   "Transfer sensitivity" = df[[17]],
+                   "Transfer specificity" = df[[18]],
+                   "Transfer PPV" = df[[19]],
+                   "Transfer NPV" = df[[20]])
     })))) 
     ## Return output
     return(split.datasets.output)
