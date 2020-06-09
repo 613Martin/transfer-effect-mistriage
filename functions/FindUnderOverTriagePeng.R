@@ -20,9 +20,9 @@ FindUnderOverTriagePeng <- function(grid, cutoff) {
                            c = prediction.matrix["Predicted minor trauma", "Minor trauma"],
                            d = prediction.matrix["Predicted minor trauma", "Major trauma"])
   
-  ## Obtain undertriage rate according to Peng et al, 10.1016/j.ajem.2016.08.061
+  ## Obtain undertriage rate
   undertriage.rate <- with(cribari.elements, d/(a + b + c + d))
-  ## Obtain overtriage rate according to Peng et al, 10.1016/j.ajem.2016.08.061
+  ## Obtain overtriage rate
   overtriage.rate <- with(cribari.elements, a/(a + b + c + d))
   ## Obtain Sensitivity according to Peng et al, 10.1016/j.ajem.2016.08.061
   sensitivity <- with(cribari.elements, b/(b + d))
