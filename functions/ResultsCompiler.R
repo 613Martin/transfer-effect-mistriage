@@ -24,7 +24,9 @@ ResultsCompiler <- function(combined.split.datasets){
         x[[1]]$Transferred.specificity.minus.buddy.local.specificity <- x[[1]][["Transfer.specificity"]] - x[[2]][["Validation.specificity"]]
         x[[1]]$Transferred.PPV.minus.buddy.local.PPV <- x[[1]][["Transfer.PPV"]] - x[[2]][["Validation.PPV"]]
         x[[1]]$Transferred.NPV.minus.buddy.local.NPV <- x[[1]][["Transfer.NPV"]] - x[[2]][["Validation.NPV"]]
-        
+        x[[1]]$Transferred.AUC.minus.buddy.local.AUC <- x[[1]][["Transfer.AUC"]] - x[[2]][["Validation.AUC"]]
+        x[[1]]$Transferred.calibration.intercept.minus.buddy.local.calibration.intercept <- x[[1]][["Transfer.calibration.intercept"]] - x[[2]][["Validation.calibration.intercept"]]
+        x[[1]]$Transferred.calibration.slope.minus.buddy.local.calibration.slope <- x[[1]][["Transfer.calibration.slope"]] - x[[2]][["Validation.calibration.slope"]]        
         ## Bottom sample (i.e. Low volume, or non-metropolitan)
         x[[2]]$Transferred.mistriage.minus.buddy.local.mistriage <- x[[2]][["Transfer.mistriage"]] - x[[1]][["Validation.mistriage"]]
         x[[2]]$Transferred.undertriage.minus.buddy.local.undertriage <- x[[2]][["Transfer.undertriage"]] - x[[1]][["Validation.undertriage"]]
@@ -33,6 +35,9 @@ ResultsCompiler <- function(combined.split.datasets){
         x[[2]]$Transferred.specificity.minus.buddy.local.specificity <- x[[2]][["Transfer.specificity"]] - x[[1]][["Validation.specificity"]]
         x[[2]]$Transferred.PPV.minus.buddy.local.PPV <- x[[2]][["Transfer.PPV"]] - x[[1]][["Validation.PPV"]]
         x[[2]]$Transferred.NPV.minus.buddy.local.NPV <- x[[2]][["Transfer.NPV"]] - x[[1]][["Validation.NPV"]]
+        x[[2]]$Transferred.AUC.minus.buddy.local.AUC <- x[[2]][["Transfer.AUC"]] - x[[1]][["Validation.AUC"]]
+        x[[2]]$Transferred.calibration.intercept.minus.buddy.local.calibration.intercept <- x[[2]][["Transfer.calibration.intercept"]] - x[[1]][["Validation.calibration.intercept"]]
+        x[[2]]$Transferred.calibration.slope.minus.buddy.local.calibration.slope <- x[[2]][["Transfer.calibration.slope"]] - x[[1]][["Validation.calibration.slope"]]                
         return(x)
     })
     
@@ -51,14 +56,23 @@ ResultsCompiler <- function(combined.split.datasets){
                    "Validation.specificity",
                    "Validation.PPV",
                    "Validation.NPV",
+                   "Validation.AUC",
+                   "Validation.calibration.intercept",
+                   "Validation.calibration.slope",
                    "Transfer.sensitivity",
                    "Transfer.specificity",
                    "Transfer.PPV",
                    "Transfer.NPV",
+                   "Transfer.AUC",
+                   "Transfer.calibration.intercept",
+                   "Transfer.calibration.slope",
                    "Transferred.sensitivity.minus.buddy.local.sensitivity",
                    "Transferred.specificity.minus.buddy.local.specificity",
                    "Transferred.PPV.minus.buddy.local.PPV",
-                   "Transferred.NPV.minus.buddy.local.NPV"
+                   "Transferred.NPV.minus.buddy.local.NPV",
+                   "Transferred.AUC.minus.buddy.local.AUC",
+                   "Transferred.calibration.intercept.minus.buddy.local.calibration.intercept",
+                   "Transferred.calibration.slope.minus.buddy.local.calibration.slope",
                    )
     sample.datasets.with.comparison <- lapply(sample.datasets.with.comparison, function(sample) lapply(sample, function(df) {
       df <- df[, col_order]

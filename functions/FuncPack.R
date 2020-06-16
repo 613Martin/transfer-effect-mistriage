@@ -16,7 +16,9 @@ FuncPack <- function(return.only = FALSE) {
                   "boot",
                   "foreach",
                   "knitr",
-                  "rmarkdown")
+                  "rmarkdown",
+                  "ROCR",
+                  "rms")
 
     if (!return.only) {
         for(package in packages) {
