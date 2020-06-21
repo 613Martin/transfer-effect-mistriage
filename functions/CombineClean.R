@@ -18,25 +18,28 @@ CombineClean <- function(split.datasets, comparison.split.datasets){
     }
     ## Clean to only show values needed for next steps
     split.datasets.output <- lapply(split.datasets.output, function(sample) lapply(sample, function(imp) (lapply(imp, function(df) {
-        df <- list("Imputation" = df[[21]],
+        df <- list("Imputation" = df[[27]],
                    "Validation mistriage" = df[[7]],
                    "Validation undertriage" = df[[8]],
                    "Validation overtriage" = df[[9]],
-                   "Transfer mistriage" = df[[14]],
-                   "Transfer undertriage" = df[[15]],
-                   "Transfer overtriage" = df[[16]],
+                   "Transfer mistriage" = df[[17]],
+                   "Transfer undertriage" = df[[18]],
+                   "Transfer overtriage" = df[[19]],
                    
                    "Validation sensitivity" = df[[10]],
                    "Validation specificity" = df[[11]],
                    "Validation PPV" = df[[12]],
                    "Validation NPV" = df[[13]],
-                   "Transfer sensitivity" = df[[17]],
-                   "Transfer specificity" = df[[18]],
-                   "Transfer PPV" = df[[19]],
-                   "Transfer NPV" = df[[20]],
-                   "Transfer AUC" = df[[21]],
-                   "Transfer calibration intercept" = df[[22]],
-                   "Transfer calibration slope" = df[[23]])
+                   "Validation AUC" = df[[14]],
+                   "Validation calibration intercept" = df[[15]],
+                   "Validation calibration slope" = df[[16]],
+                   "Transfer sensitivity" = df[[20]],
+                   "Transfer specificity" = df[[21]],
+                   "Transfer PPV" = df[[22]],
+                   "Transfer NPV" = df[[23]],
+                   "Transfer AUC" = df[[24]],
+                   "Transfer calibration intercept" = df[[25]],
+                   "Transfer calibration slope" = df[[26]])
     })))) 
     ## Return output
     return(split.datasets.output)
