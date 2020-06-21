@@ -1,6 +1,6 @@
 #' CalculateStats
 #' 
-#' Uses the results.data.frames to calculate median and IQR for each entry in all samples.
+#' Uses the results.data.frames to calculate mean, median and IQR (mean, median, lb, up) for each entry in all samples.
 #' Outputs a collapsed data set with this data.
 #' @param results.data.frames List of data.frames containing results.
 CalculateStats <- function(results.data.frames) {   
