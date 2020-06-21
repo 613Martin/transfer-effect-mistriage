@@ -32,9 +32,16 @@ FindUnderOverTriagePeng <- function(grid, cutoff) {
   PPV <- with(cribari.elements, b/(a + b))
   ## Obtain Negative Predictive Value(NPV) according to Peng et al, 10.1016/j.ajem.2016.08.061
   NPV <- with(cribari.elements, c/(c + d))
-  
+  ## Calculate AUC
+  labels <- as.numeric(ISS_over_15 == "Yes")
+  pred <- ROCR::prediction(predictions = probs, labels = labels)
+  AUC <- ROCR::performance(prediction.obj = pred, measure = "auc")@y.values[[1]]
+  ## Calculate calibration intercept and slope  
+  validation.object <- invisible(rms::val.prob(p = probs, y = labels))
+  calibration.intercept <- validation.object["Intercept"]
+  calibration.slope <- validation.object["Slope"]  
   ## Prepare output data frame
-  undertriageANDovertriageANDtraditional <- data.frame(undertriage.rate, overtriage.rate, sensitivity, specificity, PPV, NPV)
+  undertriageANDovertriageANDtraditional <- data.frame(undertriage.rate, overtriage.rate, sensitivity, specificity, PPV, NPV, AUC, calibration.intercept, calibration.slope)
   ## Return
   return(undertriageANDovertriageANDtraditional)
 

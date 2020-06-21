@@ -33,7 +33,10 @@ CombineClean <- function(split.datasets, comparison.split.datasets){
                    "Transfer sensitivity" = df[[17]],
                    "Transfer specificity" = df[[18]],
                    "Transfer PPV" = df[[19]],
-                   "Transfer NPV" = df[[20]])
+                   "Transfer NPV" = df[[20]],
+                   "Transfer AUC" = df[[21]],
+                   "Transfer calibration intercept" = df[[22]],
+                   "Transfer calibration slope" = df[[23]])
     })))) 
     ## Return output
     return(split.datasets.output)

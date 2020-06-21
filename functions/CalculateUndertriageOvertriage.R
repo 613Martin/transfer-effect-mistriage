@@ -46,7 +46,13 @@ CalculateUndertriageOvertriage  <- function(data, model, cutoff) {
     PPV <- underANDoverANDtraditional$PPV
     ## Setup NPV
     NPV <- underANDoverANDtraditional$NPV
+    ## auc
+    AUC <- underANDoverANDtraditional$AUC
+    ## Calibration intercept
+    calibration.intercept <- underANDoverANDtraditional$calibration.intercept
+    ## Calibration slope
+    calibration.slope <- underANDoverANDtraditional$calibration.slope
     ## Return undertriage, overtriage and traditional values
-    undertriage.overtriage.traditional <- setNames(c(undertriage.rate, overtriage.rate, sensitivity, specificity, PPV, NPV), c("undertriage", "overtriage", "sensitivity", "specificity", "PPV", "NPV"))
+    undertriage.overtriage.traditional <- setNames(c(undertriage.rate, overtriage.rate, sensitivity, specificity, PPV, NPV, AUC, calibration.intercept, calibration.slope), c("undertriage", "overtriage", "sensitivity", "specificity", "PPV", "NPV", "AUC", "calibration.intercept", "calibration.slope"))
     return(undertriage.overtriage.traditional)
 }

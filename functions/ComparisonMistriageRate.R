@@ -27,7 +27,10 @@ ComparisonMistriageRate <- function(df) {
          "Transfer sensitivity" = x["sensitivity"],
          "Transfer specificity" = x["specificity"],
          "Transfer PPV" = x["PPV"],
-         "Transfer NPV" = x["NPV"])
+         "Transfer NPV" = x["NPV"],
+         "Transfer AUC" = x["AUC"],
+         "Transfer calibration intercept" = x["calibration.intercept"],
+         "Transfer calibration slope" = x["calibration.slope"])
   })
   BtT <- lapply(BtT, function(x) {
     list("Transfer mistriage" = setNames(x["undertriage"]+x["overtriage"], "mistriage"), 
@@ -36,7 +39,10 @@ ComparisonMistriageRate <- function(df) {
          "Transfer sensitivity" = x["sensitivity"],
          "Transfer specificity" = x["specificity"],
          "Transfer PPV" = x["PPV"],
-         "Transfer NPV" = x["NPV"])
+         "Transfer NPV" = x["NPV"],
+         "Transfer AUC" = x["AUC"],
+         "Transfer calibration intercept" = x["calibration.intercept"],
+         "Transfer calibration slope" = x["calibration.slope"])
   })  
   ## Create output
   output <- list("Top to Bottom" = TtB, "Bottom to Top" = BtT)
