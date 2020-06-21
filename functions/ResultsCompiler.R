@@ -72,7 +72,7 @@ ResultsCompiler <- function(combined.split.datasets){
                    "Transferred.NPV.minus.buddy.local.NPV",
                    "Transferred.AUC.minus.buddy.local.AUC",
                    "Transferred.calibration.intercept.minus.buddy.local.calibration.intercept",
-                   "Transferred.calibration.slope.minus.buddy.local.calibration.slope",
+                   "Transferred.calibration.slope.minus.buddy.local.calibration.slope"
                    )
     sample.datasets.with.comparison <- lapply(sample.datasets.with.comparison, function(sample) lapply(sample, function(df) {
       df <- df[, col_order]
