@@ -25,10 +25,16 @@ ValidationMistriageRate <- function(df.list) {
     specificity <- undertriage.overtriage.traditional["specificity"]
     PPV <- undertriage.overtriage.traditional["PPV"]
     NPV <- undertriage.overtriage.traditional["NPV"]
+    AUC <- undertriage.overtriage.traditional["AUC"]
+    calibration.intercept <- undertriage.overtriage.traditional["calibration.intercept"]
+    calibration.slope <- undertriage.overtriage.traditional["calibration.slope"]
     output[["Validation sensitivity"]] <- sensitivity
     output[["Validation specificity"]] <- specificity
     output[["Validation PPV"]] <- PPV
     output[["Validation NPV"]] <- NPV
+    output[["Validation AUC"]] <- AUC
+    output[["Validation calibration intercept"]] <- calibration.intercept
+    output[["Validation calibration slope"]] <- calibration.slope
     
     ## Return output
     return(output)
